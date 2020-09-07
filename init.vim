@@ -62,7 +62,8 @@ Plug 'tpope/vim-dispatch'
 Plug 'vim-airline/vim-airline' " Status line
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lua/telescope.nvim'
+" Plug 'nvim-lua/telescope.nvim'
+Plug '/home/peter/Git/telescope.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
 Plug 'scrooloose/nerdtree'
@@ -163,6 +164,8 @@ nnoremap <Leader>pf :Files<CR>
 "nnoremap <Leader>bh :History:
 nnoremap <Leader>q :lua require'telescope.builtin'.history{}<CR>
 nnoremap <Leader>? :map<CR>
+
+" Turn on color boxes #FF0000
 nnoremap <Leader>c :HexokinaseToggle<CR>
 nnoremap <Leader>l :LazyGit<CR>
 nnoremap <Leader>j :e /home/peter/logbook.2020<CR>
@@ -180,15 +183,16 @@ nnoremap <Leader>rp :resize 100<CR>
 nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
 
 nnoremap <Leader>n :NERDTreeToggle<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
 
 " Telescope
 nnoremap <Leader>f :lua require'telescope.builtin'.grep_string()<CR>
 nnoremap <Leader>g :lua require'telescope.builtin'.git_files()<CR>
 nnoremap <Leader>p :lua require'telescope.builtin'.live_grep()<CR>
-nnoremap <Leader>q :lua require'telescope.builtin'.quickfix()<CR>
 nnoremap <Leader>s :lua require'telescope.builtin'.grep_string()<CR>
 nnoremap <Leader>; :lua require'telescope.builtin'.buffers()<CR>
-nnoremap <Leader>; :lua require'telescope.builtin'.buffers()<CR>
+nnoremap <Leader>P :lua require'telescope.builtin'.planets()<CR>
+nnoremap <C-p> :lua require'telescope.builtin'.fd()<CR>
 
 nnoremap / :lua require'telescope.builtin'.live_grep()<CR>
 

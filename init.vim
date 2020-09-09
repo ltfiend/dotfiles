@@ -44,13 +44,13 @@ set shortmess+=c
 set nocp
 filetype plugin on
 
-set colorcolumn=80
+set colorcolumn=120
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
 
 " Completeion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
@@ -81,10 +81,12 @@ Plug 'nvim-treesitter/nvim-treesitter'
 " Color Stuff
 Plug 'gruvbox-community/gruvbox' " color
 Plug 'colepeters/spacemacs-theme.vim'
-Plug 'sainnhe/gruvbox-material'
+" Plug 'sainnhe/gruvbox-material'
 Plug 'phanviet/vim-monokai-pro'
 Plug 'flazz/vim-colorschemes'
 Plug 'chriskempson/base16-vim'
+
+Plug 'voldikss/vim-floaterm'
 
 " format go files
 " Plug 'tweekmonster/gofmt.vim'
@@ -105,6 +107,7 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let g:gruvbox_invert_selection='0'
 
 " --- vim go (polyglot) settings.
+" not using go at the moment, could probably delete
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 1
@@ -152,7 +155,7 @@ nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
  nnoremap <leader><Up> :wincmd k<CR>
  nnoremap <leader><Right> :wincmd l<CR>
 
-nnoremap <leader>h :History<CR>
+" nnoremap <leader>h :History<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <Leader>ps :Rg<SPACE>
@@ -184,6 +187,7 @@ nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kk
 
 nnoremap <Leader>n :NERDTreeToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-r> :FloatermNew ranger<CR>
 
 " Telescope
 nnoremap <Leader>f :lua require'telescope.builtin'.grep_string()<CR>
@@ -192,6 +196,7 @@ nnoremap <Leader>p :lua require'telescope.builtin'.live_grep()<CR>
 nnoremap <Leader>s :lua require'telescope.builtin'.grep_string()<CR>
 nnoremap <Leader>; :lua require'telescope.builtin'.buffers()<CR>
 nnoremap <Leader>P :lua require'telescope.builtin'.planets()<CR>
+nnoremap <Leader>h :lua require'telescope.builtin'.oldfiles()<CR>
 nnoremap <C-p> :lua require'telescope.builtin'.fd()<CR>
 
 nnoremap / :lua require'telescope.builtin'.live_grep()<CR>
@@ -212,24 +217,24 @@ nmap <leader>vtm :highlight Pmenu ctermbg=gray guibg=gray
 
 " inoremap <C-c> <esc>
 
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+" command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " inoremap <silent><expr> <C-space> coc#refresh()
-inoremap <silent><expr> <C-space>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
+"inoremap <silent><expr> <C-space>
+"      \ pumvisible() ? "\<C-n>" :
+"      \ <SID>check_back_space() ? "\<Tab>" :
+"      \ coc#refresh()
 
 " GoTo code navigation.
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
-nnoremap <leader>cr :CocRestart
+" nmap <leader>gd <Plug>(coc-definition)
+" nmap <leader>gy <Plug>(coc-type-definition)
+" nmap <leader>gi <Plug>(coc-implementation)
+" nmap <leader>gr <Plug>(coc-references)
+" nmap <leader>rr <Plug>(coc-rename)
+" nmap <leader>g[ <Plug>(coc-diagnostic-prev)
+" nmap <leader>g] <Plug>(coc-diagnostic-next)
+" nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
+" nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
+" nnoremap <leader>cr :CocRestart
 
 " Sweet Sweet FuGITive
 nmap <leader>gh :diffget //3<CR>

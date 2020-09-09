@@ -1,0 +1,26 @@
+split
+focus down
+split -v
+resize -v 4
+focus right
+resize 3
+focus up
+
+layout save default
+
+bind < layout prev
+bind > layout next
+bind m layout show
+bind N layout new
+
+mousetrack on
+
+bindkey "^[Oa" focus up
+bindkey "^[Ob" focus down
+bindkey "^[Oc" focus right
+bindkey "^[Od" focus left
+
+term xterm-256color
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E38;5;%dm'
+defbce "on"

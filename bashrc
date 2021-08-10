@@ -117,6 +117,7 @@ if ! shopt -oq posix; then
 fi
 
 export PATH=$PATH:/home/peter/.local/bin
+export PATH="$PATH:/home/peter/.local/share/coursier/bin"
 
 # Adjust screen terminal names
 vim() { echo -e '\033kEditing '$1' \033\\'; /usr/bin/vim $1; }
@@ -156,3 +157,4 @@ stty erase ^?
 #}
 
 alias fd=fdfind
+setxkbmap -config /home/peter/.config/keymap.config

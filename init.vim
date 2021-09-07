@@ -93,6 +93,10 @@ Plug 'gruvbox-community/gruvbox' " color
 " Plug 'voldikss/vim-floaterm'
 
 " Plug '/home/ltfiend/nvim-tts/tts-plugin'
+"
+" main one
+" Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+Plug 'jbyuki/venn.nvim'
 
 lua require ('mcpfunctions')
 " lua require ('telescope')

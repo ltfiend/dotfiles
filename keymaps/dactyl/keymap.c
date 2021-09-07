@@ -25,11 +25,14 @@ float leader_fail[][2] = SONG(RICK_ROLL);
 enum custom_keycodes {
     SCREENA = SAFE_RANGE,
     SSHPDEV,
-    DIGGOO,
+    DIGGOOG,
+    TERM256,
+    TERM,
 };
 
 enum {
   TD_SC_C,
+  TD_SQDQ,
 };
 
 // MACROS
@@ -37,26 +40,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case SCREENA:
         if (record->event.pressed) {
-            // when keycode QMKBEST is pressed
+            // when keycode is pressed
             SEND_STRING(SS_LCTRL("A"));
         } else {
-            // when keycode QMKBEST is released
+            // when keycode is released
         }
         break;
     case SSHPDEV:
         if (record->event.pressed) {
-            // when keycode QMKBEST is pressed
+            // when keycode is pressed
             SEND_STRING("ssh pdevries@");
         } else {
-            // when keycode QMKBEST is released
+            // when keycode is released
         }
         break;
-    case DIGGOO:
+    case DIGGOOG:
         if (record->event.pressed) {
-            // when keycode QMKBEST is pressed
+            // when keycode is pressed
             SEND_STRING("dig @8.8.8.8 ");
         } else {
-            // when keycode QMKBEST is released
+            // when keycode is released
+        }
+        break;
+    case TERM256:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING("export TERM=xterm-256color");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TERM:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING("export TERM=xterm");
+        } else {
+            // when keycode is released
         }
         break;
     }
@@ -142,6 +161,14 @@ void matrix_scan_user(void) {
       SEND_STRING(SS_LGUI(SS_LSFT("q")) "\"");
       did_leader_succeed = true;
     }
+    SEQ_TWO_KEYS(KC_I, KC_COMM) {
+      SEND_STRING(SS_LGUI(SS_LALT(SS_LSFT("<"))) "\"");
+      did_leader_succeed = true;
+    }
+    SEQ_TWO_KEYS(KC_I, KC_DOT) {
+      SEND_STRING(SS_LGUI(SS_LALT(SS_LSFT(">"))) "\"");
+      did_leader_succeed = true;
+    }
     leader_end();
   }
 }
@@ -150,6 +177,7 @@ void matrix_scan_user(void) {
 qk_tap_dance_action_t tap_dance_actions[] = {
   // Tap once for Escape, twice for Caps Lock
   [TD_SC_C] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
+  [TD_SQDQ] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),
 };
       
 
@@ -176,7 +204,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_5x6(
      KC_ESC , KC_1  , KC_2  , KC_3  , KC_4  , KC_5  ,                         KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
      KC_TAB , KC_Q  , KC_W  , KC_E  , KC_R  , KC_T  ,                         KC_Y  , KC_U  , KC_I  , KC_O  , KC_P  ,KC_MINS,
-     KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                         KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),KC_QUOT,
+     KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                         KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
      KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                         KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLASH,
                                       KC_LBRC,KC_RBRC,                    KC_PLUS, KC_EQL,
                                       KC_LSFT,KC_SPC,                      KC_SPC, KC_ENT,
@@ -192,14 +220,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                _______,_______,            KC_EQL ,_______,
                                                _______,_______,            _______,_______,
                                                _______,_______,            _______,KC_ESC,
-                                               _______,_______,            _______,_______
+                                               _______,_______,            KC_BTN3,_______
   ),
 
   [_LAYER2] = LAYOUT_5x6(
        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
-       _______,_______,_______,_______,DIGGOO ,SSHPDEV,                        _______,_______,_______,_______,_______,_______,
-       _______,_______,_______,_______,_______,_______,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
+       _______,_______,_______,_______,DIGGOOG,SSHPDEV,                        _______,_______,_______,_______,_______,_______,
+       _______,_______,_______,_______,TERM256,TERM   ,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
                                                _______,_______,            _______,_______,
                                                _______,_______,            _______,_______,
                                                KC_ESC ,_______,            _______,_______,

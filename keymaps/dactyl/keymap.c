@@ -207,9 +207,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                         KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
      KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                         KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLASH,
                                       KC_LBRC,KC_RBRC,                    KC_PLUS, KC_EQL,
-                                      KC_LSFT,KC_SPC,                      KC_SPC, KC_ENT,
+                                      KC_LCTL,KC_LSFT,                    KC_SPC, KC_ENT,
                                       RAISE,KC_LGUI,                      KC_SCLN, LAYER2,
-                                      KC_LALT, SCREENA,                    KC_LEAD, KC_LGUI
+                                      KC_LALT, SCREENA,                   KC_LEAD, KC_LGUI
   ),
 
   [_RAISE] = LAYOUT_5x6(
@@ -224,9 +224,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [_LAYER2] = LAYOUT_5x6(
+       _______,KC_F11 ,KC_F12 ,_______,_______,_______,                        _______,_______,_______,_______,_______,KC_DEL ,
        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
-       _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
-       _______,_______,_______,_______,DIGGOOG,SSHPDEV,                        _______,_______,_______,_______,_______,_______,
+       _______,_______,_______,_______,DIGGOOG,SSHPDEV,                        KC_HOME,_______,_______,KC_END ,_______,_______,
        _______,_______,_______,_______,TERM256,TERM   ,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
                                                _______,_______,            _______,_______,
                                                _______,_______,            _______,_______,

@@ -28,11 +28,14 @@ enum custom_keycodes {
     DIGGOOG,
     TERM256,
     TERM,
+    VISUAL
 };
 
 enum {
   TD_SC_C,
   TD_SQDQ,
+  TD_LBRC,
+  TD_RBRC,
 };
 
 // MACROS
@@ -65,7 +68,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TERM256:
         if (record->event.pressed) {
             // when keycode is pressed
-            SEND_STRING("export TERM=xterm-256color");
+            SEND_STRING("export TERM=xterm-256color\n");
         } else {
             // when keycode is released
         }
@@ -73,7 +76,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TERM:
         if (record->event.pressed) {
             // when keycode is pressed
-            SEND_STRING("export TERM=xterm");
+            SEND_STRING("export TERM=xterm\n");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case VISUAL:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING("visual\n");
         } else {
             // when keycode is released
         }
@@ -178,6 +189,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   // Tap once for Escape, twice for Caps Lock
   [TD_SC_C] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
   [TD_SQDQ] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),
+  [TD_LBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),
+  [TD_RBRC] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),
 };
       
 
@@ -214,11 +227,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = LAYOUT_5x6(
        KC_TILD , KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                        KC_F6  , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_F11 ,
-       _______,_______,_______,_______,_______,KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
+       _______,VISUAL ,_______,_______,_______,KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
        _______,KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT,KC_LPRN,                        KC_LEFT,KC_DOWN,KC_UP,KC_RGHT,_______,KC_VOLU,
        _______,_______,_______,_______,_______,_______,                        DM_REC1,DM_RSTP,DM_PLY1,_______,_______,KC_VOLD,
                                                _______,_______,            KC_EQL ,_______,
-                                               _______,_______,            _______,_______,
+                                               _______,_______,            TD(TD_LBRC),TD(TD_RBRC),
                                                _______,_______,            _______,KC_ESC,
                                                _______,_______,            KC_BTN3,_______
   ),

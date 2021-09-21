@@ -28,7 +28,11 @@ enum custom_keycodes {
     DIGGOOG,
     TERM256,
     TERM,
-    VISUAL
+    VISUAL,
+    BTAB,
+    BBTAB,
+    BPAGE,
+    BBPAGE,
 };
 
 enum {
@@ -36,7 +40,17 @@ enum {
   TD_SQDQ,
   TD_LBRC,
   TD_RBRC,
+  TD_SCTP,
 };
+
+// Key Overrides - new # KEY_OVERRIDE_ENABLE = yes
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);
+
+// This globally defines all key overrides to be used
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &delete_key_override,
+        NULL // Null terminate the array of overrides!
+        };
 
 // MACROS
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -89,7 +103,53 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // when keycode is released
         }
         break;
-    }
+    case BTAB:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_TAB);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_TAB);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case BBTAB:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_LSFT);
+            register_code(KC_TAB);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_LSFT);
+            unregister_code(KC_TAB);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case BPAGE:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LALT);
+            register_code(KC_LEFT);
+            unregister_code(KC_LALT);
+            unregister_code(KC_LEFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case BBPAGE:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LALT);
+            register_code(KC_RGHT);
+            unregister_code(KC_LALT);
+            unregister_code(KC_RGHT);
+        } else {
+            // when keycode is released
+        }
+        break;
+  }
     return true;
 };
 
@@ -184,13 +244,31 @@ void matrix_scan_user(void) {
   }
 }
 
+// Tap Dance Screen Function
+void screen_taps(qk_tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            SEND_STRING(SS_LCTL("a"));
+            break;
+        case 2:
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING(SS_LCTL("a"));
+            break;
+        case 3:
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING(SS_LSFT("\""));
+            break;
+    }
+}
+
 // Tap Dance
 qk_tap_dance_action_t tap_dance_actions[] = {
   // Tap once for Escape, twice for Caps Lock
   [TD_SC_C] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
   [TD_SQDQ] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),
-  [TD_LBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),
-  [TD_RBRC] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),
+  [TD_LBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_LBRC),
+  [TD_RBRC] = ACTION_TAP_DANCE_DOUBLE(KC_RCBR, KC_RBRC),
+  [TD_SCTP] = ACTION_TAP_DANCE_FN(screen_taps),
 };
       
 
@@ -222,14 +300,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       KC_LBRC,KC_RBRC,                    KC_PLUS, KC_EQL,
                                       KC_LCTL,KC_LSFT,                    KC_SPC, KC_ENT,
                                       RAISE,KC_LGUI,                      KC_SCLN, LAYER2,
-                                      KC_LALT, SCREENA,                   KC_LEAD, KC_LGUI
+                                      KC_LALT, TD(TD_SCTP),                   KC_LEAD, KC_LGUI
   ),
 
   [_RAISE] = LAYOUT_5x6(
-       KC_TILD , KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                        KC_F6  , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_F11 ,
-       _______,VISUAL ,_______,_______,_______,KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
+       KC_TILD, KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                        KC_F6  , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_F11 ,
+       KC_GRV ,VISUAL ,_______,_______,_______,KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
        _______,KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT,KC_LPRN,                        KC_LEFT,KC_DOWN,KC_UP,KC_RGHT,_______,KC_VOLU,
-       _______,_______,_______,_______,_______,_______,                        DM_REC1,DM_RSTP,DM_PLY1,_______,_______,KC_VOLD,
+       _______,_______,_______,_______,_______,_______,                        DM_REC1,DM_RSTP,DM_PLY1,_______,KC_TILD,KC_VOLD,
                                                _______,_______,            KC_EQL ,_______,
                                                _______,_______,            TD(TD_LBRC),TD(TD_RBRC),
                                                _______,_______,            _______,KC_ESC,
@@ -238,8 +316,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LAYER2] = LAYOUT_5x6(
        _______,KC_F11 ,KC_F12 ,_______,_______,_______,                        _______,_______,_______,_______,_______,KC_DEL ,
-       _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
-       _______,_______,_______,_______,DIGGOOG,SSHPDEV,                        KC_HOME,_______,_______,KC_END ,_______,_______,
+       _______,_______,_______,_______,_______,_______,                        BPAGE ,_______,_______,BBPAGE  ,_______,_______,
+       _______,_______,_______,_______,DIGGOOG,SSHPDEV,                        BBTAB, KC_HOME ,KC_END ,BTAB   ,_______,_______,
        _______,_______,_______,_______,TERM256,TERM   ,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
                                                _______,_______,            _______,_______,
                                                _______,_______,            _______,_______,

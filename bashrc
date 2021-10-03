@@ -88,13 +88,16 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -alF'
+alias ll='ls -lhart'
 alias la='ls -A'
 alias l='ls -CF'
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias gcheck='curl https://www.gstatic.com/ipranges/publicdns.json | jq ".prefixes[]  | .ipv4Prefix // .ipv6Prefix "|fzf'
+alias awsip='curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq -r ".prefixes[] | select(.service==\"S3\") | .ip_prefix"|fzf'
+alias cfip='curl https://api.cloudflare.com/client/v4/ips|jq "[.result.ipv6_cidrs, .result.ipv4_cidrs]"|awk -F"\"" "/\w+/{print $2}"|fzf'
+alias fd=fdfind
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -117,7 +120,6 @@ if ! shopt -oq posix; then
 fi
 
 export PATH=$PATH:/home/peter/.local/bin
-export PATH="$PATH:/home/peter/.local/share/coursier/bin"
 
 # Adjust screen terminal names
 vim() { echo -e '\033kEditing '$1' \033\\'; /usr/bin/vim $1; }
@@ -135,26 +137,24 @@ ssh() { echo -e '\033kSSH to '$@'\033\\'; /usr/bin/ssh $@; }
 # reset Prompt Command to original setting
 pc() { export PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'; }
 
-export SVN_EDITOR=vi
+# ssh with fzf selecting of ssh/config hosts
+s() {
+   s=`rg -e 'Host\b' ~/.ssh/config|awk '{print $2}'|fzf`
+   ssh $s
+}
+
+# dig with fzf completion of .dig_commands entries
+d() {
+  s=`cat ~/.dig_commands | fzf`
+  dig $s
+}
+
+export SVN_EDITOR=vim
+export EDITOR=vim
 
 stty erase ^?
 
-
-# TMUX and nvr to load files in existing neovim session.  
-#if [[ -n $TMUX ]]; then
-#    export NVIM_LISTEN_ADDRESS=/tmp/nvim_$USER_`tmux 
-#     display -p "#{window_id}"`
-#fi
-
-#function nvr() {
-#  if [ ! -z "$TMUX" ]; then
-#    local ids="$(tmux list-panes -a -F '#{pane_current_command} #{window_id} #{pane_id}' | awk '/^nvim / {print $2" "$3; exit}')"
-#    local window_id="$ids[(w)1]"
-#    local pane_id="$ids[(w)2]"
-#    [ ! -z "$pane_id" ] && tmux select-window -t "$window_id" && tmux select-pane -t "$pane_id"
-#  fi
-#  nvr -s $@
-#}
-
-alias fd=fdfind
 setxkbmap -config /home/peter/.config/keymap.config
+source ~/.fzf_completion.bash
+source ~/.fzf_bindings.bash
+export FZF_DEFAULT_OPTS="--height 40% --border"

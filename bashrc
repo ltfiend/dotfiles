@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -96,7 +96,8 @@ alias l='ls -CF'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias gcheck='curl https://www.gstatic.com/ipranges/publicdns.json | jq ".prefixes[]  | .ipv4Prefix // .ipv6Prefix "|fzf'
 alias awsip='curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq -r ".prefixes[] | select(.service==\"S3\") | .ip_prefix"|fzf'
-alias cfip='curl https://api.cloudflare.com/client/v4/ips|jq "[.result.ipv6_cidrs, .result.ipv4_cidrs]"|awk -F"\"" "/\w+/{print $2}"|fzf'
+alias cfip='curl https://api.cloudflare.com/client/v4/ips|jq "[.result.ipv6_cidrs, .result.ipv4_cidrs]"|awk -F"\"" "/\w+/{print $2}"|fzf' 
+alias c='cat ~/.commands | fzf --print0'
 alias fd=fdfind
 
 # Alias definitions.
@@ -122,18 +123,26 @@ fi
 export PATH=$PATH:/home/peter/.local/bin
 
 # Adjust screen terminal names
-vim() { echo -e '\033kEditing '$1' \033\\'; /usr/bin/vim $1; }
+vi() { 
+  unset PROMPT_COMMAND;
+  echo -e '\033kEditing '$1' \033\\'; 
+  /usr/bin/vim $1; }
 dig() { 
   unset PROMPT_COMMAND;
   echo -e '\033kDIG '$@' \033\\'; 
   /usr/bin/dig $@; 
   }
+# btop() { 
+#   unset PROMPT_COMMAND;
+#   echo -e '\033k-=< BTOP >=-\033\\'; 
+#   btop; 
+#   }
 python() {
   echo -e '\033kExecuting - python '$@'\033\\';
   /usr/bin/python $@;
 }
 # Set screen name to ssh description, this can be overriden by the remote host
-ssh() { echo -e '\033kSSH to '$@'\033\\'; /usr/bin/ssh $@; }
+# ssh() { echo -e '\033kSSH to '$@'\033\\'; /usr/bin/ssh $@; }
 # reset Prompt Command to original setting
 pc() { export PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'; }
 
@@ -149,6 +158,10 @@ d() {
   dig $s
 }
 
+# c() {
+#   s=`cat ~/.commands | fzf`
+# }
+
 export SVN_EDITOR=vim
 export EDITOR=vim
 
@@ -158,3 +171,6 @@ setxkbmap -config /home/peter/.config/keymap.config
 source ~/.fzf_completion.bash
 source ~/.fzf_bindings.bash
 export FZF_DEFAULT_OPTS="--height 40% --border"
+export NODE_OPTIONS=--experimental-worker
+
+alias luamake=/home/peter/Git/lua-language-server/3rd/luamake/luamake

@@ -5,13 +5,17 @@
 #define _QWERTY 0
 #define _RAISE 1
 #define _LAYER2 2
+#define _MLAYER 3
 
 #define RAISE MO(_RAISE)
 #define LAYER2 MO(_LAYER2)
+#define MLAYMO MO(_MLAYER)
+#define MLAYTT TT(_MLAYER)
+#define QWERTO TO(_QWERTY)
 
 LEADER_EXTERNS();
 #define LEADER_PER_KEY_TIMING
-#define LEADER_TIMEOUT 450
+#define LEADER_TIMEOUT 750
 
 bool did_leader_succeed;
 
@@ -26,6 +30,7 @@ enum custom_keycodes {
     SCREENA = SAFE_RANGE,
     SSHPDEV,
     DIGGOOG,
+    FZFCOMP,
     TERM256,
     TERM,
     VISUAL,
@@ -43,14 +48,15 @@ enum {
   TD_SCTP,
 };
 
+// Removed, to used to hold shift and bkspacing.   Causes issues in screen
 // Key Overrides - new # KEY_OVERRIDE_ENABLE = yes
-const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);
+// const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPACE, KC_DELETE);
 
 // This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
-    &delete_key_override,
-        NULL // Null terminate the array of overrides!
-        };
+// const key_override_t **key_overrides = (const key_override_t *[]){
+//     &delete_key_override,
+//         NULL // Null terminate the array of overrides!
+//         };
 
 // MACROS
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -75,6 +81,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             // when keycode is pressed
             SEND_STRING("dig @8.8.8.8 ");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case FZFCOMP:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(" **");
+            register_code(KC_TAB);
+            unregister_code(KC_TAB);
         } else {
             // when keycode is released
         }
@@ -157,6 +173,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_scan_user(void) {
   LEADER_DICTIONARY() {
     did_leader_succeed = leading = false;
+    /// General Purpose
+    SEQ_ONE_KEY(KC_L) {
+        SEND_STRING("ls -l");
+    } else
+    SEQ_TWO_KEYS(KC_L, KC_L) {
+        SEND_STRING("ls -lhart");
+    } else
+      //////////// CHROME ////////////////
+      // Chrome - open last closed tab
     SEQ_ONE_KEY(KC_R) {
       register_code(KC_LCTL);
       register_code(KC_F5);
@@ -164,8 +189,6 @@ void matrix_scan_user(void) {
       unregister_code(KC_LCTL);
       did_leader_succeed = true;
     } else
-      //////////// CHROME ////////////////
-      // Chrome - open last closed tab
     SEQ_ONE_KEY(KC_T) {
       SEND_STRING(SS_LCTL(SS_LSFT("t")));
       did_leader_succeed = true;
@@ -300,14 +323,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       KC_LBRC,KC_RBRC,                    KC_PLUS, KC_EQL,
                                       KC_LCTL,KC_LSFT,                    KC_SPC, KC_ENT,
                                       RAISE,KC_LGUI,                      KC_SCLN, LAYER2,
-                                      KC_LALT, TD(TD_SCTP),                   KC_LEAD, KC_LGUI
+                                      KC_LALT, TD(TD_SCTP),                   KC_LEAD, MLAYTT
   ),
 
   [_RAISE] = LAYOUT_5x6(
        KC_TILD, KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                        KC_F6  , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_F11 ,
        KC_GRV ,VISUAL ,_______,_______,_______,KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
        _______,KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT,KC_LPRN,                        KC_LEFT,KC_DOWN,KC_UP,KC_RGHT,_______,KC_VOLU,
-       _______,_______,_______,_______,_______,_______,                        DM_REC1,DM_RSTP,DM_PLY1,_______,KC_TILD,KC_VOLD,
+       _______,_______,_______,_______,_______,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
                                                _______,_______,            KC_EQL ,_______,
                                                _______,_______,            TD(TD_LBRC),TD(TD_RBRC),
                                                _______,_______,            _______,KC_ESC,
@@ -316,14 +339,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LAYER2] = LAYOUT_5x6(
        _______,KC_F11 ,KC_F12 ,_______,_______,_______,                        _______,_______,_______,_______,_______,KC_DEL ,
-       _______,_______,_______,_______,_______,_______,                        BPAGE ,_______,_______,BBPAGE  ,_______,_______,
-       _______,_______,_______,_______,DIGGOOG,SSHPDEV,                        BBTAB, KC_HOME ,KC_END ,BTAB   ,_______,_______,
-       _______,_______,_______,_______,TERM256,TERM   ,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
+       FZFCOMP,KC_BTN1,KC_MS_U,KC_BTN2,_______,_______,                        BPAGE  ,KC_PGDN,KC_PGUP,BBPAGE ,_______,_______,
+       _______,KC_MS_L,KC_MS_D,KC_MS_R,DIGGOOG,SSHPDEV,                        BBTAB  ,KC_HOME,KC_END ,BTAB   ,_______,_______,
+       DM_REC1,DM_RSTP,DM_PLY1,_______,TERM256,TERM   ,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
                                                _______,_______,            _______,_______,
                                                _______,_______,            _______,_______,
                                                KC_ESC ,_______,            _______,_______,
                                                _______,_______,            _______,_______
   ),
+  [_MLAYER] = LAYOUT_5x6(
+       _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+       _______,_______,_______,_______,KC_BTN1,KC_WH_U,                        _______,KC_WH_U,KC_WH_D,_______,_______,_______,
+       _______,KC_MS_L,KC_MS_R,KC_MS_D,KC_MS_U,KC_WH_D,                        _______,KC_MS_D,KC_MS_U,KC_MS_L,KC_MS_R,_______,
+       _______,_______,_______,_______,KC_BTN2,_______,                        _______,_______,_______,_______,_______,_______,
+                                               _______,_______,            _______,_______,
+                                               KC_BTN2,KC_BTN1,            KC_BTN1,KC_BTN2,
+                                               _______,QWERTO ,            _______,_______,
+                                               _______,_______,            _______,MLAYTT
+  ),
+//   [_TMPLAT] = LAYOUT_5x6(
+//        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+//        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+//        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+//        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+//                                                _______,_______,            _______,_______,
+//                                                _______,_______,            _______,_______,
+//                                                _______,_______,            _______,_______,
+//                                                _______,_______,            _______,_______
+//   ),
 };
 
 /* 

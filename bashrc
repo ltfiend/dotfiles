@@ -132,6 +132,11 @@ dig() {
   echo -e '\033kDIG '$@' \033\\'; 
   /usr/bin/dig $@; 
   }
+cd() {
+  unset PROMPT_COMMAND;
+  builtin cd $@;
+  echo -e '\033k'$HOSTNAME':'$PWD' \033\\'; 
+}
 # btop() { 
 #   unset PROMPT_COMMAND;
 #   echo -e '\033k-=< BTOP >=-\033\\'; 

@@ -29,6 +29,7 @@ float leader_fail[][2] = SONG(RICK_ROLL);
 enum custom_keycodes {
     SCREENA = SAFE_RANGE,
     SSHPDEV,
+    SSH192,
     DIGGOOG,
     FZFCOMP,
     TERM256,
@@ -73,6 +74,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             // when keycode is pressed
             SEND_STRING("ssh pdevries@");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case SSH192:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING("ssh 192.168.90.");
         } else {
             // when keycode is released
         }
@@ -325,7 +334,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       RAISE,KC_LGUI,                      KC_SCLN, LAYER2,
                                       KC_LALT, TD(TD_SCTP),                   KC_LEAD, MLAYTT
   ),
-
   [_RAISE] = LAYOUT_5x6(
        KC_TILD, KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                        KC_F6  , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_F11 ,
        KC_GRV ,VISUAL ,_______,_______,_______,KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
@@ -336,10 +344,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                _______,_______,            _______,KC_ESC,
                                                _______,_______,            KC_BTN3,_______
   ),
-
   [_LAYER2] = LAYOUT_5x6(
        _______,KC_F11 ,KC_F12 ,_______,_______,_______,                        _______,_______,_______,_______,_______,KC_DEL ,
-       FZFCOMP,KC_BTN1,KC_MS_U,KC_BTN2,_______,_______,                        BPAGE  ,KC_PGDN,KC_PGUP,BBPAGE ,_______,_______,
+       FZFCOMP,KC_BTN1,KC_MS_U,KC_BTN2,SSH192 ,SSH192 ,                        BPAGE  ,KC_PGDN,KC_PGUP,BBPAGE ,_______,_______,
        _______,KC_MS_L,KC_MS_D,KC_MS_R,DIGGOOG,SSHPDEV,                        BBTAB  ,KC_HOME,KC_END ,BTAB   ,_______,_______,
        DM_REC1,DM_RSTP,DM_PLY1,_______,TERM256,TERM   ,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
                                                _______,_______,            _______,_______,
@@ -350,13 +357,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_MLAYER] = LAYOUT_5x6(
        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
        _______,_______,_______,_______,KC_BTN1,KC_WH_U,                        _______,KC_WH_U,KC_WH_D,_______,_______,_______,
-       _______,KC_MS_L,KC_MS_R,KC_MS_D,KC_MS_U,KC_WH_D,                        _______,KC_MS_D,KC_MS_U,KC_MS_L,KC_MS_R,_______,
+       _______,KC_MS_L,KC_MS_R,KC_MS_D,KC_MS_U,KC_WH_D,                        KC_MS_L,KC_MS_D,KC_MS_U,KC_MS_R,_______,_______,
        _______,_______,_______,_______,KC_BTN2,_______,                        _______,_______,_______,_______,_______,_______,
                                                _______,_______,            _______,_______,
                                                KC_BTN2,KC_BTN1,            KC_BTN1,KC_BTN2,
                                                _______,QWERTO ,            _______,_______,
                                                _______,_______,            _______,MLAYTT
   ),
+};
+
+
+
 //   [_TMPLAT] = LAYOUT_5x6(
 //        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
 //        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
@@ -367,7 +378,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                                _______,_______,            _______,_______,
 //                                                _______,_______,            _______,_______
 //   ),
-};
 
 /* 
 

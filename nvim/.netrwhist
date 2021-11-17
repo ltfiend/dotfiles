@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/home/peter/Git/dotfiles'
+let g:netrw_dirhist_4='/home/peter/nvim-tts'
+let g:netrw_dirhist_3='/home/peter/nvim-tts/ttslua'
+let g:netrw_dirhist_2='/home/peter/nvim-tts'
+let g:netrw_dirhist_1='scp://192.168.90.2/.arduino/build/'
+let g:netrw_dirhist_0='scp://192.168.90.2/.arduino/'
+let g:netrw_dirhist_9='scp://192.168.90.2/'
+let g:netrw_dirhist_8='scp://192.168.90.2//'
+let g:netrw_dirhist_7='/home/peter'
+let g:netrw_dirhist_6='scp://192.168.90.2/../../scp://192.168.90.2/../..//scp://192.168.90.2/'

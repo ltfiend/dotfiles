@@ -5,7 +5,8 @@ set relativenumber
 set hlsearch " don't highlight previous search pattern
 set hidden " keeps buffers from being unloaded when it is abandonded (buffers)
 set noerrorbells
-set tabstop=4 softtabstop=4
+set tabstop=4 
+set softtabstop=4
 set shiftwidth=4
 set expandtab
 set autoindent
@@ -15,8 +16,8 @@ set nowrap " dont' wrap if off the screen to the right.  Need to think about thi
 set smartcase " case sensitive when search includes a capital, other case insensitve
 set noswapfile
 set nobackup
-" set undodir=~/.vim/undodir
-" set undofile
+set undodir=~/.config/nvim/undodir
+set undofile
 set termguicolors
 set scrolloff=8 " number of lines to keep above and below the cursor when scrollling
 set noshowmode " If in Insert, Replace or Visual mode put a message on the last line.
@@ -38,7 +39,7 @@ set ttimeoutlen=10
 set colorcolumn=120
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 " treat tabletop simulator files like lua files
 au BufNewFile,BufRead *.ttslua                     setf lua
@@ -61,7 +62,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'tpope/vim-dispatch'
-Plug 'vim-airline/vim-airline' " Status line
+" Plug 'vim-airline/vim-airline' " Status line
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -85,6 +86,7 @@ Plug 'scrooloose/nerdtree'
 "" 
 Plug 'mhinz/vim-startify'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+" Plug 'lambdalisue/suda'
 
 " Git
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -185,7 +187,8 @@ nnoremap <Leader>? :map<CR>
 nnoremap <Leader>w :set wrap<CR>
 
 " close current buffer
-nnoremap <Leader>c :bd<CR>
+nnoremap <leader>c :call Calc()<CR>
+"nnoremap <Leader>c :bw<CR>
 
 " nnoremap <Leader>l :LazyGit<CR>
 
@@ -196,13 +199,12 @@ nnoremap <Leader>j :e /home/peter/Journals/logbook.2020<CR>
 nnoremap <Leader>K :e /home/peter/qmk_firmware/keymap-dactyl/keymap.c<CR>
 nnoremap <leader>dw :cd <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>dh :cd ~<CR>
-nnoremap <leader>c :call Calc()<CR>
 
 " nnoremap <Leader>t :Vex<CR>
 nnoremap <Leader>T :split term://htop<CR>
-nnoremap <Leader>t :split term://<CR>
-nnoremap <Leader>b :split term://bash<CR>
-nnoremap <Leader>s :split<CR>
+"nnoremap <Leader>t :split term://<CR>
+nnoremap <Leader>b :e /home/peter/Journals/Bookmarks<CR>
+" nnoremap <Leader>s :split<CR>
 nnoremap <Leader>V :vsplit<CR>
 nnoremap <Leader>] :resize +15<CR>
 nnoremap <Leader>[ :resize -10<CR>

@@ -1,6 +1,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
+set -o vi
 
 # If not running interactively, don't do anything
 case $- in
@@ -172,6 +173,7 @@ export EDITOR=vim
 
 stty erase ^?
 
+set keymap vi
 setxkbmap -config /home/peter/.config/keymap.config
 source ~/.fzf_completion.bash
 source ~/.fzf_bindings.bash

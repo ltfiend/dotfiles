@@ -1,0 +1,8 @@
+inspector input.cdns -F pcap -o -|tshark -T pdml -r -|grep dns.aaaa|awk '{print $5}'|awk -F\" '{print $1}'|egrep "^::"
+aws athena list-query-executions|head -3|tail -1|awk -F\" '{print $2}'|xargs aws athena get-query-results --output table --query-execution-id
+dig @192.168.90.53 +cookie +ednsopt=100:FFFFFF
+tshark -T fields -e ip.src -r input.pcap |sort|uniq -c|sort -n
+aws --profile disa s3 ls s3://cdns-demo/ --endpoint-url https://s3-fips.us-gov-east-1.amazonaws.com --debug
+aws --profile quotient s3 ls --endpoint-url https://notsanctuary.s3-fips.us-east-1.amazonaws.com s3://
+duf --hide loops,special
+

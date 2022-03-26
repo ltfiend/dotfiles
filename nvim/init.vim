@@ -33,7 +33,7 @@ set shortmess+=c
 filetype plugin on
 
 " Set timeouts to remove delay after hitting ESC
-set timeoutlen=1000
+set timeoutlen=500
 set ttimeoutlen=10
 
 set colorcolumn=120
@@ -55,50 +55,48 @@ set foldmethod=indent
 set foldnestmax=1
 set nofoldenable
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 " Completeion
-" Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot' " LSP loader
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'tpope/vim-dispatch'
-" Plug 'vim-airline/vim-airline' " Status line
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'nvim-telescope/telescope-dap.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
-" Plug 'hrsh7th/nvim-compe'
-" Plug 'nvim-lua/completion-nvim'
 Plug 'scalameta/nvim-metals'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
 
+
 " For luasnip user.
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
-
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'jbyuki/venn.nvim'
 Plug 'scrooloose/nerdtree'
-"" 
 Plug 'mhinz/vim-startify'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
-" Plug 'lambdalisue/suda'
 
-" Git
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/playground'
-
-" Color Stuff
 Plug 'gruvbox-community/gruvbox' " color
-
 Plug 'theniceboy/vim-calc'
-" Plug 'ryanoasis/vim-devicons'
+Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
 
-
+Plug 'Pocco81/DAPInstall.nvim'
+Plug 'theHamsta/nvim-dap-virtual-text'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'nvim-telescope/telescope-dap.nvim'
+Plug 'leoluz/nvim-dap-go'
+Plug 'jbyuki/one-small-step-for-vimkind'
+"------
 "Plug 'terryma/vim-multiple-cursors'
 
 " Coc

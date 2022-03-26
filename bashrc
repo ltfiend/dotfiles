@@ -133,11 +133,11 @@ dig() {
   echo -e '\033kDIG '$@' \033\\'; 
   /usr/bin/dig $@; 
   }
-cd() {
-  unset PROMPT_COMMAND;
-  builtin cd $@;
-  echo -e '\033k'$HOSTNAME':'$PWD' \033\\'; 
-}
+# cd() {
+#   unset PROMPT_COMMAND;
+#   builtin cd $@;
+#   echo -e '\033k'$HOSTNAME':'$PWD' \033\\'; 
+# }
 # btop() { 
 #   unset PROMPT_COMMAND;
 #   echo -e '\033k-=< BTOP >=-\033\\'; 
@@ -181,3 +181,7 @@ export FZF_DEFAULT_OPTS="--height 40% --border"
 export NODE_OPTIONS=--experimental-worker
 
 alias luamake=/home/peter/Git/lua-language-server/3rd/luamake/luamake
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

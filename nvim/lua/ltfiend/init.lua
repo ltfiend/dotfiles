@@ -12,3 +12,5 @@ local components = {
 }
 -- require("ltfiend.tts")
 require'nvim-treesitter.install'.prefer_git = true
+
+require('dap.ext.vscode').load_launchjs()

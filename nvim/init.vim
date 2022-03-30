@@ -48,7 +48,7 @@ au BufNewFile,BufRead *.ttslua                     setf lua
 
 augroup lsp
   au!
-  au FileType scala,sbt lua require("metals").initialize_or_attach({})
+  au FileType scala,sbt,java lua require("metals").initialize_or_attach({})
 augroup end
 
 set foldmethod=indent

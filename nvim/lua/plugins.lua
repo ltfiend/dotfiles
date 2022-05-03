@@ -39,6 +39,162 @@ function M.setup()
 
   -- Plugins
   local function plugins(use)
+    use {
+        'lewis6991/gitsigns.nvim',
+        tag='release',
+        config = function()
+            require('gitsigns').setup()
+        end
+    }
+        -- Converting from init.vim - 20220403
+    --
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
+    
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = {
+             'nvim-telescope/telescope-live-grep-raw.nvim',
+             'nvim-telescope/telescope.nvim',
+             'nvim-telescope/telescope-fzy-native.nvim',
+             'nvim-telescope/telescope-dap.nvim'
+        }
+    }
+--     
+--     use {
+--      'sheerun/vim-polyglot'
+--     }
+--     
+--     use {
+--      'junegunn/fzf'
+--     }
+--     
+--     use {
+--      'stsewd/fzf-checkout.vim'
+--     }
+--     
+--     use {
+--      'tpope/vim-dispatch'
+--     }
+--     
+--     use {
+--      'nvim-lua/popup.nvim'
+--     }
+--     
+--     use {
+--      'nvim-lua/plenary.nvim'
+--     }
+--     
+--     use {
+--      'nvim-telescope/telescope.nvim',
+--      requires = { 'nvim-lua/plenary.nvim' }
+--     }
+--     
+--     use {
+--      'nvim-telescope/telescope-fzy-native.nvim'
+--     }
+--     
+--     use {
+--      'nvim-telescope/telescope-dap.nvim'
+--     }
+--     
+--     use {
+--      'kyazdani42/nvim-web-devicons'
+--     }
+--     
+--     use {
+--      'neovim/nvim-lspconfig'
+--     }
+--     
+--     use {
+--      'scalameta/nvim-metals'
+--     }
+--     
+--     use {
+--      'hrsh7th/cmp-nvim-lsp'
+--     }
+--     
+--     use {
+--      'hrsh7th/cmp-buffer'
+--     }
+--     
+--     use {
+--      'hrsh7th/nvim-cmp'
+--     }
+--     
+--     use {
+--      'L3MON4D3/LuaSnip'
+--     }
+--     
+--     use {
+--      'saadparwaiz1/cmp_luasnip'
+--     }
+--     
+--     use {
+--      'williamboman/nvim-lsp-installer'
+--     }
+--     
+--     use {
+--      'jbyuki/venn.nvim'
+--     }
+--     
+--     use {
+--      'scrooloose/nerdtree'
+--     }
+--     
+--     use {
+--      'mhinz/vim-startify'
+--     }
+--     
+--     use {
+--      'rrethy/vim-hexokinase', 
+--      run = 'make hexokinase'
+--     }
+--     
+--     use {
+--      'gruvbox-community/gruvbox' 
+--     }
+--     
+--     use {
+--      'theniceboy/vim-calc'
+--     }
+--     
+--     use {
+--      'mfussenegger/nvim-dap'
+--     }
+--     
+--     use {
+--      'mfussenegger/nvim-dap-python'
+--     }
+--     
+--     use {
+--      'Pocco81/DAPInstall.nvim'
+--     }
+--     
+--     use {
+--      'theHamsta/nvim-dap-virtual-text'
+--     }
+--     
+--     use {
+--      'rcarriga/nvim-dap-ui'
+--     }
+--     
+--     use {
+--      'nvim-telescope/telescope-dap.nvim'
+--     }
+--     
+--     use {
+--      'leoluz/nvim-dap-go'
+--     }
+--     
+--     use {
+--      'jbyuki/one-small-step-for-vimkind'
+--     }
+------
     -- Debugging
     use {
       "folke/which-key.nvim",
@@ -67,6 +223,14 @@ function M.setup()
         require("config.dap").setup()
       end,
     }
+    
+--     use {
+--       'jedrzejboczar/possession.nvim',
+--       requires = { 'nvim-lua/plenary.nvim' },
+--       config = function()
+--         require("config.possession").setup()
+--       end,
+--     }
 
     -- Bootstrap Neovim
     if packer_bootstrap then

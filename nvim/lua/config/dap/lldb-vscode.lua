@@ -2,6 +2,26 @@ local M = {}
 
 function M.setup()
   local dap = require"dap"
+--   dap.configurations.rs = {
+--     {
+--       name = "Cargo",
+--       type = "lldb",
+--       request = "launch",
+--       program = "/usr/bin/cargo",
+--       args = {'run'},
+--       cwd = '${workspaceFolder}',
+--       stopOnEntry = false,
+--       runInTerminal = false,
+--       postRunCommands = {'process handle -p true -s false -n false SIGWINCH'},
+--       env = function()
+--         local variables = {}
+--         for k, v in pairs(vim.fn.environ()) do
+--           table.insert(variables, string.format("%s=%s", k, v))
+--         end
+--         return variables
+--       end,
+--     },
+--   }
   dap.configurations.cpp = {
     {
       name = "Launch",
@@ -26,7 +46,7 @@ function M.setup()
       -- But you should be aware of the implications:
       -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
   
-      runInTerminal = true,
+      runInTerminal = false,
       -- If you use `runInTerminal = true` and resize the terminal window,
       -- lldb-vscode will receive a `SIGWINCH` signal which can cause problems
       -- To avoid that uncomment the following option
@@ -54,10 +74,28 @@ function M.setup()
       type = "lldb",
       request = "launch",
       program = "./inspector",
-      args = { '-F', 'template', '-t',  'test-no-geo.tpl', '--debug-qr', 'ecs-test.cdns' },
+      args = { '-F', 'template', '-t', 'test-no-geo-custom.tpl', 'ecs-test-2.cdns', '-o', '-' },
       cwd = '${workspaceFolder}',
       stopOnEntry = false,
-      runInTerminal = true,
+      runInTerminal = false,
+      postRunCommands = {'process handle -p true -s false -n false SIGWINCH'},
+      env = function()
+        local variables = {}
+        for k, v in pairs(vim.fn.environ()) do
+          table.insert(variables, string.format("%s=%s", k, v))
+        end
+        return variables
+      end,
+    },
+    {
+      name = "Compactor",
+      type = "lldb",
+      request = "launch",
+      program = "./compactor",
+      args = { '-o', 'test-out.cdns', 'dns-sample.tcpd' },
+      cwd = '${workspaceFolder}',
+      stopOnEntry = false,
+      runInTerminal = false,
       postRunCommands = {'process handle -p true -s false -n false SIGWINCH'},
       env = function()
         local variables = {}
@@ -75,7 +113,7 @@ function M.setup()
       args = {},
       cwd = '${workspaceFolder}',
       stopOnEntry = false,
-      runInTerminal = true,
+      runInTerminal = false,
       postRunCommands = {'process handle -p true -s false -n false SIGWINCH'},
       env = function()
         local variables = {}
@@ -88,7 +126,8 @@ function M.setup()
   }  
   
   dap.configurations.c = dap.configurations.cpp
-  dap.configurations.rust = dap.configurations.cpp
+--  dap.configurations.rust = dap.configurations.cpp
+--    dap.configurations.rust = dap.configurations.rs
     
   dap.adapters.lldb = {
     type = 'executable',

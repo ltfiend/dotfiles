@@ -10,6 +10,16 @@ require'lspconfig'.pyright.setup{
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 }
 
+require'lspconfig'.clangd.setup{
+    on_attach = on_attach,
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+}
+
+require'lspconfig'.rust_analyzer.setup{
+    on_attach = on_attach,
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+}
+
 require'lspconfig'.bashls.setup{
     -- cmd = { '/home/peter/.local/share/nvim/lsp_servers/bash/node_modules/.bin/bash-language-server' },
     on_attach = on_attach,

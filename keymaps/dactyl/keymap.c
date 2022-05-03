@@ -7,6 +7,7 @@
 #define _LAYER2 2
 #define _MLAYER 3
 #define _NUMLAY 4
+#define _TMUXLAY 5
 
 #define RAISE MO(_RAISE)
 #define LAYER2 MO(_LAYER2)
@@ -14,6 +15,7 @@
 #define NUMLAY MO(_NUMLAY)
 #define MLAYTT TT(_MLAYER)
 #define QWERTO TO(_QWERTY)
+#define TMUXLAY MO(_TMUXLAY)
 
 LEADER_EXTERNS();
 #define LEADER_PER_KEY_TIMING
@@ -41,6 +43,15 @@ enum custom_keycodes {
     BBTAB,
     BPAGE,
     BBPAGE,
+    TMUXU,
+    TMUXD,
+    TMUXL,
+    TMUXR,
+    TMUXZ,
+    TMUXLOG,
+    TMUXMNU,
+    TMUXSPL,
+    TMUXVSP,
 };
 
 enum {
@@ -49,6 +60,7 @@ enum {
   TD_LBRC,
   TD_RBRC,
   TD_SCTP,
+  TD_9_0,
 };
 
 // Removed, to used to hold shift and bkspacing.   Causes issues in screen
@@ -172,6 +184,129 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             register_code(KC_RGHT);
             unregister_code(KC_LALT);
             unregister_code(KC_RGHT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXL:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_LEFT);
+            unregister_code(KC_LEFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXR:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_RGHT);
+            unregister_code(KC_RGHT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXU:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_UP);
+            unregister_code(KC_UP);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXD:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_DOWN);
+            unregister_code(KC_DOWN);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXZ:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_Z);
+            unregister_code(KC_Z);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXMNU:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_LSFT);
+            register_code(KC_QUOT);
+            unregister_code(KC_LSFT);
+            unregister_code(KC_QUOT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXLOG:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_LBRC);
+            unregister_code(KC_LBRC);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXSPL:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_LSFT);
+            register_code(KC_S);
+            unregister_code(KC_LSFT);
+            unregister_code(KC_S);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXVSP:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            register_code(KC_LCTL);
+            register_code(KC_A);
+            unregister_code(KC_LCTL);
+            unregister_code(KC_A);
+            register_code(KC_LSFT);
+            register_code(KC_BSLS);
+            unregister_code(KC_LSFT);
+            unregister_code(KC_BSLS);
         } else {
             // when keycode is released
         }
@@ -303,6 +438,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_LBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_LBRC),
   [TD_RBRC] = ACTION_TAP_DANCE_DOUBLE(KC_RCBR, KC_RBRC),
   [TD_SCTP] = ACTION_TAP_DANCE_FN(screen_taps),
+  [TD_9_0] = ACTION_TAP_DANCE_DOUBLE(KC_9, KC_0),
 };
       
 
@@ -332,15 +468,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                         KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
      KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                         KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLASH,
                                       KC_LBRC,KC_RBRC,                    KC_PLUS, KC_EQL,
-                                      KC_BSPC,KC_LSFT,                    KC_SPC, KC_ENT,
+                                      TMUXLAY,RAISE,                    KC_SPC, KC_ENT,
                                       RAISE,KC_LGUI,                      KC_SCLN, LAYER2,
                                       KC_LALT, TD(TD_SCTP),                   KC_LEAD, MLAYTT
   ),
   [_RAISE] = LAYOUT_5x6(
        KC_TILD, KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                        KC_F6  , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_DEL ,
-       KC_GRV ,VISUAL ,_______,_______,_______,KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
+       KC_GRV ,KC_6   ,KC_7   ,KC_8   ,TD(TD_9_0),KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
        _______,KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT,KC_LPRN,                        KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,KC_VOLU,
-       _______,_______,_______,_______,_______,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
+       _______,_______,_______,_______,KC_SPC ,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
                                                NUMLAY ,_______,            KC_EQL ,_______,
                                                KC_DEL ,_______,            TD(TD_LBRC),TD(TD_RBRC),
                                                _______,_______,            _______,KC_ESC,
@@ -353,8 +489,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        DM_REC1,DM_RSTP,DM_PLY1,_______,TERM256,TERM   ,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
                                                _______,_______,            _______,_______,
                                                KC_DEL ,_______,            _______,_______,
-                                               KC_ESC ,_______,            _______,_______,
-                                               _______,_______,            _______,_______
+                                               KC_ESC ,KC_WH_U,            _______,_______,
+                                               _______,KC_WH_D,            _______,_______
   ),
   [_MLAYER] = LAYOUT_5x6(
        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
@@ -373,6 +509,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,_______,KC_0   ,KC_DOT ,_______,KC_LBRC,                        KC_RBRC,KC_7   ,KC_8   ,KC_9   ,_______,_______,
                                                 _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______,
+                                                _______,_______,            _______,_______,
+                                                _______,_______,            _______,_______
+   ),
+   [_TMUXLAY] = LAYOUT_5x6(
+        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+        _______,_______,_______,_______,_______,_______,                        TMUXLOG,_______,_______,_______,_______,_______,
+        _______,_______,TMUXSPL,_______,_______,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
+        _______,TMUXZ  ,_______,_______,_______,TMUXLOG,                        TMUXZ  ,_______,_______,_______,_______,TMUXVSP,
+                                                _______,_______,            _______,_______,
+                                                _______,_______,            TMUXMNU,_______,
                                                 _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______
    ),

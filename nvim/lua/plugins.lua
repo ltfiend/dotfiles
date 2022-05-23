@@ -64,6 +64,11 @@ function M.setup()
              'nvim-telescope/telescope-dap.nvim'
         }
     }
+    
+    use {
+        'romgrk/barbar.nvim',
+        requires = {'kyazdani42/nvim-web-devicons'}
+    }
 --     
 --     use {
 --      'sheerun/vim-polyglot'

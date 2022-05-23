@@ -124,6 +124,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# bloop completions
+# . $HOME/.bloop/bash/bloop
+
 export PATH=$PATH:/home/peter/.local/bin
 
 # Adjust screen terminal names
@@ -184,7 +187,10 @@ export FZF_DEFAULT_OPTS="--height 40% --border"
 export NODE_OPTIONS=--experimental-worker
 
 alias luamake=/home/peter/Git/lua-language-server/3rd/luamake/luamake
+export PATH="$PATH:/home/peter/.local/share/coursier/bin"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+source ~/Git/pureline/pureline ~/.pureline.conf

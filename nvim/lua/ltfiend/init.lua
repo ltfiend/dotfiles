@@ -3,6 +3,7 @@ require("ltfiend.lsp")
 require("ltfiend.telescope")
 require("ltfiend.cmp")
 require("ltfiend.devicons")
+require("ltfiend.barbar")
 require'lspconfig'.bashls.setup{}
 require "config"
 -- require "utils"

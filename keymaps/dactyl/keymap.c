@@ -16,6 +16,7 @@
 #define MLAYTT TT(_MLAYER)
 #define QWERTO TO(_QWERTY)
 #define TMUXLAY MO(_TMUXLAY)
+#define MTALT MT(MOD_LALT, KC_SCLN)
 
 LEADER_EXTERNS();
 #define LEADER_PER_KEY_TIMING
@@ -35,6 +36,7 @@ enum custom_keycodes {
     SSHPDEV,
     SSH192,
     DIGGOOG,
+    DIGCF,
     FZFCOMP,
     TERM256,
     TERM,
@@ -52,6 +54,15 @@ enum custom_keycodes {
     TMUXMNU,
     TMUXSPL,
     TMUXVSP,
+    TMUXMVU,
+    TMUXMVD,
+    TMUXLST,
+    TMUXTIT,
+    TMUXCMD,
+    TMUXRL,
+    TMUXRR,
+    TMUXRU,
+    TMUXRD,
 };
 
 enum {
@@ -104,6 +115,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             // when keycode is pressed
             SEND_STRING("dig @8.8.8.8 ");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case DIGCF:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING("dig @1.1.1.1 ");
         } else {
             // when keycode is released
         }
@@ -191,10 +210,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXL:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
+            SEND_STRING(SS_LCTL("a"));
             register_code(KC_LEFT);
             unregister_code(KC_LEFT);
         } else {
@@ -204,10 +220,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXR:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
+            SEND_STRING(SS_LCTL("a"));
             register_code(KC_RGHT);
             unregister_code(KC_RGHT);
         } else {
@@ -217,10 +230,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXU:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
+            SEND_STRING(SS_LCTL("a"));
             register_code(KC_UP);
             unregister_code(KC_UP);
         } else {
@@ -230,10 +240,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXD:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
+            SEND_STRING(SS_LCTL("a"));
             register_code(KC_DOWN);
             unregister_code(KC_DOWN);
         } else {
@@ -243,12 +250,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXZ:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
-            register_code(KC_Z);
-            unregister_code(KC_Z);
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("z");
         } else {
             // when keycode is released
         }
@@ -256,14 +259,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXMNU:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
-            register_code(KC_LSFT);
-            register_code(KC_QUOT);
-            unregister_code(KC_LSFT);
-            unregister_code(KC_QUOT);
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("\"");
         } else {
             // when keycode is released
         }
@@ -271,12 +268,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXLOG:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
-            register_code(KC_LBRC);
-            unregister_code(KC_LBRC);
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("[");
         } else {
             // when keycode is released
         }
@@ -284,14 +277,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXSPL:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
-            register_code(KC_LSFT);
-            register_code(KC_S);
-            unregister_code(KC_LSFT);
-            unregister_code(KC_S);
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("S");
         } else {
             // when keycode is released
         }
@@ -299,14 +286,101 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case TMUXVSP:
         if (record->event.pressed) {
             // when keycode is pressed
-            register_code(KC_LCTL);
-            register_code(KC_A);
-            unregister_code(KC_LCTL);
-            unregister_code(KC_A);
-            register_code(KC_LSFT);
-            register_code(KC_BSLS);
-            unregister_code(KC_LSFT);
-            unregister_code(KC_BSLS);
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("|");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXMVU:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING(SS_LSFT("["));
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXMVD:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING(SS_LSFT("]"));
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXLST:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING(SS_LCTL("a"));
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXTIT:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("A");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXCMD:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING(":");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXRL:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            register_code(KC_LALT);
+            register_code(KC_LEFT);
+            unregister_code(KC_LALT);
+            unregister_code(KC_LEFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXRR:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            register_code(KC_LALT);
+            register_code(KC_RGHT);
+            unregister_code(KC_LALT);
+            unregister_code(KC_RGHT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXRU:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            register_code(KC_LALT);
+            register_code(KC_UP);
+            unregister_code(KC_LALT);
+            unregister_code(KC_UP);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXRD:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            register_code(KC_LALT);
+            register_code(KC_DOWN);
+            unregister_code(KC_LALT);
+            unregister_code(KC_DOWN);
         } else {
             // when keycode is released
         }
@@ -483,7 +557,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                _______,_______,            KC_BTN3,_______
   ),
   [_LAYER2] = LAYOUT_5x6(
-       _______,KC_F11 ,KC_F12 ,_______,_______,_______,                        _______,_______,_______,_______,_______,KC_DEL ,
+       _______,KC_F11 ,KC_F12 ,_______,DIGCF  ,_______,                        _______,_______,_______,_______,_______,KC_DEL ,
        FZFCOMP,KC_BTN1,KC_MS_U,KC_BTN2,SSH192 ,SSH192 ,                        BPAGE  ,KC_PGDN,KC_PGUP,BBPAGE ,_______,_______,
        _______,KC_MS_L,KC_MS_D,KC_MS_R,DIGGOOG,SSHPDEV,                        BBTAB  ,KC_HOME,KC_END ,BTAB   ,_______,_______,
        DM_REC1,DM_RSTP,DM_PLY1,_______,TERM256,TERM   ,                        DM_REC2,DM_RSTP,DM_PLY2,_______,_______,_______,
@@ -513,13 +587,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 _______,_______,            _______,_______
    ),
    [_TMUXLAY] = LAYOUT_5x6(
-        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+        _______,_______,_______,_______,_______,_______,                        TMUXRL ,TMUXRD ,TMUXRU ,TMUXRR ,_______,_______,
         _______,_______,_______,_______,_______,_______,                        TMUXLOG,_______,_______,_______,_______,_______,
-        _______,_______,TMUXSPL,_______,_______,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
+        _______,TMUXTIT,TMUXSPL,_______,_______,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
         _______,TMUXZ  ,_______,_______,_______,TMUXLOG,                        TMUXZ  ,_______,_______,_______,_______,TMUXVSP,
-                                                _______,_______,            _______,_______,
-                                                _______,_______,            TMUXMNU,_______,
-                                                _______,_______,            _______,_______,
+                                                TMUXMVU,TMUXMVD,            _______,_______,
+                                                _______,_______,            TMUXMNU,TMUXLST,
+                                                _______,_______,            TMUXCMD,_______,
                                                 _______,_______,            _______,_______
    ),
 };

@@ -69,7 +69,21 @@ function M.setup()
         'romgrk/barbar.nvim',
         requires = {'kyazdani42/nvim-web-devicons'}
     }
---     
+    
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = {'kyazdani42/nvim-web-devicons', opt = true }
+    }
+    
+    use {
+        'marko-cerovac/material.nvim'
+    }
+
+    use {
+        'luisiacc/gruvbox-baby'
+    }
+
+--
 --     use {
 --      'sheerun/vim-polyglot'
 --     }

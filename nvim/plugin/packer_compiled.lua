@@ -84,14 +84,29 @@ _G.packer_plugins = {
     path = "/home/peter/.local/share/nvim/site/pack/packer/opt/DAPInstall.nvim",
     url = "https://github.com/Pocco81/DAPInstall.nvim"
   },
+  ["barbar.nvim"] = {
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/barbar.nvim",
+    url = "https://github.com/romgrk/barbar.nvim"
+  },
   ["gitsigns.nvim"] = {
     config = { "\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0" },
     loaded = true,
     path = "/home/peter/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["material.nvim"] = {
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/material.nvim",
+    url = "https://github.com/marko-cerovac/material.nvim"
+  },
   ["nvim-dap"] = {
-    after = { "one-small-step-for-vimkind", "telescope-dap.nvim", "nvim-dap-virtual-text", "nvim-dap-ui", "nvim-dap-python", "DAPInstall.nvim", "nvim-dap-go" },
+    after = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-python", "one-small-step-for-vimkind", "nvim-dap-go", "nvim-dap-ui" },
     config = { "\27LJ\2\n8\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\15config.dap\frequire\0" },
     loaded = false,
     needs_bufread = false,
@@ -137,6 +152,11 @@ _G.packer_plugins = {
     path = "/home/peter/.local/share/nvim/site/pack/packer/opt/nvim-dap-virtual-text",
     url = "https://github.com/theHamsta/nvim-dap-virtual-text"
   },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/kyazdani42/nvim-web-devicons"
+  },
   ["one-small-step-for-vimkind"] = {
     load_after = {
       ["nvim-dap"] = true
@@ -148,13 +168,24 @@ _G.packer_plugins = {
     url = "https://github.com/jbyuki/one-small-step-for-vimkind"
   },
   ["telescope-dap.nvim"] = {
-    load_after = {
-      ["nvim-dap"] = true
-    },
-    loaded = false,
-    needs_bufread = false,
-    path = "/home/peter/.local/share/nvim/site/pack/packer/opt/telescope-dap.nvim",
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/telescope-dap.nvim",
     url = "https://github.com/nvim-telescope/telescope-dap.nvim"
+  },
+  ["telescope-fzy-native.nvim"] = {
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/telescope-fzy-native.nvim",
+    url = "https://github.com/nvim-telescope/telescope-fzy-native.nvim"
+  },
+  ["telescope-live-grep-raw.nvim"] = {
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/telescope-live-grep-raw.nvim",
+    url = "https://github.com/nvim-telescope/telescope-live-grep-raw.nvim"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["which-key.nvim"] = {
     config = { "\27LJ\2\n=\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\20config.whichkey\frequire\0" },
@@ -197,20 +228,20 @@ if not vim.g.packer_custom_loader_enabled then
   vim.g.packer_custom_loader_enabled = true
 end
 
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
-time([[Config for gitsigns.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
 time([[Config for Comment.nvim]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
+time([[Config for gitsigns.nvim]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au BufReadPre * ++once lua require("packer.load")({'nvim-dap'}, { event = "BufReadPre *" }, _G.packer_plugins)]]
 vim.cmd [[au VimEnter * ++once lua require("packer.load")({'which-key.nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au BufReadPre * ++once lua require("packer.load")({'nvim-dap'}, { event = "BufReadPre *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles(1) end

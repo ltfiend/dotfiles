@@ -103,6 +103,7 @@ alias c='cat ~/.commands | fzf --print0'
 alias fd=fdfind
 alias f='fdfind -I|fzf'
 alias df='duf --hide loops,special'
+alias rs='source ~/Git/trueline/trueline.sh'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -193,4 +194,78 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-source ~/Git/pureline/pureline ~/.pureline.conf
+
+##### Pureline ####### 
+
+# source ~/Git/pureline/pureline ~/.pureline.conf
+
+##### Trueline ####### 
+
+declare -A TRUELINE_COLORS=(
+    [black]='36;39;46'
+    [cursor_grey]='40;44;52'
+    [green]='152;195;121'
+    [grey]='171;178;191'
+    [light_blue]='69;133;136'
+    [mono]='130;137;151'
+    [orange]='214;93;14'
+    [purple]='198;120;221'
+    [red]='204;36;29'
+    [special_grey]='59;64;72'
+    [white]='208;208;208'
+    [lime]='104;157;106'
+    [light_grey]='138;138;138'
+    [yellow]='250;189;47'
+)
+
+declare -a TRUELINE_SEGMENTS=(
+    'aws_profile,light_blue,black,normal'
+    'user,black,yellow,normal'
+    # 'working_dir,light_blue,black,normal'
+    'working_dir,black,light_blue,normal'
+    'git,black,orange,normal'
+    'time,black,light_grey,normal'
+    'exit_status,black,red,bold'
+    'newline,black,orange,bold'
+    'bg_jobs,black,green,bold'
+)
+
+declare -A TRUELINE_SYMBOLS=(
+    [git_modified]='*'
+    [git_github]=''
+    # [segment_separator]=''
+    #[segment_separator]='❯'
+    [working_dir_folder]='...'
+    [working_dir_separator]='/'
+    [working_dir_home]='~'
+    [newline]=' $ '
+    # [newline]='❯'
+    [clock]='🕒'
+)
+
+TRUELINE_GIT_SHOW_STATUS_NUMBERS=true
+TRUELINE_GIT_MODIFIED_COLOR='black'
+TRUELINE_WORKING_DIR_SPACE_BETWEEN_PATH_SEPARATOR=false
+TRUELINE_SHOW_VIMODE=true
+TRUELINE_VIMODE_INS_COLORS_STYLE=('black' 'light_blue' 'bold')
+TRUELINE_VIMODE_CMD_COLORS_STYLE=('black' 'green' 'bold')
+TRUELINE_VIMODE_INS_CURSOR='vert'
+TRUELINE_VIMODE_CMD_CURSOR='block'
+TRUELINE_USER_ALWAYS_SHOW_HOSTNAME=true
+TRUELINE_USER_SHORTEN_HOSTNAME=false
+
+_trueline_time_segment() {
+    local prompt_time="${TRUELINE_SYMBOLS[clock]} \t"
+    if [[ -n "$prompt_time" ]]; then
+        local fg_color="$1"
+        local bg_color="$2"
+        local font_style="$3"
+        local segment="$(_trueline_separator)"
+        segment+="$(_trueline_content "$fg_color" "$bg_color" "$font_style" " $prompt_time ")"
+        PS1+="$segment"
+        _trueline_record_colors "$fg_color" "$bg_color" "$font_style"
+    fi
+}
+
+source ~/Git/trueline/trueline.sh
+

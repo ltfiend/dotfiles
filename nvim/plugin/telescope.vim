@@ -17,4 +17,4 @@ nnoremap <Leader>Mt :Telescope metals commands<CR>
 nnoremap <Leader>k :lua require'telescope.builtin'.keymaps()<CR>
 nnoremap <Leader>vrc :lua require('ltfiend.telescope').search_dotfiles()<CR>
 " nnoremap <C-p> :lua require'telescope.builtin'.fd()<CR>
-nnoremap <Leader>d :lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<CR>
+" nnoremap <Leader>d :lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<CR>

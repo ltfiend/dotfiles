@@ -63,6 +63,18 @@ enum custom_keycodes {
     TMUXRR,
     TMUXRU,
     TMUXRD,
+    TMUX0,
+    TMUX1,
+    TMUX2,
+    TMUX3,
+    TMUX4,
+    TMUX5,
+    TMUX6,
+    TMUX7,
+    TMUX8,
+    TMUX9,
+    TMUXNXT,
+    TMUXPRV,
 };
 
 enum {
@@ -337,6 +349,114 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // when keycode is released
         }
         break;
+    case TMUX0:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("0");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX1:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("1");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX2:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("2");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX3:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("3");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX4:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("4");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX5:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("5");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX6:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("6");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX7:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("7");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX8:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("8");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUX9:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("9");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXNXT:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("n");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case TMUXPRV:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("p");
+        } else {
+            // when keycode is released
+        }
+        break;
     case TMUXRL:
         if (record->event.pressed) {
             // when keycode is pressed
@@ -587,10 +707,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 _______,_______,            _______,_______
    ),
    [_TMUXLAY] = LAYOUT_5x6(
-        _______,_______,_______,_______,_______,_______,                        TMUXRL ,TMUXRD ,TMUXRU ,TMUXRR ,_______,_______,
-        _______,_______,_______,_______,_______,_______,                        TMUXLOG,_______,_______,_______,_______,_______,
-        _______,TMUXTIT,TMUXSPL,_______,_______,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
-        _______,TMUXZ  ,_______,_______,_______,TMUXLOG,                        TMUXZ  ,_______,_______,_______,_______,TMUXVSP,
+        TMUX0  ,TMUX1  ,TMUX2  ,TMUX3  ,TMUX4  ,TMUX5  ,                        TMUXRL ,TMUXRD ,TMUXRU ,TMUXRR ,_______,_______,
+        _______,TMUX6  ,TMUX7  ,TMUX8  ,TMUX9  ,_______,                        TMUXLOG,_______,_______,_______,_______,_______,
+        _______,TMUXTIT,TMUXSPL,_______,TMUXZ  ,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
+        _______,TMUXZ  ,_______,_______,_______,TMUXLOG,                        TMUXZ  ,_______,TMUXPRV,TMUXNXT,_______,TMUXVSP,
                                                 TMUXMVU,TMUXMVD,            _______,_______,
                                                 _______,_______,            TMUXMNU,TMUXLST,
                                                 _______,_______,            TMUXCMD,_______,

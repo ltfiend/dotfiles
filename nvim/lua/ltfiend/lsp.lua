@@ -1,6 +1,6 @@
 -- local sumneko_binary = '/home/peter/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin/Linux/lua-language-server'
 local sumneko_root_path  = '/home/peter/.local/share/nvim/lsp_servers/sumneko_lua/extension/server'
-local sumneko_binary = '/home/peter/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin/Linux/lua-language-server'
+local sumneko_binary = '/home/peter/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin/lua-language-server'
 
 local function on_attach()
 end

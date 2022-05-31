@@ -88,7 +88,7 @@ set nofoldenable
   Plug 'mhinz/vim-startify'
   Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
   
-  Plug 'gruvbox-community/gruvbox' " color
+  " Plug 'gruvbox-community/gruvbox' " color
   Plug 'theniceboy/vim-calc'
   Plug 'mfussenegger/nvim-dap'
   Plug 'mfussenegger/nvim-dap-python'
@@ -113,14 +113,13 @@ call plug#end()
 
 lua require ("ltfiend")
 
-let g:gruvbox_contrast_dark = 'hard'
-if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-let g:gruvbox_invert_selection='0'
+" if exists('+termguicolors')
+"     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" endif
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" let g:gruvbox_invert_selection='0'
 
 " --- vim go (polyglot) settings.
 " not using go at the moment, could probably delete
@@ -139,8 +138,9 @@ let g:gruvbox_invert_selection='0'
 " let g:go_highlight_variable_declarations = 1
 " let g:go_auto_sameids = 1
 
-colorscheme gruvbox
-set background=dark
+" let g:gruvbox_contrast_dark = 'hard'
+" colorscheme gruvbox
+" set background=dark
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -213,3 +213,6 @@ augroup highlight_yank
 augroup END
 
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+
+autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
+

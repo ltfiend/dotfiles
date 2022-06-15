@@ -5,6 +5,21 @@ local sumneko_binary = '/home/peter/.local/share/nvim/lsp_servers/sumneko_lua/ex
 local function on_attach()
 end
 
+require("nvim-lsp-installer").setup {}
+
+-- require'lspconfig'.grammarly.setup{ on_attach = on_attach }
+require'lspconfig'.bashls.setup{ on_attach = on_attach }
+require'lspconfig'.perlnavigator.setup{ on_attach = on_attach }
+require'lspconfig'.html.setup{ on_attach = on_attach }
+require'lspconfig'.awk_ls.setup{ on_attach = on_attach }
+require'lspconfig'.tsserver.setup{ on_attach = on_attach }
+require'lspconfig'.angularls.setup{ on_attach = on_attach }
+
+require'lspconfig'.dockerls.setup{
+    on_attach = on_attach,
+--    cmd = {'/home/peter/.local/share/nvim/lsp_servers/dockerfile/node_modules/dockerfile-language-server-nodejs/bin/docker-langserver'},
+}
+
 require'lspconfig'.pyright.setup{
     on_attach = on_attach,
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())

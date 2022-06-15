@@ -78,7 +78,6 @@ set nofoldenable
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/nvim-cmp'
   
-  
   " For luasnip user.
   Plug 'L3MON4D3/LuaSnip'
   Plug 'saadparwaiz1/cmp_luasnip'
@@ -100,47 +99,10 @@ set nofoldenable
   Plug 'leoluz/nvim-dap-go'
   Plug 'jbyuki/one-small-step-for-vimkind'
   Plug 'simrat39/rust-tools.nvim'
- "------
-"Plug 'terryma/vim-multiple-cursors'
 
-" Coc
-"Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-
-" lua require ('mcpfunctions')
-" lua require ('telescope')
-"
 call plug#end()
 
 lua require ("ltfiend")
-
-" if exists('+termguicolors')
-"     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" endif
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" let g:gruvbox_invert_selection='0'
-
-" --- vim go (polyglot) settings.
-" not using go at the moment, could probably delete
-" let g:go_highlight_build_constraints = 1
-" let g:go_highlight_extra_types = 1
-" let g:go_highlight_fields = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_structs = 1
-" let g:go_highlight_types = 1
-" let g:go_highlight_function_parameters = 1
-" let g:go_highlight_function_calls = 1
-" let g:go_highlight_generate_tags = 1
-" let g:go_highlight_format_strings = 1
-" let g:go_highlight_variable_declarations = 1
-" let g:go_auto_sameids = 1
-
-" let g:gruvbox_contrast_dark = 'hard'
-" colorscheme gruvbox
-" set background=dark
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -159,14 +121,7 @@ let $FZF_DEFAULT_OPTS='--reverse'
 " Open help for the current word
 nnoremap <leader>ghw :h <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>cw :cd <C-R>=expand("<cWORD>")<CR><CR>
-" <leader>g is better - telescope-grepstring
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
-
-" soon to be removed.  no arrows on the dactyl.  hjkl from now on.
-" nnoremap <leader><Left> :wincmd h<CR>
-" nnoremap <leader><Down> :wincmd j<CR>
-" nnoremap <leader><Up> :wincmd k<CR>
-" nnoremap <leader><Right> :wincmd l<CR>
 
 nnoremap <C-Left> :wincmd h<CR>
 nnoremap <C-Down> :wincmd j<CR>
@@ -178,16 +133,15 @@ nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
 
-" telescope map is better
 " nnoremap <Leader>? :map<CR>
 nnoremap <Leader>w :set wrap<CR>
-nnoremap <leader>c :call Calc()<CR>
 
 " Reload init.vim
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>j :e /home/peter/Journals/logbook.2020<CR>
 nnoremap <Leader>K :e /home/peter/qmk_firmware/keymap-dactyl/keymap.c<CR>
-nnoremap <Leader>b :e /home/peter/Journals/Bookmarks<CR>
+nnoremap <Leader>B :e /home/peter/Journals/Bookmarks<CR>
+nnoremap <Leader>b :SidebarNvimToggle<CR>
 
 nnoremap <leader>dw :cd <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>dh :cd ~<CR>

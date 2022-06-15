@@ -65,13 +65,13 @@ fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+# case "$TERM" in
+# xterm*|rxvt*)
+#     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+#     ;;
+# *)
+#     ;;
+# esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -89,9 +89,10 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -lhart'
+# alias ll='ls -lhart'
 alias la='ls -A'
-alias l='ls -CF'
+alias l='exa -alhg --icons'
+alias ll='exa -alhg -s new --icons'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -131,33 +132,33 @@ fi
 export PATH=$PATH:/home/peter/.local/bin
 
 # Adjust screen terminal names
-vi() { 
-  unset PROMPT_COMMAND;
-  echo -e '\033kEditing '$1' \033\\'; 
-  /usr/bin/vim $1; }
-dig() { 
-  unset PROMPT_COMMAND;
-  echo -e '\033kDIG '$@' \033\\'; 
-  /usr/bin/dig $@; 
-  }
-# cd() {
+# vi() { 
 #   unset PROMPT_COMMAND;
-#   builtin cd $@;
-#   echo -e '\033k'$HOSTNAME':'$PWD' \033\\'; 
-# }
-# btop() { 
+#   echo -e '\033kEditing '$1' \033\\'; 
+#   /usr/bin/vim $1; }
+# dig() { 
 #   unset PROMPT_COMMAND;
-#   echo -e '\033k-=< BTOP >=-\033\\'; 
-#   btop; 
+#   echo -e '\033kDIG '$@' \033\\'; 
+#   /usr/bin/dig $@; 
 #   }
-python() {
-  echo -e '\033kExecuting - python '$@'\033\\';
-  /usr/bin/python $@;
-}
-# Set screen name to ssh description, this can be overriden by the remote host
-# ssh() { echo -e '\033kSSH to '$@'\033\\'; /usr/bin/ssh $@; }
-# reset Prompt Command to original setting
-pc() { export PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'; }
+# # cd() {
+# #   unset PROMPT_COMMAND;
+# #   builtin cd $@;
+# #   echo -e '\033k'$HOSTNAME':'$PWD' \033\\'; 
+# # }
+# # btop() { 
+# #   unset PROMPT_COMMAND;
+# #   echo -e '\033k-=< BTOP >=-\033\\'; 
+# #   btop; 
+# #   }
+# python() {
+#   echo -e '\033kExecuting - python '$@'\033\\';
+#   /usr/bin/python $@;
+# }
+# # Set screen name to ssh description, this can be overriden by the remote host
+# # ssh() { echo -e '\033kSSH to '$@'\033\\'; /usr/bin/ssh $@; }
+# # reset Prompt Command to original setting
+# pc() { export PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'; }
 
 # ssh with fzf selecting of ssh/config hosts
 s() {
@@ -169,6 +170,11 @@ s() {
 d() {
   s=`cat ~/.dig_commands | fzf`
   dig $s
+}
+
+p() {
+  s=`cat ~/.ping_hosts | fzf`
+  ping $s
 }
 
 # c() {

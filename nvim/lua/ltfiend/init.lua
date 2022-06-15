@@ -1,13 +1,6 @@
---
-require("ltfiend.lsp")
-require("ltfiend.telescope")
-require("ltfiend.cmp")
-require("ltfiend.devicons")
-require("ltfiend.barbar")
-require'lspconfig'.bashls.setup{}
 require "config"
--- require "utils"
-require("plugins").setup()
+require'lspconfig'.bashls.setup{}
+require("ltfiend.plugins").setup()
 local components = {
   active = {},
   inactive = {}
@@ -32,16 +25,15 @@ local opts = {
     }
 }
 
--- Normal setup
-require('rust-tools').setup(opts)
-require('lualine').setup { 
-    options = {
-        theme = "gruvbox-baby"
-    }
-}
-
 vim.g.gruvbox_baby_function_style = bold
 vim.g.gruvbox_baby_background_color = dark
 vim.g.gruvbox_baby_telescope_theme = 0
 vim.g.gruvbox_baby_transparent_mode = 0
 vim.cmd 'colorscheme gruvbox-baby'
+vim.g.gruvbox_baby_colors = { soft_green = "#FFFFFF" }
+--
+-- vim.g.tokyonight_style = "night"
+-- vim.g.tokyonight_italic_functions = true
+-- vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
+-- vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }
+-- vim.cmd[[colorscheme tokyonight]]

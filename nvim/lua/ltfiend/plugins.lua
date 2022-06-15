@@ -54,7 +54,7 @@ function M.setup()
             require('Comment').setup()
         end
     }
-    
+
     use {
         'nvim-telescope/telescope.nvim',
         requires = {
@@ -64,17 +64,17 @@ function M.setup()
              'nvim-telescope/telescope-dap.nvim'
         }
     }
-    
+
     use {
         'romgrk/barbar.nvim',
         requires = {'kyazdani42/nvim-web-devicons'}
     }
-    
+
     use {
         'nvim-lualine/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true }
     }
-    
+
     use {
         'marko-cerovac/material.nvim'
     }
@@ -83,76 +83,86 @@ function M.setup()
         'luisiacc/gruvbox-baby'
     }
 
+    use {
+        'EdenEast/nightfox.nvim'
+    }
+    use {
+        'folke/tokyonight.nvim'
+    }
+    use {
+        'sidebar-nvim/sidebar.nvim'
+    }
+
 --
 --     use {
 --      'sheerun/vim-polyglot'
 --     }
---     
+
 --     use {
 --      'junegunn/fzf'
 --     }
---     
+
 --     use {
 --      'stsewd/fzf-checkout.vim'
 --     }
---     
+
 --     use {
 --      'tpope/vim-dispatch'
 --     }
---     
+
 --     use {
 --      'nvim-lua/popup.nvim'
 --     }
---     
+
 --     use {
 --      'nvim-lua/plenary.nvim'
 --     }
---     
+--
 --     use {
 --      'nvim-telescope/telescope.nvim',
 --      requires = { 'nvim-lua/plenary.nvim' }
 --     }
---     
+--
 --     use {
 --      'nvim-telescope/telescope-fzy-native.nvim'
 --     }
---     
+--
 --     use {
 --      'nvim-telescope/telescope-dap.nvim'
 --     }
---     
+--
 --     use {
 --      'kyazdani42/nvim-web-devicons'
 --     }
---     
+--
 --     use {
 --      'neovim/nvim-lspconfig'
 --     }
---     
+--
 --     use {
 --      'scalameta/nvim-metals'
 --     }
---     
+--
 --     use {
 --      'hrsh7th/cmp-nvim-lsp'
 --     }
---     
+--
 --     use {
 --      'hrsh7th/cmp-buffer'
 --     }
---     
+--
 --     use {
 --      'hrsh7th/nvim-cmp'
 --     }
---     
+--
 --     use {
 --      'L3MON4D3/LuaSnip'
 --     }
---     
+--
 --     use {
 --      'saadparwaiz1/cmp_luasnip'
 --     }
---     
+--
 --     use {
 --      'williamboman/nvim-lsp-installer'
 --     }

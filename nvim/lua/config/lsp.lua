@@ -17,7 +17,7 @@ require'lspconfig'.angularls.setup{ on_attach = on_attach }
 
 require'lspconfig'.dockerls.setup{
     on_attach = on_attach,
---    cmd = {'/home/peter/.local/share/nvim/lsp_servers/dockerfile/node_modules/dockerfile-language-server-nodejs/bin/docker-langserver'},
+    cmd = {'/home/peter/.local/share/nvim/lsp_servers/dockerfile/node_modules/dockerfile-language-server-nodejs/bin/docker-langserver --stdio'},
 }
 
 require'lspconfig'.pyright.setup{

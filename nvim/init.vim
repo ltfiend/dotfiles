@@ -108,7 +108,7 @@ if executable('rg')
     let g:rg_derive_root='true'
 endif
 let mapleader = ";"
-let loaded_matchparen = 1
+" let loaded_matchparen = 1
 let g:netrw_browse_split = 2
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
@@ -154,6 +154,7 @@ nnoremap <Leader>[ :vertical resize -10<CR>
 nnoremap <Leader>+ :resize +10<CR>
 nnoremap <Leader>= :resize -10<CR>
 nnoremap <Leader>rp :resize 100<CR>
+nnoremap <Leader>l :let @/=""<CR>
 
 nnoremap <Leader>n :NERDTreeToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>

@@ -116,7 +116,7 @@ _G.packer_plugins = {
     url = "https://github.com/EdenEast/nightfox.nvim"
   },
   ["nvim-dap"] = {
-    after = { "nvim-dap-ui", "nvim-dap-python", "DAPInstall.nvim", "nvim-dap-virtual-text", "nvim-dap-go", "one-small-step-for-vimkind" },
+    after = { "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python", "one-small-step-for-vimkind", "nvim-dap-virtual-text", "nvim-dap-go" },
     config = { "\27LJ\2\n8\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\15config.dap\frequire\0" },
     loaded = false,
     needs_bufread = false,
@@ -176,6 +176,11 @@ _G.packer_plugins = {
     only_cond = false,
     path = "/home/peter/.local/share/nvim/site/pack/packer/opt/one-small-step-for-vimkind",
     url = "https://github.com/jbyuki/one-small-step-for-vimkind"
+  },
+  ["sidebar.nvim"] = {
+    loaded = true,
+    path = "/home/peter/.local/share/nvim/site/pack/packer/start/sidebar.nvim",
+    url = "https://github.com/sidebar-nvim/sidebar.nvim"
   },
   ["telescope-dap.nvim"] = {
     loaded = true,

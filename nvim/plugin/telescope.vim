@@ -8,6 +8,7 @@ nnoremap <Leader>r :lua require("telescope").extensions.live_grep_raw.live_grep_
 nnoremap <Leader>go :lua require'telescope.builtin'.live_grep({grep_open_files = true})<CR>
 nnoremap <Leader>g :lua require'telescope.builtin'.grep_string()<CR>
 nnoremap <Leader>; :lua require'telescope.builtin'.buffers()<CR>
+nnoremap <Leader>1 :lua require'telescope.builtin'.current_buffer_fuzzy_find()<CR>
 " nnoremap <Leader>; :lua require'telescope.builtin'.buffers{path_display={"shorten"}}<CR>
 nnoremap <Leader>h :lua require'telescope.builtin'.oldfiles()<CR>
 nnoremap <Leader>H :lua require'telescope.builtin'.help_tags()<CR>

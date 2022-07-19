@@ -113,6 +113,10 @@ local function normal_keymap()
         "<cmd>lua require'gitlinker'.get_buf_range_url('n', {action_callback = require'gitlinker.actions'.open_in_browser})<cr>",
         "Link",
       },
+      c = { "<cmd>lua require'telescope.builtin'.git_commits()<cr>", "Commits" },
+      l = { "<cmd>lua require'telescope.builtin'.git_bcommits()<cr>", "Commits" },
+      b = { "<cmd>lua require'telescope.builtin'.git_branches()<cr>", "Branches" },
+      S = { "<cmd>lua require'telescope.builtin'.git_stash()<cr>", "Stash" },
     },
   }
   whichkey.register(keymap, opts)

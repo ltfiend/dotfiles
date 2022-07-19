@@ -50,6 +50,7 @@ enum custom_keycodes {
     TMUXL,
     TMUXR,
     TMUXZ,
+    TMUXNEW,
     TMUXLOG,
     TMUXMNU,
     TMUXSPL,
@@ -457,6 +458,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // when keycode is released
         }
         break;
+    case TMUXNEW:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(SS_LCTL("a"));
+            SEND_STRING("c");
+        } else {
+            // when keycode is released
+        }
+        break;
     case TMUXRL:
         if (record->event.pressed) {
             // when keycode is pressed
@@ -710,7 +720,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TMUX0  ,TMUX1  ,TMUX2  ,TMUX3  ,TMUX4  ,TMUX5  ,                        TMUXRL ,TMUXRD ,TMUXRU ,TMUXRR ,_______,_______,
         _______,TMUX6  ,TMUX7  ,TMUX8  ,TMUX9  ,_______,                        TMUXLOG,_______,_______,_______,_______,_______,
         _______,TMUXTIT,TMUXSPL,_______,TMUXZ  ,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
-        _______,TMUXZ  ,_______,_______,_______,TMUXLOG,                        TMUXZ  ,_______,TMUXPRV,TMUXNXT,_______,TMUXVSP,
+        _______,TMUXZ  ,_______,TMUXNEW,_______,TMUXLOG,                        TMUXZ  ,_______,TMUXPRV,TMUXNXT,_______,TMUXVSP,
                                                 TMUXMVU,TMUXMVD,            _______,_______,
                                                 _______,_______,            TMUXMNU,TMUXLST,
                                                 _______,_______,            TMUXCMD,_______,

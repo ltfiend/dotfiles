@@ -6,5 +6,15 @@ aws --profile disa s3 ls s3://cdns-demo/ --endpoint-url https://s3-fips.us-gov-e
 aws --profile quotient s3 ls --endpoint-url https://notsanctuary.s3-fips.us-east-1.amazonaws.com s3://
 duf --hide loops,special
 grep -Ero ".{0,20}nsupdate.{0,20}"
+git update-index --assume-unchanged src/modules/api/src/main/resources/application.conf
+fc -s
+docker run aquasec/trivy --insecure -f json image 172.17.0.1:5000/vinyldns/api > trivy.vinyldns.api.20220716.json
+
+
+docker run -d -p 5000:5000 --name registry registry:latest
+docker image tag <local> localhost:5000/<name>
+docker push localhost:5000/<name>
+
+
 
 

@@ -92,6 +92,7 @@ function M.setup()
     use {
         'sidebar-nvim/sidebar.nvim'
     }
+<<<<<<< Updated upstream
     use {
         'nvim-telescope/telescope-arecibo.nvim',
          rocks = {"openssl", "lua-http-parser"}
@@ -99,6 +100,14 @@ function M.setup()
     use {
         '~/Git/ietf-plugin.nvim/'
     }
+=======
+    use({ "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        config = function()
+            require("lsp_lines").register_lsp_virtual_lines()
+        end,
+    })
+
+>>>>>>> Stashed changes
 --
 --     use {
 --      'sheerun/vim-polyglot'

@@ -14,6 +14,7 @@
 #define MLAYMO MO(_MLAYER)
 #define NUMLAY MO(_NUMLAY)
 #define MLAYTT TT(_MLAYER)
+#define MLAYER MO(_MLAYER)
 #define QWERTO TO(_QWERTY)
 #define TMUXLAY MO(_TMUXLAY)
 #define MTALT MT(MOD_LALT, KC_SCLN)
@@ -76,6 +77,7 @@ enum custom_keycodes {
     TMUX9,
     TMUXNXT,
     TMUXPRV,
+    CBLOCK,
 };
 
 enum {
@@ -515,6 +517,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // when keycode is released
         }
         break;
+    case CBLOCK:
+        if (record->event.pressed) {
+            // when keycode is pressed
+            SEND_STRING(("``` ```"));
+            register_code(KC_LEFT);
+            unregister_code(KC_LEFT);
+            register_code(KC_LEFT);
+            unregister_code(KC_LEFT);
+            register_code(KC_LEFT);
+            unregister_code(KC_LEFT);
+            register_code(KC_LEFT);
+            unregister_code(KC_LEFT);
+        } else {
+            // when keycode is released
+        }
+        break;
   }
     return true;
 };
@@ -674,14 +692,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       KC_LBRC,KC_RBRC,                    KC_PLUS, KC_EQL,
                                       TMUXLAY,RAISE,                    KC_SPC, KC_ENT,
                                       RAISE,KC_LGUI,                      KC_SCLN, LAYER2,
-                                      KC_LALT, TD(TD_SCTP),                   KC_LEAD, MLAYTT
+                                      KC_LALT, TD(TD_SCTP),                   KC_LEAD, MLAYER
   ),
   [_RAISE] = LAYOUT_5x6(
        KC_TILD, KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                        KC_F6  , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_DEL ,
        KC_GRV ,KC_6   ,KC_7   ,KC_8   ,TD(TD_9_0),KC_LBRC,                        KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
        _______,KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT,KC_LPRN,                        KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,KC_VOLU,
-       _______,_______,_______,_______,KC_SPC ,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
-                                               NUMLAY ,_______,            KC_EQL ,_______,
+       _______,_______,_______, CBLOCK,KC_SPC ,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
+                                               KC_WH_U,KC_WH_D,            KC_EQL ,_______,
                                                KC_DEL ,_______,            TD(TD_LBRC),TD(TD_RBRC),
                                                _______,_______,            _______,KC_ESC,
                                                _______,_______,            KC_BTN3,_______
@@ -698,13 +716,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_MLAYER] = LAYOUT_5x6(
        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
-       _______,_______,_______,_______,KC_BTN1,KC_WH_U,                        _______,KC_WH_U,KC_WH_D,_______,_______,_______,
-       _______,KC_MS_L,KC_MS_R,KC_MS_D,KC_MS_U,KC_WH_D,                        KC_MS_L,KC_MS_D,KC_MS_U,KC_MS_R,_______,_______,
+       _______,KC_BTN1,KC_MS_U,KC_BTN2,KC_BTN1,KC_WH_U,                        _______,KC_WH_U,KC_WH_D,_______,_______,_______,
+       _______,KC_MS_L,KC_MS_D,KC_MS_R,KC_MS_U,KC_WH_D,                        KC_MS_L,KC_MS_D,KC_MS_U,KC_MS_R,_______,_______,
        _______,_______,_______,_______,KC_BTN2,_______,                        _______,_______,_______,_______,_______,_______,
                                                _______,_______,            _______,_______,
                                                KC_BTN2,KC_BTN1,            KC_BTN1,KC_BTN4,
                                                _______,QWERTO ,            _______,_______,
-                                               _______,_______,            _______,MLAYTT
+                                               _______,_______,            _______,_______
   ),
   [_NUMLAY] = LAYOUT_5x6(
         _______,KC_1   ,KC_2   ,KC_3   ,_______,KC_PLUS,                        KC_MINS,KC_EQL ,KC_0   ,KC_DOT ,_______,_______,
@@ -748,7 +766,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // |    |  | 2  | +----+                                   |     | +----+
 // | 1  |  |    | |    |                           +-----+ | 7   | |    |
 // |    |  +----+ | 4  |                           |     | |     | | 8  |
-// +----+         |    | +----+             +----+ |  9  | +-----+ |    |
+// +----+         |    | +----+             +----+ |  9  | +-----+ |    k|
 //                +----+ |    |             |    | |     |         +----+
 //            +----+     | 6  |             | 11 | +-----+
 //            |    |     |    |             |    |        +----+

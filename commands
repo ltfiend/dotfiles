@@ -15,6 +15,9 @@ docker run -d -p 5000:5000 --name registry registry:latest
 docker image tag <local> localhost:5000/<name>
 docker push localhost:5000/<name>
 
+curl 'https://datatracker.ietf.org/api/v1/doc/document/?name__contains=-dnsop-&limit=0'|jq|grep \"name\"|less
+
+
 
 
 

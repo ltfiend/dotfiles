@@ -92,7 +92,13 @@ function M.setup()
     use {
         'sidebar-nvim/sidebar.nvim'
     }
-
+    use {
+        'nvim-telescope/telescope-arecibo.nvim',
+         rocks = {"openssl", "lua-http-parser"}
+    }
+    use {
+        '~/Git/ietf-plugin.nvim/'
+    }
 --
 --     use {
 --      'sheerun/vim-polyglot'

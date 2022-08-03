@@ -34,11 +34,18 @@ require('telescope').setup {
         fzy_native = {
             override_generic_sorter = false,
             override_file_sorter = true,
-        }
+        },
+        arecibo = {
+            ["selected_engine"]   = 'google',
+            ["url_open_command"]  = 'xdg-open',
+            ["show_http_headers"] = false,
+            ["show_domain_icons"] = false,
+        }    
     }
 }
 
 require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('arecibo')
 
 -- This was a config found in github, it has some interesting sections for later.
 -- lua << EOF

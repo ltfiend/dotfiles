@@ -158,6 +158,7 @@ nnoremap <Leader>l :let @/=""<CR>
 
 nnoremap <Leader>n :NERDTreeToggle<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-m> :set number!<CR>:set relativenumber!<CR> 
 
 " Fix for capital W mistype when doing :w
 com! W w

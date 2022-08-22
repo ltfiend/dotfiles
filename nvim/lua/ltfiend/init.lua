@@ -11,7 +11,7 @@ require'nvim-treesitter.install'.prefer_git = true
 require('dap.ext.vscode').load_launchjs()
 
 -- require('possession').setup()
-require('gitsigns').setup()
+-- require('gitsigns').setup()
 
 local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.7.0/'
 local codelldb_path = extension_path .. 'adapter/codelldb'

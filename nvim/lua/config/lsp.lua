@@ -42,6 +42,13 @@ require'lspconfig'.bashls.setup{
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 }
 
+require'lspconfig'.marksman.setup{
+    on_attach = on_attach,
+     -- cmd = { '.local/share/nvim/lsp_servers/marksman/marksman' },
+     -- filetypes = { 'md' },
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+}
+
 require'lspconfig'.sumneko_lua.setup{
     on_attach = on_attach,
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},

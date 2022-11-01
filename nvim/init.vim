@@ -68,9 +68,9 @@ set nofoldenable
   Plug 'tpope/vim-dispatch'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  Plug 'nvim-telescope/telescope-dap.nvim'
+"  Plug 'nvim-telescope/telescope.nvim'
+"  Plug 'nvim-telescope/telescope-fzy-native.nvim'
+"  Plug 'nvim-telescope/telescope-dap.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'neovim/nvim-lspconfig'
   Plug 'scalameta/nvim-metals'
@@ -83,7 +83,7 @@ set nofoldenable
   Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'williamboman/nvim-lsp-installer'
   Plug 'jbyuki/venn.nvim'
-  Plug 'scrooloose/nerdtree'
+  " Plug 'scrooloose/nerdtree'
   Plug 'mhinz/vim-startify'
   Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
   
@@ -156,9 +156,8 @@ nnoremap <Leader>= :resize -10<CR>
 nnoremap <Leader>rp :resize 100<CR>
 nnoremap <Leader>l :let @/=""<CR>
 
-nnoremap <Leader>n :NERDTreeToggle<CR>
-nnoremap <C-n> :NERDTreeToggle<CR>
-nnoremap <C-m> :set number!<CR>:set relativenumber!<CR> 
+" nnoremap <C-N> :NERDTreeToggle<CR>
+" nnoremap <C-n> :set number!<CR>:set relativenumber!<CR> 
 
 " Fix for capital W mistype when doing :w
 com! W w
@@ -171,4 +170,7 @@ augroup END
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
+
+set completeopt=menuone,noselect
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 

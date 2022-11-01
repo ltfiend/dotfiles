@@ -39,13 +39,13 @@ function M.setup()
 
   -- Plugins
   local function plugins(use)
-    use {
-        'lewis6991/gitsigns.nvim',
-        tag='release',
-        config = function()
-            require('gitsigns').setup()
-        end
-    }
+--     use {
+--         'lewis6991/gitsigns.nvim',
+--         tag='release',
+--         config = function()
+--             require('gitsigns').setup()
+--         end
+--     }
         -- Converting from init.vim - 20220403
     --
     use {
@@ -65,10 +65,10 @@ function M.setup()
         }
     }
 
-    use {
-        'romgrk/barbar.nvim',
-        requires = {'kyazdani42/nvim-web-devicons'}
-    }
+--     use {
+--         'romgrk/barbar.nvim',
+--         requires = {'kyazdani42/nvim-web-devicons'}
+--     }
 
     use {
         'nvim-lualine/lualine.nvim',
@@ -98,6 +98,35 @@ function M.setup()
          rocks = {"openssl", "lua-http-parser"}
     }
 
+    -- install without yarn or npm
+--     use({
+--         "iamcco/markdown-preview.nvim",
+--         run = function() vim.fn["mkdp#util#install"]() end,
+--     })
+
+    use({
+        "iamcco/markdown-preview.nvim",
+        run = "cd app && npm install",
+        setup =
+        function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+
+    use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+        require("toggleterm").setup()
+    end }
+    use {
+        'ptethng/telescope-makefile'
+     }
+
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = {
+            'kyazdani42/nvim-web-devicons', -- optional, for file icons
+        },
+        tag = 'nightly' -- optional, updated every week. (see issue #1193)
+    }
+
+--    use { 'nvim-treesitter/nvim-treesitter' }
+    use { 'nvim-treesitter/nvim-treesitter-context' }
 --    use {
 --        '~/Git/ietf-plugin.nvim/'
 --    }

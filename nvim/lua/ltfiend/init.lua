@@ -37,3 +37,12 @@ vim.g.gruvbox_baby_colors = { soft_green = "#FFFFFF" }
 -- vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
 -- vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }
 -- vim.cmd[[colorscheme tokyonight]]
+--
+--
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+require("nvim-tree").setup()
+
+map('n', '<C-N>', ':NvimTreeToggle<CR>', opts)
+-- Re-order to previous/next

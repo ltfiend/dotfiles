@@ -23,7 +23,24 @@ git diff main@{1}
 ssh-keygen -d /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so
 >>>>>>> Stashed changes
 
+docker-credential-pass list
+
+---
+kubectl describe pods dns-bind918-rec1-srv1-0 --namespace bind9
+kubectl delete statefulsets dns-bind918-rec1-srv1 --namespace bind9
+
+
+kubectl descri
+for x in bookmarks commands; do echo ${x^^}; cat ${x}; done
+this is a test
 
 
 
+AZ 
+
+1 command install of az client
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+az storage account create --name 1blob1 --resource-group Datalake1 --location "usgovarizona" --sku Standard_ZRS --encryption-services blob 2>&1 |tee az-storage-account-create
+kubectl exec -i -t --namespace=ers rs1-0 -c rs1-bind916 -- /bin/bash
 

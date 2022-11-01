@@ -99,12 +99,12 @@ alias ll='exa -alhg -s new --icons'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias gcheck='curl https://www.gstatic.com/ipranges/publicdns.json | jq ".prefixes[]  | .ipv4Prefix // .ipv6Prefix "|fzf'
 # alias awsip='curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq -r ".prefixes[] | select(.service==\"S3\") | .ip_prefix"|fzf'
-alias awsip='curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq -jr ".prefixes[] | select(.service==\"S3\") | .ip_prefix, \" - \", .region, \"\n\""|fzf'
+alias awsip='curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq -jr ".prefixes[] | .ip_prefix, \" - \", .region, \"\n\""|fzf'
 alias cfip='curl https://api.cloudflare.com/client/v4/ips|jq "[.result.ipv6_cidrs, .result.ipv4_cidrs]"|awk -F"\"" "/\w+/{print $2}"|fzf' 
 alias c='cat ~/.commands | fzf --print0'
 alias fd=fdfind
 alias f='fdfind -I|fzf'
-alias df='duf --hide loops,special'
+# alias df='duf --hide loops,special'
 alias rs='source ~/Git/trueline/trueline.sh'
 
 # Alias definitions.

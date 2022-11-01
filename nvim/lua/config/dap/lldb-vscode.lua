@@ -74,7 +74,7 @@ function M.setup()
       type = "lldb",
       request = "launch",
       program = "./inspector",
-      args = { '-F', 'template', '-t', 'test-no-geo-custom.tpl', 'ecs-test-2.cdns', '-o', '-' },
+      args = {'ecs-test-2.cdns'},
       cwd = '${workspaceFolder}',
       stopOnEntry = false,
       runInTerminal = false,

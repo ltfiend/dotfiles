@@ -18,6 +18,8 @@
 #define QWERTO TO(_QWERTY)
 #define TMUXLAY MO(_TMUXLAY)
 #define MTALT MT(MOD_LALT, KC_SCLN)
+#define SNGLEFT TG(_LEFTONLY)
+#define SNGRGHT TG(_RGHTONLY)
 
 LEADER_EXTERNS();
 #define LEADER_PER_KEY_TIMING
@@ -571,6 +573,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // when keycode is released
         }
         break;
+    case LOGCOM:
+        if (record->event.pressed) {
+
+        } else {
+            // when keycode is released
+        }
+        break;
   }
     return true;
 };
@@ -740,7 +749,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                KC_WH_U,KC_WH_D,            KC_EQL ,_______,
                                                KC_DEL ,_______,            TD(TD_LBRC),TD(TD_RBRC),
                                                _______,_______,            _______,KC_ESC,
-                                               _______,_______,            KC_BTN3,_______
+                                               SNGLEFT,_______,            KC_BTN3,_______
   ),
   [_MLAYER] = LAYOUT_5x6(
        _______, KC_F1 , KC_F2 , KC_F3 , KC_F4 , KC_F5 ,                        KC_F6  , KC_F7 , KC_F8 , KC_F9 ,KC_F10 ,KC_DEL ,
@@ -750,7 +759,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                _______,_______,            KC_WH_U,KC_WH_D,
                                                KC_BTN2,KC_BTN1,            KC_BTN1,KC_BTN4,
                                                _______,QWERTO ,            _______,_______,
-                                               _______,_______,            _______,_______
+                                               _______,_______,            _______,SNGRGHT
   ),
   [_LAYER2] = LAYOUT_5x6(
        _______,KC_F11 ,KC_F12 ,_______,DIGCF  , LOGCOM,                        _______,_______,_______,_______,_______,KC_DEL ,
@@ -781,6 +790,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 _______,_______,            TMUXMNU,TMUXLST,
                                                 _______,_______,            TMUXCMD,_______,
                                                 _______,_______,            _______,_______
+   ),
+   [_LEFTONLY] = LAYOUT_5x6(
+        KC_ESC ,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
+        KC_TAB , KC_Q  , KC_W  , KC_E  , KC_R  , KC_T  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
+        KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
+        KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
+                                              KC_LBRC,KC_RBRC,              QWERTO ,QWERTO ,
+                                              TMUXLAY,RAISE  ,              QWERTO ,QWERTO ,
+                                              RAISE  ,KC_LGUI,              QWERTO ,QWERTO ,
+                                              KC_LALT,TD(TD_SCTP),          QWERTO ,QWERTO 
+   ),
+   [_RGHTONLY] = LAYOUT_5x6(
+        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
+        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_Y  , KC_U  , KC_I  , KC_O  , KC_P  ,KC_MINS,
+        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
+        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLASH,
+                                                QWERTO ,QWERTO ,            KC_PLUS, KC_EQL
+                                                QWERTO ,QWERTO ,            KC_SPC , KC_ENT
+                                                QWERTO ,QWERTO ,            KC_SCLN, MLAYER
+                                                QWERTO ,QWERTO ,            KC_LEAD, LAYER2
    ),
 };
 

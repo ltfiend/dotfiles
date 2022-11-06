@@ -1,5 +1,5 @@
 local M = {}
-
+-- I'm not sure why whichkey is here, need to fix that later
 local whichkey = require "which-key"
 
 -- local function keymap(lhs, rhs, desc)

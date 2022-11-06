@@ -1,95 +1,67 @@
-local fn = vim.fn
+local cmp = require'cmp'
 
-local function t(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
+cmp.setup({
+  snippet = {
+    -- REQUIRED - you must specify a snippet engine
+    expand = function(args)
+      -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+    end,
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<C-CR>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    -- { name = 'vsnip' }, -- For vsnip users.
+    { name = 'luasnip' }, -- For luasnip users.
+    -- { name = 'ultisnips' }, -- For ultisnips users.
+    -- { name = 'snippy' }, -- For snippy users.
+  }, {
+    { name = 'buffer' },
+  })
+})
 
-local check_back_space = function()
-    local col = vim.fn.col "." - 1
-    return col == 0 or vim.fn.getline("."):sub(col, col):match "%s" ~= nil
-end
+cmp.setup.filetype('gitcommit', {
+  sources = cmp.config.sources({
+    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+  }, {
+    { name = 'buffer' },
+  })
+})
 
-local function tab(fallback)
-    local luasnip = require "luasnip"
-    if fn.pumvisible() == 1 then
-        fn.feedkeys(t "<C-n>", "n")
-    elseif luasnip.expand_or_jumpable() then
-        fn.feedkeys(t "<Plug>luasnip-expand-or-jump", "")
-    elseif check_back_space() then
-        fn.feedkeys(t "<tab>", "n")
-    else
-        fallback()
-    end
-end
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
 
-local function shift_tab(fallback)
-    local luasnip = require "luasnip"
-    if fn.pumvisible() == 1 then
-        fn.feedkeys(t "<C-p>", "n")
-    elseif luasnip.jumpable(-1) then
-        fn.feedkeys(t "<Plug>luasnip-jump-prev", "")
-    else
-        fallback()
-    end
-end
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
 
-local cmp = require "cmp"
-
-cmp.setup {
-    snippet = {
-        expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-        end,
-    },
-    mapping = {
-        ["<Tab>"] = cmp.mapping(tab, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(shift_tab, { "i", "s" }),
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<C-e>"] = cmp.mapping.close(),
-        ["<CR>"] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Insert,
-            select = true,
-        },
-    },
-    sources = {
-      -- For luasnip user.
-      { name = 'nvim_lsp' },
-      { name = 'luasnip' },
-      { name = 'buffer' },
-    },
-}
-
---   -- Setup nvim-cmp.
---   local cmp = require'cmp'
--- 
---   cmp.setup({
---     snippet = {
---       expand = function(args)
---         -- For `vsnip` user.
---         -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` user.
--- 
---         -- For `luasnip` user.
---         require('luasnip').lsp_expand(args.body)
--- 
---         -- For `ultisnips` user.
---         -- vim.fn["UltiSnips#Anon"](args.body)
---       end,
---     },
---     mapping = {
---       ['<Tab>'] = cmp.mapping(tab, {'i', 's'}),
---       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
---       ['<C-f>'] = cmp.mapping.scroll_docs(4),
---       ['<C-Space>'] = cmp.mapping.complete(),
---       ['<C-e>'] = cmp.mapping.close(),
---       ['<CR>'] = cmp.mapping.confirm({ select = true }),
---     },
---     sources = {
---       { name = 'nvim_lsp' },
---       -- For luasnip user.
---       { name = 'luasnip' },
---       { name = 'buffer' },
---     }
---   })
---   -->
+-- Set up lspconfig.
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+-- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
+--   capabilities = capabilities
+-- }

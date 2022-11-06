@@ -799,7 +799,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                               KC_LBRC,KC_RBRC,              QWERTO ,QWERTO ,
                                               TMUXLAY,RAISE  ,              QWERTO ,QWERTO ,
                                               RAISE  ,KC_LGUI,              QWERTO ,QWERTO ,
-                                              KC_LALT,TD(TD_SCTP),          QWERTO ,QWERTO 
+                                              KC_ENT ,KC_SPC ,              QWERTO ,QWERTO 
    ),
    [_RGHTONLY] = LAYOUT_5x6(
         QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
@@ -813,6 +813,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    ),
 };
 
+// Plans for single handed keyboard modes:
+// 
+// single left, when using the mouse, playing a FPS, cad work, etc.
+// Reqs:
+// from right: space, enter, vi leader, 6-9, backspace, browser mod?, brackets, 
+// New: enter single left operation, revert to standard operation
+// Keep:
+// 
+// single right, when standing up and needing to quick enter something
+// Reqs:
+// from left: mod, i3 mod, tmux mod, 1-5, brackets, shift, esc, tab?, ctrl, 
+// New: enter single right operation, revert to standard operation, 
+// Keep: letters, numbers, 
+//
+//
+//
 //   [_TMPLAT] = LAYOUT_5x6(
 //        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
 //        _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,

@@ -74,13 +74,17 @@ set nofoldenable
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'neovim/nvim-lspconfig'
   Plug 'scalameta/nvim-metals'
+
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/nvim-cmp'
   
   " For luasnip user.
   Plug 'L3MON4D3/LuaSnip'
   Plug 'saadparwaiz1/cmp_luasnip'
+  " LSP
   Plug 'williamboman/nvim-lsp-installer'
   Plug 'jbyuki/venn.nvim'
   " Plug 'scrooloose/nerdtree'
@@ -171,6 +175,6 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
 
-set completeopt=menuone,noselect
+set completeopt=menu,menuone,noselect
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 

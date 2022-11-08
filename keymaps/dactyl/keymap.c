@@ -13,6 +13,8 @@
 #define _MLAYER 3
 #define _NUMLAY 4
 #define _TMUXLAY 5
+#define _LEFTONLY 6
+#define _RGHTONLY 7
 
 #define RAISE MO(_RAISE)
 #define LAYER2 MO(_LAYER2)
@@ -578,13 +580,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // when keycode is released
         }
         break;
-    case LOGCOM:
-        if (record->event.pressed) {
-
-        } else {
-            // when keycode is released
-        }
-        break;
+// Template
+//     case LOGCOM:
+//         if (record->event.pressed) {
+// 
+//         } else {
+//             // when keycode is released
+//         }
+//         break;
   }
     return true;
 };
@@ -750,7 +753,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_TILD,S(KC_1),S(KC_2),S(KC_3),S(KC_4),S(KC_5),                        S(KC_6),S(KC_7),S(KC_8),S(KC_9),S(KC_0),KC_DEL,
        KC_GRV ,KC_6   ,KC_7   ,KC_8   ,TD(TD_9_0),KC_LBRC,                     KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
        _______,KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT,KC_LPRN,                        KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,KC_VOLU,
-       _______,_______,SPOILER, CBLOCK,KC_SPC ,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
+       _______,KC_DEL ,SPOILER, CBLOCK,KC_SPC ,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
                                                KC_WH_U,KC_WH_D,            KC_EQL ,_______,
                                                KC_DEL ,_______,            TD(TD_LBRC),TD(TD_RBRC),
                                                _______,_______,            _______,KC_ESC,
@@ -765,6 +768,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                KC_BTN2,KC_BTN1,            KC_BTN1,KC_BTN4,
                                                _______,QWERTO ,            _______,_______,
                                                _______,_______,            _______,SNGRGHT
+  ),
+  [_TMUXLAY] = LAYOUT_5x6(
+       TMUX0  ,TMUX1  ,TMUX2  ,TMUX3  ,TMUX4  ,TMUX5  ,                        TMUXRL ,TMUXRD ,TMUXRU ,TMUXRR ,_______,_______,
+       _______,TMUX6  ,TMUX7  ,TMUX8  ,TMUX9  ,_______,                        TMUXLOG,XXXXXXX,XXXXXXX,XXXXXXX,_______,_______,
+       _______,TMUXTIT,TMUXSPL,_______,TMUXZ  ,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
+       _______,TMUXZ  ,_______,TMUXNEW,_______,TMUXLOG,                        TMUXZ  ,_______,TMUXPRV,TMUXNXT,_______,TMUXVSP,
+                                               TMUXMVU,TMUXMVD,            _______,_______,
+                                               _______,_______,            TMUXMNU,TMUXLST,
+                                               _______,_______,            TMUXCMD,_______,
+                                               _______,_______,            _______,_______
   ),
   [_LAYER2] = LAYOUT_5x6(
        _______,KC_F11 ,KC_F12 ,_______,DIGCF  , LOGCOM,                        _______,_______,_______,_______,_______,KC_DEL ,
@@ -785,37 +798,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______,
                                                 _______,_______,            _______,_______
-   ),
-   [_TMUXLAY] = LAYOUT_5x6(
-        TMUX0  ,TMUX1  ,TMUX2  ,TMUX3  ,TMUX4  ,TMUX5  ,                        TMUXRL ,TMUXRD ,TMUXRU ,TMUXRR ,_______,_______,
-        _______,TMUX6  ,TMUX7  ,TMUX8  ,TMUX9  ,_______,                        TMUXLOG,XXXXXXX,XXXXXXX,XXXXXXX,_______,_______,
-        _______,TMUXTIT,TMUXSPL,_______,TMUXZ  ,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
-        _______,TMUXZ  ,_______,TMUXNEW,_______,TMUXLOG,                        TMUXZ  ,_______,TMUXPRV,TMUXNXT,_______,TMUXVSP,
-                                                TMUXMVU,TMUXMVD,            _______,_______,
-                                                _______,_______,            TMUXMNU,TMUXLST,
-                                                _______,_______,            TMUXCMD,_______,
-                                                _______,_______,            _______,_______
-   ),
-   [_LEFTONLY] = LAYOUT_5x6(
-        KC_ESC ,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
-        KC_TAB , KC_Q  , KC_W  , KC_E  , KC_R  , KC_T  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
-        KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
-        KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
-                                              KC_LBRC,KC_RBRC,              QWERTO ,QWERTO ,
-                                              TMUXLAY,RAISE  ,              QWERTO ,QWERTO ,
-                                              RAISE  ,KC_LGUI,              QWERTO ,QWERTO ,
-                                              KC_ENT ,KC_SPC ,              QWERTO ,QWERTO 
-   ),
-   [_RGHTONLY] = LAYOUT_5x6(
-        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
-        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_Y  , KC_U  , KC_I  , KC_O  , KC_P  ,KC_MINS,
-        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
-        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLASH,
-                                                QWERTO ,QWERTO ,            KC_PLUS, KC_EQL
-                                                QWERTO ,QWERTO ,            KC_SPC , KC_ENT
-                                                QWERTO ,QWERTO ,            KC_SCLN, MLAYER
-                                                QWERTO ,QWERTO ,            KC_LEAD, LAYER2
-   ),
+  ),
+  [_LEFTONLY] = LAYOUT_5x6(
+       KC_ESC ,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
+       KC_TAB , KC_Q  , KC_W  , KC_E  , KC_R  , KC_T  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
+       KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
+       KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
+                                             KC_LBRC,KC_RBRC,              QWERTO ,QWERTO ,
+                                             TMUXLAY,RAISE  ,              QWERTO ,QWERTO ,
+                                             RAISE  ,KC_LGUI,              QWERTO ,QWERTO ,
+                                             KC_ENT ,KC_SPC ,              QWERTO ,QWERTO 
+  ),
+  [_RGHTONLY] = LAYOUT_5x6(
+       QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
+       QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_Y  , KC_U  , KC_I  , KC_O  , KC_P  ,KC_MINS,
+       QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
+       QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLASH,
+                                               QWERTO ,QWERTO ,            KC_PLUS, KC_EQL ,
+                                               QWERTO ,QWERTO ,            KC_SPC , KC_ENT ,
+                                               QWERTO ,QWERTO ,            KC_SCLN, MLAYER ,
+                                               QWERTO ,QWERTO ,            KC_LEAD, LAYER2
+  ),
 };
 
 // Plans for single handed keyboard modes:

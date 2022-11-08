@@ -1,5 +1,10 @@
 /* A standard layout for the Dactyl Manuform 5x6 Keyboard */ 
 
+// Layout editor colors
+// - mouse - 5500ff
+// - raise - 6fa60d
+// - TMUX - FF0000
+
 #include QMK_KEYBOARD_H
 
 #define _QWERTY 0
@@ -783,7 +788,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    ),
    [_TMUXLAY] = LAYOUT_5x6(
         TMUX0  ,TMUX1  ,TMUX2  ,TMUX3  ,TMUX4  ,TMUX5  ,                        TMUXRL ,TMUXRD ,TMUXRU ,TMUXRR ,_______,_______,
-        _______,TMUX6  ,TMUX7  ,TMUX8  ,TMUX9  ,_______,                        TMUXLOG,_______,_______,_______,_______,_______,
+        _______,TMUX6  ,TMUX7  ,TMUX8  ,TMUX9  ,_______,                        TMUXLOG,XXXXXXX,XXXXXXX,XXXXXXX,_______,_______,
         _______,TMUXTIT,TMUXSPL,_______,TMUXZ  ,_______,                        TMUXL  ,TMUXD  ,TMUXU  ,TMUXR  ,_______,TMUXMNU,
         _______,TMUXZ  ,_______,TMUXNEW,_______,TMUXLOG,                        TMUXZ  ,_______,TMUXPRV,TMUXNXT,_______,TMUXVSP,
                                                 TMUXMVU,TMUXMVD,            _______,_______,

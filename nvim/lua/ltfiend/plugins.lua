@@ -39,13 +39,13 @@ function M.setup()
 
   -- Plugins
   local function plugins(use)
---     use {
---         'lewis6991/gitsigns.nvim',
+    use {
+        'lewis6991/gitsigns.nvim',
 --         tag='release',
 --         config = function()
 --             require('gitsigns').setup()
 --         end
---     }
+    }
         -- Converting from init.vim - 20220403
     --
     use {
@@ -127,6 +127,8 @@ function M.setup()
 
 --    use { 'nvim-treesitter/nvim-treesitter' }
     use { 'nvim-treesitter/nvim-treesitter-context' }
+
+    use { "NTBBloodbath/rest.nvim", requires = { "nvim-lua/plenary.nvim" }}
 --    use {
 --        '~/Git/ietf-plugin.nvim/'
 --    }

@@ -14,6 +14,8 @@ require("config.sidebar")
 require("config.telescope")
 require("config.treesitter")
 require("config.treesitter-context")
+require("config.nvim-rest")
+require("config.gitsigns")
 -- require("config.whichkey")
 
 PLUGINS = {
@@ -61,7 +63,7 @@ vim.g.gruvbox_baby_background_color = dark
 vim.g.gruvbox_baby_telescope_theme = 0
 vim.g.gruvbox_baby_transparent_mode = 0
 vim.cmd 'colorscheme gruvbox-baby'
-vim.g.gruvbox_baby_colors = { soft_green = "#FFFFFF" }
+-- vim.g.gruvbox_baby_colors = { soft_green = "#FFFFFF" }
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
@@ -69,3 +71,5 @@ local opts = { noremap = true, silent = true }
 require("nvim-tree").setup()
 
 map('n', '<C-N>', ':NvimTreeToggle<CR>', opts)
+map('n', ';up', '<Plug>RestNvimPreview;', opts)
+map('n', ';ug', '<Plug>RestNvim;', opts)

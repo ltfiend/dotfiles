@@ -1,13 +1,80 @@
 local M = {}
 
-local whichkey = require "which-key"
+local whichkey = require("which-key")
 
 local conf = {
-  window = {
-    border = "single", -- none, single, double, shadow
-    position = "bottom", -- bottom, top
-  },
+    plugins = {
+        marks = true, -- shows a list of your marks on ' and `
+        registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+        spelling = {
+          enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+          suggestions = 20, -- how many suggestions should be shown in the list?
+        },
+        -- the presets plugin, adds help for a bunch of default keybindings in Neovim
+        -- No actual key bindings are created
+        presets = {
+          operators = true, -- adds help for operators like d, y, ... and registers them for motion / text object completion
+          motions = false, -- adds help for motions
+          text_objects = false, -- help for text objects triggered after entering an operator
+          windows = true, -- default bindings on <c-w>
+          nav = false, -- misc bindings to work with windows
+          z = true, -- bindings for folds, spelling and others prefixed with z
+          g = true, -- bindings for prefixed with g
+        },
+      },
+      -- add operators that will trigger motion and text object completion
+      -- to enable all native operators, set the preset / operators plugin above
+      operators = { gc = "Comments" },
+      key_labels = {
+        -- override the label used to display some keys. It doesn't effect WK in any other way.
+        -- For example:
+        -- ["<space>"] = "SPC",
+        -- ["<cr>"] = "RET",
+        -- ["<tab>"] = "TAB",
+      },
+      icons = {
+        breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+        separator = "➜", -- symbol used between a key and it's label
+        group = "+", -- symbol prepended to a group
+      },
+      popup_mappings = {
+        scroll_down = '<c-d>', -- binding to scroll down inside the popup
+        scroll_up = '<c-u>', -- binding to scroll up inside the popup
+      },
+      window = {
+        border = "single", -- none, single, double, shadow
+        position = "bottom", -- bottom, top
+        margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+        padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+        winblend = 0
+      },
+      layout = {
+        height = { min = 4, max = 25 }, -- min and max height of the columns
+        width = { min = 20, max = 50 }, -- min and max width of the columns
+        spacing = 3, -- spacing between columns
+        align = "left", -- align columns left, center or right
+      },
+      ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
+      hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ ", "+", "="}, -- hide mapping boilerplate
+      show_help = true, -- show help message on the command line when the popup is visible
+      show_keys = true, -- show the currently pressed key and its label as a message in the command line
+      triggers = "auto", -- automatically setup triggers
+      -- triggers = {"<leader>"}, -- or specify a list manually
+      triggers_blacklist = {
+        -- list of mode / prefixes that should never be hooked by WhichKey
+        -- this is mostly relevant for key maps that start with a native binding
+        -- most people should not need to change this
+        i = { "j", "k" },
+        v = { "j", "k" },
+      },
+      -- disable the WhichKey popup for certain buf types and file types.
+      -- Disabled by default for Telescope
+      disable = {
+        buftypes = {},
+        filetypes = { "TelescopePrompt" },
+      },
 }
+
 whichkey.setup(conf)
 
 local opts = {
@@ -32,39 +99,33 @@ local function normal_keymap()
   local keymap_f = nil -- File search
   local keymap_p = nil -- Project search
 
-  if PLUGINS.telescope.enabled then
-    keymap_f = {
-      name = "Find",
-      f = { "<cmd>lua require('utils.finder').find_files()<cr>", "Files" },
-      d = { "<cmd>lua require('utils.finder').find_dotfiles()<cr>", "Dotfiles" },
-      b = { "<cmd>Telescope buffers<cr>", "Buffers" },
-      h = { "<cmd>Telescope help_tags<cr>", "Help" },
-      o = { "<cmd>Telescope oldfiles<cr>", "Old Files" },
-      g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
-      c = { "<cmd>Telescope commands<cr>", "Commands" },
-      r = { "<cmd>Telescope file_browser<cr>", "Browser" },
-      w = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Current Buffer" },
-      e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-    }
+  keymap_f = {
+    name = "Telescope",
+    f = { "<cmd>lua require('utils.finder').find_files()<cr>", "Files" },
+    d = { "<cmd>lua require('utils.finder').find_dotfiles()<cr>", "Dotfiles" },
+    b = { "<cmd>Telescope buffers<cr>", "Buffers" },
+    h = { "<cmd>Telescope help_tags<cr>", "Help" },
+    o = { "<cmd>Telescope oldfiles<cr>", "Old Files" },
+    g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
+    c = { "<cmd>Telescope commands<cr>", "Commands" },
+    r = { "<cmd>Telescope file_browser<cr>", "Browser" },
+    w = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Current Buffer" },
+    e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+    G = {
+        name = "Git",
+        s = { "<cmd>Telescope git_status<cr>", "Git Status" },
+        f = { "<cmd>Telescope git_files<cr>", "Git Files" },
+        h = { "<cmd>Telescope git_stash<cr>", "Git Stash" },
+        c = { "<cmd>Telescope git_commits_<cr>", "Git Commits" },
+        b = { "<cmd>Telescope git_branches<cr>", "Git Branches" },
+    },
+  }
 
-    keymap_p = {
-      name = "Project",
-      p = { "<cmd>lua require'telescope'.extensions.project.project{}<cr>", "List" },
-      s = { "<cmd>Telescope repo list<cr>", "Search" },
-    }
-  end
-
-  if PLUGINS.fzf_lua.enabled then
-    keymap_f = {
-      name = "Find",
-      f = { "<cmd>lua require('utils.finder').find_files()<cr>", "Files" },
-      b = { "<cmd>FzfLua buffers<cr>", "Buffers" },
-      o = { "<cmd>FzfLua oldfiles<cr>", "Old Files" },
-      g = { "<cmd>FzfLua live_grep<cr>", "Live Grep" },
-      c = { "<cmd>FzfLua commands<cr>", "Commands" },
-      e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-    }
-  end
+  keymap_p = {
+    name = "Project",
+    p = { "<cmd>lua require'telescope'.extensions.project.project{}<cr>", "List" },
+    s = { "<cmd>Telescope repo list<cr>", "Search" },
+  }
 
   local keymap = {
     ["w"] = { "<cmd>update!<CR>", "Save" },
@@ -92,7 +153,7 @@ local function normal_keymap()
       name = "Debug",
     },
 
-    f = keymap_f,
+    a = keymap_f,
     p = keymap_p,
 
     z = {
@@ -136,59 +197,7 @@ local function visual_keymap()
   whichkey.register(keymap, v_opts)
 end
 
-local function code_keymap()
-  vim.cmd "autocmd FileType * lua CodeRunner()"
-
-  function CodeRunner()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-    local keymap = nil
-    if ft == "python" then
-      keymap = {
-        name = "Code",
-        r = { "<cmd>update<CR><cmd>exec '!python3' shellescape(@%, 1)<cr>", "Run" },
-        m = { "<cmd>TermExec cmd='nodemon -e py %'<cr>", "Monitor" },
-      }
-    elseif ft == "lua" then
-      keymap = {
-        name = "Code",
-        r = { "<cmd>luafile %<cr>", "Run" },
-      }
-    elseif ft == "rust" then
-      keymap = {
-        name = "Code",
-        r = { "<cmd>Cargo run<cr>", "Run" },
-        D = { "<cmd>RustDebuggables<cr>", "Debuggables" },
-        h = { "<cmd>RustHoverActions<cr>", "Hover Actions" },
-        R = { "<cmd>RustRunnables<cr>", "Runnables" },
-      }
-    elseif ft == "go" then
-      keymap = {
-        name = "Code",
-        r = { "<cmd>GoRun<cr>", "Run" },
-      }
-    elseif ft == "typescript" or ft == "typescriptreact" then
-      keymap = {
-        name = "Code",
-        o = { "<cmd>TSLspOrganize<cr>", "Organize" },
-        r = { "<cmd>TSLspRenameFile<cr>", "Rename File" },
-        i = { "<cmd>TSLspImportAll<cr>", "Import All" },
-      }
-    end
-
-    if keymap ~= nil then
-      whichkey.register(
-        { c = keymap },
-        { mode = "n", silent = true, noremap = true, buffer = bufnr, prefix = "<leader>" }
-      )
-    end
-  end
-end
-
-function M.setup()
-  normal_keymap()
-  visual_keymap()
-  code_keymap()
-end
+normal_keymap()
+visual_keymap()
 
 return M

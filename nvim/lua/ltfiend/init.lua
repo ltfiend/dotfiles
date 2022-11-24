@@ -1,4 +1,4 @@
--- Packer
+-- PackerG
 require("ltfiend.plugins").setup()
 
 -- load config directory (thinking I'll pull this back to load each from here, no reason for this abstraction)
@@ -16,7 +16,37 @@ require("config.treesitter")
 require("config.treesitter-context")
 require("config.nvim-rest")
 require("config.gitsigns")
--- require("config.whichkey")
+require("config.colorscheme")
+require("config.whichkey")
+--
+-- vim.opt.guicursor=true
+vim.opt.relativenumber=true
+vim.opt.hlsearch=true --don't highlight previous search pattern
+vim.opt.hidden=true --keeps buffers from being unloaded when it is abandonded (buffers)
+-- vim.opt.noerrorbells=true
+vim.opt.tabstop=4
+vim.opt.softtabstop=4
+vim.opt.shiftwidth=4
+vim.opt.expandtab=true
+vim.opt.autoindent=true
+vim.opt.smartindent=true
+vim.opt.number=true
+vim.opt.wrap=true --dont' wrap if off the screen to the right.  Need to think about this
+vim.opt.smartcase=true --case sensitive when search includes a capital, other case insensitve
+vim.opt.swapfile=false
+vim.opt.backup=false
+vim.opt.undodir='~/.config/nvim/undodir'
+vim.opt.undofile=true
+vim.opt.termguicolors=true
+vim.opt.scrolloff=8 -- number of lines to keep above and below the cursor when scrollling
+vim.opt.showmode=false --" If in Insert, Replace or Visual mode put a message on the last line.
+vim.opt.cmdheight=2 --" Give more space for displaying messages.
+vim.opt.updatetime=50
+-- vim.opt.shortmess+=c
+-- vim.opt.shortmess-=F
+vim.opt.timeoutlen=500
+vim.opt.ttimeoutlen=10
+-- vim.opt.colorcolumn=120
 
 PLUGINS = {
   fzf_lua = {
@@ -43,7 +73,6 @@ local components = {
 -- }
 
 require('dap.ext.vscode').load_launchjs()
-
 -- require('possession').setup()
 -- require('gitsigns').setup()
 
@@ -58,18 +87,37 @@ local opts = {
     }
 }
 
-vim.g.gruvbox_baby_function_style = bold
-vim.g.gruvbox_baby_background_color = dark
-vim.g.gruvbox_baby_telescope_theme = 0
-vim.g.gruvbox_baby_transparent_mode = 0
-vim.cmd 'colorscheme gruvbox-baby'
--- vim.g.gruvbox_baby_colors = { soft_green = "#FFFFFF" }
-
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
 require("nvim-tree").setup()
 
-map('n', '<C-N>', ':NvimTreeToggle<CR>', opts)
-map('n', ';up', '<Plug>RestNvimPreview;', opts)
-map('n', ';ug', '<Plug>RestNvim;', opts)
+map('n', '<C-N>', '<ESC>:NvimTreeToggle<CR>', opts)
+map('n', '<S-F1>', ':e /home/peter/Journals/logbook.2020<CR>', opts)
+map('n', '<S-F2>', ':e /home/peter/qmk_firmware/keymap-dactyl/keymap.c<CR>', opts)
+map('n', '<S-F3>', '/home/peter/Journals/Bookmarks<CR>', opts)
+map('n', '<leader><CR>', ':so ~/.config/nvim/init.vim<CR>', opts)
+
+map('n', '<leader>f', ':Telescope buffers<CR>', opts)
+
+-- map('n', '<S-F4>', ':vsplit<CR>', opts)
+-- map('n', '<S-F5>', ':vsplit<CR>', opts)
+-- map('n', '<S-F6>', ':vsplit<CR>', opts)
+-- map('n', '<S-F7>', ':vsplit<CR>', opts)
+-- map('n', '<S-F8>', ':vsplit<CR>', opts)
+-- map('n', '<S-F9>', ':vsplit<CR>', opts)
+-- map('n', '<S-F10>', ':vsplit<CR>', opts)
+-- map('n', '<S-F11>', ':vsplit<CR>', opts)
+-- map('n', '<S-F12>', ':vsplit<CR>', opts)
+
+
+-- nnoremap <leader>w :set wrap<CR>
+-- " Open help for the current word
+-- nnoremap <leader>ghw :h <C-R>=expand("<cword>")<CR><CR>
+-- nnoremap <leader>cw :cd <C-R>=expand("<cWORD>")<CR><CR>
+-- nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
+-- nnoremap <leader>dw :cd <C-R>=expand("<cword>")<CR><CR>
+-- nnoremap <leader>dh :cd ~<CR>
+--
+-- " To be remapped over to vim layers
+-- nnoremap <leader>T :split term://htop<CR>

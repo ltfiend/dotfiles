@@ -1,31 +1,31 @@
 syntax on
 
-set guicursor=
-set relativenumber
-set hlsearch " don't highlight previous search pattern
-set hidden " keeps buffers from being unloaded when it is abandonded (buffers)
-set noerrorbells
-set tabstop=4 
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set autoindent
-set smartindent
-set number
-set nowrap " dont' wrap if off the screen to the right.  Need to think about this
-set smartcase " case sensitive when search includes a capital, other case insensitve
-set noswapfile
-set nobackup
-set undodir=~/.config/nvim/undodir
-set undofile
-set termguicolors
-set scrolloff=8 " number of lines to keep above and below the cursor when scrollling
-set noshowmode " If in Insert, Replace or Visual mode put a message on the last line.
-set cmdheight=2 " Give more space for displaying messages.
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=50
+" set guicursor=
+" set relativenumber
+" set hlsearch " don't highlight previous search pattern
+" set hidden " keeps buffers from being unloaded when it is abandonded (buffers)
+" set noerrorbells
+" set tabstop=4 
+" set softtabstop=4
+" set shiftwidth=4
+" set expandtab
+" set autoindent
+" set smartindent
+" set number
+" set nowrap " dont' wrap if off the screen to the right.  Need to think about this
+" set smartcase " case sensitive when search includes a capital, other case insensitve
+" set noswapfile
+" set nobackup
+" set undodir=~/.config/nvim/undodir
+" set undofile
+" set termguicolors
+" set scrolloff=8 " number of lines to keep above and below the cursor when scrollling
+" set noshowmode " If in Insert, Replace or Visual mode put a message on the last line.
+" set cmdheight=2 " Give more space for displaying messages.
+" 
+" " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" " delays and poor user experience.
+" set updatetime=50
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
@@ -35,10 +35,10 @@ set shortmess-=F
 filetype plugin on
 
 " Set timeouts to remove delay after hitting ESC
-set timeoutlen=500
-set ttimeoutlen=10
-
-set colorcolumn=120
+" set timeoutlen=500
+" set ttimeoutlen=10
+" 
+" set colorcolumn=120
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.config/nvim/plugged')
@@ -122,10 +122,6 @@ let $FZF_DEFAULT_OPTS='--reverse'
 " let g:fzf_checkout_track_key = 'ctrl-t'
 " let g:fzf_branch_actions = 'ctrl-t'
 
-" Open help for the current word
-nnoremap <leader>ghw :h <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>cw :cd <C-R>=expand("<cWORD>")<CR><CR>
-nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 
 nnoremap <C-Left> :wincmd h<CR>
 nnoremap <C-Down> :wincmd j<CR>
@@ -136,31 +132,8 @@ nnoremap <C-h> :wincmd h<CR>
 nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
-
-" nnoremap <Leader>? :map<CR>
-nnoremap <Leader>w :set wrap<CR>
-
-" Reload init.vim
-nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <Leader>j :e /home/peter/Journals/logbook.2020<CR>
-nnoremap <Leader>K :e /home/peter/qmk_firmware/keymap-dactyl/keymap.c<CR>
-nnoremap <Leader>B :e /home/peter/Journals/Bookmarks<CR>
-nnoremap <Leader>b :SidebarNvimToggle<CR>
-
-nnoremap <leader>dw :cd <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>dh :cd ~<CR>
 nnoremap <C-s> :lua require'dap'.continue()<CR>
 
-nnoremap <Leader>T :split term://htop<CR>
-nnoremap <Leader>V :vsplit<CR>
-nnoremap <Leader>] :vertical resize +15<CR>
-nnoremap <Leader>[ :vertical resize -10<CR>
-nnoremap <Leader>+ :resize +10<CR>
-nnoremap <Leader>= :resize -10<CR>
-nnoremap <Leader>rp :resize 100<CR>
-nnoremap <Leader>l :let @/=""<CR>
-
-" nnoremap <C-N> :NERDTreeToggle<CR>
 " nnoremap <C-n> :set number!<CR>:set relativenumber!<CR> 
 
 " Fix for capital W mistype when doing :w

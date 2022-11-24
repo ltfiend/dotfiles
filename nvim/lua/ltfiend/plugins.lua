@@ -46,8 +46,7 @@ function M.setup()
 --             require('gitsigns').setup()
 --         end
     }
-        -- Converting from init.vim - 20220403
-    --
+
     use {
         'numToStr/Comment.nvim',
         config = function()
@@ -65,10 +64,10 @@ function M.setup()
         }
     }
 
---     use {
---         'romgrk/barbar.nvim',
---         requires = {'kyazdani42/nvim-web-devicons'}
---     }
+    use {
+        'romgrk/barbar.nvim',
+        requires = {'kyazdani42/nvim-web-devicons'}
+    }
 
     use {
         'nvim-lualine/lualine.nvim',
@@ -79,9 +78,9 @@ function M.setup()
         'marko-cerovac/material.nvim'
     }
 
-    use {
-        'luisiacc/gruvbox-baby'
-    }
+    -- use { 'luisiacc/gruvbox-baby' }
+
+    use { "ellisonleao/gruvbox.nvim" }
 
     use {
         'EdenEast/nightfox.nvim'
@@ -273,10 +272,10 @@ function M.setup()
     -- Debugging
     use {
       "folke/which-key.nvim",
-      event = "VimEnter",
       config = function()
-        require("config.whichkey").setup()
-      end,
+        require("which-key").setup {
+	}
+      end
     }
 
     use {
@@ -284,7 +283,7 @@ function M.setup()
       opt = true,
       event = "BufReadPre",
       module = { "dap" },
-      wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python", "which-key.nvim" },
+      wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python" }, -- , "which-key.nvim" },
       requires = {
         "Pocco81/DAPInstall.nvim",
         "theHamsta/nvim-dap-virtual-text",
@@ -298,7 +297,7 @@ function M.setup()
         require("config.dap").setup()
       end,
     }
-    
+
 --     use {
 --       'jedrzejboczar/possession.nvim',
 --       requires = { 'nvim-lua/plenary.nvim' },

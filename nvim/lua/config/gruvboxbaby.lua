@@ -1,0 +1,6 @@
+-- vim.g.gruvbox_baby_function_style = bold
+-- vim.g.gruvbox_baby_background_color = dark
+-- vim.g.gruvbox_baby_telescope_theme = 0
+-- vim.g.gruvbox_baby_transparent_mode = 0
+-- vim.cmd 'colorscheme gruvbox-baby'
+-- -- vim.g.gruvbox_baby_colors = { soft_green = "#FFFFFF" }

@@ -25,7 +25,6 @@
 #define MLAYER MO(_MLAYER)
 #define QWERTO TO(_QWERTY)
 #define TMUXLAY MO(_TMUXLAY)
-#define MTALT MT(MOD_LALT, KC_SCLN)
 #define SNGLEFT TG(_LEFTONLY)
 #define SNGRGHT TG(_RGHTONLY)
 #define NEOVIM LT(_NEOVIM, KC_SCLN)
@@ -37,11 +36,11 @@ LEADER_EXTERNS();
 bool did_leader_succeed;
 
 /* need to install a speaker and enable this in rules.mk */
-#ifdef AUDIO_ENABLE
-float leader_start[][2] = SONG(ONE_UP_SOUND );
-float leader_succeed[][2] = SONG(ALL_STAR);
-float leader_fail[][2] = SONG(RICK_ROLL);
-#endif 
+// #ifdef AUDIO_ENABLE
+// float leader_start[][2] = SONG(ONE_UP_SOUND );
+// float leader_succeed[][2] = SONG(ALL_STAR);
+// float leader_fail[][2] = SONG(RICK_ROLL);
+// #endif 
 
 enum custom_keycodes {
     SCREENA = SAFE_RANGE,

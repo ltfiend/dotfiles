@@ -278,3 +278,7 @@ source ~/Git/trueline/trueline.sh
 
 complete -C '/usr/local/bin/aws_completer' aws
 
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

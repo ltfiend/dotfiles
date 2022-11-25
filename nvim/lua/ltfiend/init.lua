@@ -18,6 +18,8 @@ require("config.nvim-rest")
 require("config.gitsigns")
 require("config.colorscheme")
 require("config.whichkey")
+require("config.dap")
+require("config.dap-gui")
 --
 -- vim.opt.guicursor=true
 vim.opt.relativenumber=true

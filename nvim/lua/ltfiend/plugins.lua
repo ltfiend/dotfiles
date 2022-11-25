@@ -37,15 +37,10 @@ function M.setup()
     vim.cmd "autocmd BufWritePost plugins.lua source <afile> | PackerCompile"
   end
 
+--         tag='release',
   -- Plugins
   local function plugins(use)
-    use {
-        'lewis6991/gitsigns.nvim',
---         tag='release',
---         config = function()
---             require('gitsigns').setup()
---         end
-    }
+    use { 'lewis6991/gitsigns.nvim', }
 
     use {
         'numToStr/Comment.nvim',
@@ -74,47 +69,32 @@ function M.setup()
         requires = {'kyazdani42/nvim-web-devicons', opt = true }
     }
 
-    use {
-        'marko-cerovac/material.nvim'
-    }
-
+    use { 'marko-cerovac/material.nvim' }
     -- use { 'luisiacc/gruvbox-baby' }
-
     use { "ellisonleao/gruvbox.nvim" }
-
-    use {
-        'EdenEast/nightfox.nvim'
-    }
-    use {
-        'folke/tokyonight.nvim'
-    }
-    use {
-        'sidebar-nvim/sidebar.nvim'
-    }
+    use { 'EdenEast/nightfox.nvim' }
+    use { 'folke/tokyonight.nvim' }
+    use { 'sidebar-nvim/sidebar.nvim' }
 
     use {
         'nvim-telescope/telescope-arecibo.nvim',
          rocks = {"openssl", "lua-http-parser"}
     }
 
-    -- install without yarn or npm
---     use({
---         "iamcco/markdown-preview.nvim",
---         run = function() vim.fn["mkdp#util#install"]() end,
---     })
+    use { 'xiyaowong/telescope-emoji.nvim', }
+    use { 'ptethng/telescope-makefile' }
 
-    use({
-        "iamcco/markdown-preview.nvim",
+    use {
+        'iamcco/markdown-preview.nvim',
         run = "cd app && npm install",
         setup =
-        function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+            function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" },
+        }
 
     use {"akinsho/toggleterm.nvim", tag = '*', config = function()
         require("toggleterm").setup()
-    end }
-    use {
-        'ptethng/telescope-makefile'
-     }
+        end 
+    }
 
     use {
         'kyazdani42/nvim-tree.lua',
@@ -124,10 +104,11 @@ function M.setup()
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
 
---    use { 'nvim-treesitter/nvim-treesitter' }
+    use { 'nvim-treesitter/nvim-treesitter', }
     use { 'nvim-treesitter/nvim-treesitter-context' }
 
-    use { "NTBBloodbath/rest.nvim", requires = { "nvim-lua/plenary.nvim" }}
+    use { "rest-nvim/rest.nvim", requires = { "nvim-lua/plenary.nvim" }}
+
 --    use {
 --        '~/Git/ietf-plugin.nvim/'
 --    }
@@ -143,133 +124,41 @@ function M.setup()
 --      'sheerun/vim-polyglot'
 --     }
 
---     use {
---      'junegunn/fzf'
---     }
 
---     use {
---      'stsewd/fzf-checkout.vim'
---     }
+    use { 'junegunn/fzf.vim' }
+    use { 'tpope/vim-dispatch' }
+    use { 'nvim-lua/popup.nvim' }
+    use { 'nvim-lua/plenary.nvim' }
+    use { 'kyazdani42/nvim-web-devicons' }
+    use { 'neovim/nvim-lspconfig' }
+    use { 'scalameta/nvim-metals' }
+    use { 'hrsh7th/cmp-nvim-lsp' }
+    use { 'hrsh7th/cmp-buffer' }
+    use { 'hrsh7th/cmp-path' }
+    use { 'hrsh7th/cmp-cmdline' }
+    use { 'hrsh7th/nvim-cmp' }
+    use { 'L3MON4D3/LuaSnip' }
+    use { 'saadparwaiz1/cmp_luasnip' }
+    use { 'williamboman/nvim-lsp-installer' }
+    use { 'mhinz/vim-startify' }
 
---     use {
---      'tpope/vim-dispatch'
---     }
+    use { 'Pocco81/dap-buddy.nvim' }
+    use { 'ravenxrz/DAPInstall.nvim' }
+    use { 'mfussenegger/nvim-dap',
+      config = function()
+         require("config.dap").setup()
+      end,
+    }
+    use { 'mfussenegger/nvim-dap-python' }
+    use { 'theHamsta/nvim-dap-virtual-text' }
+    use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
+    use { 'nvim-telescope/telescope-dap.nvim' }
+    use { 'leoluz/nvim-dap-go' }
+    use { 'jbyuki/one-small-step-for-vimkind' }
 
---     use {
---      'nvim-lua/popup.nvim'
---     }
+    use { 'simrat39/rust-tools.nvim' }
+--     use { 'jbyuki/venn.nvim' }
 
---     use {
---      'nvim-lua/plenary.nvim'
---     }
---
---     use {
---      'nvim-telescope/telescope.nvim',
---      requires = { 'nvim-lua/plenary.nvim' }
---     }
---
---     use {
---      'nvim-telescope/telescope-fzy-native.nvim'
---     }
---
---     use {
---      'nvim-telescope/telescope-dap.nvim'
---     }
---
---     use {
---      'kyazdani42/nvim-web-devicons'
---     }
---
---     use {
---      'neovim/nvim-lspconfig'
---     }
---
---     use {
---      'scalameta/nvim-metals'
---     }
---
---     use {
---      'hrsh7th/cmp-nvim-lsp'
---     }
---
---     use {
---      'hrsh7th/cmp-buffer'
---     }
---
---     use {
---      'hrsh7th/nvim-cmp'
---     }
---
---     use {
---      'L3MON4D3/LuaSnip'
---     }
---
---     use {
---      'saadparwaiz1/cmp_luasnip'
---     }
---
---     use {
---      'williamboman/nvim-lsp-installer'
---     }
---     
---     use {
---      'jbyuki/venn.nvim'
---     }
---     
---     use {
---      'scrooloose/nerdtree'
---     }
---     
---     use {
---      'mhinz/vim-startify'
---     }
---     
---     use {
---      'rrethy/vim-hexokinase', 
---      run = 'make hexokinase'
---     }
---     
---     use {
---      'gruvbox-community/gruvbox' 
---     }
---     
---     use {
---      'theniceboy/vim-calc'
---     }
---     
---     use {
---      'mfussenegger/nvim-dap'
---     }
---     
---     use {
---      'mfussenegger/nvim-dap-python'
---     }
---     
---     use {
---      'Pocco81/DAPInstall.nvim'
---     }
---     
---     use {
---      'theHamsta/nvim-dap-virtual-text'
---     }
---     
---     use {
---      'rcarriga/nvim-dap-ui'
---     }
---     
---     use {
---      'nvim-telescope/telescope-dap.nvim'
---     }
---     
---     use {
---      'leoluz/nvim-dap-go'
---     }
---     
---     use {
---      'jbyuki/one-small-step-for-vimkind'
---     }
-------
-    -- Debugging
     use {
       "folke/which-key.nvim",
       config = function()
@@ -278,25 +167,32 @@ function M.setup()
       end
     }
 
-    use {
-      "mfussenegger/nvim-dap",
-      opt = true,
-      event = "BufReadPre",
-      module = { "dap" },
-      wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python" }, -- , "which-key.nvim" },
-      requires = {
-        "Pocco81/DAPInstall.nvim",
-        "theHamsta/nvim-dap-virtual-text",
-        "rcarriga/nvim-dap-ui",
-        "mfussenegger/nvim-dap-python",
-        "nvim-telescope/telescope-dap.nvim",
-        { "leoluz/nvim-dap-go", module = "dap-go" },
-        { "jbyuki/one-small-step-for-vimkind", module = "osv" },
-      },
-      config = function()
-        require("config.dap").setup()
-      end,
-    }
+--     use {
+--       "mfussenegger/nvim-dap",
+--       opt = true,
+--       event = "BufReadPre",
+--       module = { "dap" },
+--       config = function()
+--         require("config.dap").setup()
+--       end,
+--       wants = {
+--           "nvim-dap-virtual-text",
+--           "DAPInstall.nvim",
+--           "nvim-dap-ui",
+--           "nvim-dap-python"
+--       }, -- , "which-key.nvim" },
+--       requires = {
+--         "theHamsta/nvim-dap-virtual-text",
+--         "rcarriga/nvim-dap-ui",
+--         "mfussenegger/nvim-dap-python",
+--         "nvim-telescope/telescope-dap.nvim",
+--         { "leoluz/nvim-dap-go", module = "dap-go" },
+--         { "jbyuki/one-small-step-for-vimkind", module = "osv" },
+--       },
+--       config = function()
+--         require("config.dap").setup()
+--       end,
+--     }
 
 --     use {
 --       'jedrzejboczar/possession.nvim',

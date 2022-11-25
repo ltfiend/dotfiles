@@ -41,7 +41,6 @@ filetype plugin on
 " set colorcolumn=120
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
-call plug#begin('~/.config/nvim/plugged')
 
 " treat tabletop simulator files like lua files
 au BufNewFile,BufRead *.ttslua                     setf lua
@@ -58,51 +57,46 @@ set foldmethod=indent
 set foldnestmax=1
 set nofoldenable
 
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+call plug#begin('~/.config/nvim/plugged')
+  " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   
   " Completeion
   " Plug 'sheerun/vim-polyglot' " LSP loader
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
-  " Plug 'stsewd/fzf-checkout.vim'
-  Plug 'tpope/vim-dispatch'
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-"  Plug 'nvim-telescope/telescope.nvim'
-"  Plug 'nvim-telescope/telescope-fzy-native.nvim'
-"  Plug 'nvim-telescope/telescope-dap.nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'scalameta/nvim-metals'
+  "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  "Plug 'junegunn/fzf.vim'
+  " Plug 'tpope/vim-dispatch'
+  " Plug 'nvim-lua/popup.nvim'
+  " Plug 'nvim-lua/plenary.nvim'
+  " Plug 'kyazdani42/nvim-web-devicons'
+  " Plug 'neovim/nvim-lspconfig'
+  " Plug 'scalameta/nvim-metals'
+  " Plug 'hrsh7th/cmp-nvim-lsp'
+  " Plug 'hrsh7th/cmp-buffer'
+  " Plug 'hrsh7th/cmp-path'
+  " Plug 'hrsh7th/cmp-cmdline'
+  " Plug 'hrsh7th/nvim-cmp'
+  " Plug 'L3MON4D3/LuaSnip'
+  " Plug 'saadparwaiz1/cmp_luasnip'
+  " Plug 'williamboman/nvim-lsp-installer'
 
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/nvim-cmp'
-  
-  " For luasnip user.
-  Plug 'L3MON4D3/LuaSnip'
-  Plug 'saadparwaiz1/cmp_luasnip'
-  " LSP
-  Plug 'williamboman/nvim-lsp-installer'
-  Plug 'jbyuki/venn.nvim'
+  " Plug 'jbyuki/venn.nvim'
+  " Plug 'theniceboy/vim-calc'
+  " Plug 'simrat39/rust-tools.nvim'
+
   " Plug 'scrooloose/nerdtree'
-  Plug 'mhinz/vim-startify'
-  Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+  " Plug 'mhinz/vim-startify'
+ " Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
   
   " Plug 'gruvbox-community/gruvbox' " color
-  Plug 'theniceboy/vim-calc'
-  Plug 'mfussenegger/nvim-dap'
-  Plug 'mfussenegger/nvim-dap-python'
-  
-  Plug 'Pocco81/dap-buddy.nvim', {'commit': '24923c3'}
-  Plug 'theHamsta/nvim-dap-virtual-text'
-  Plug 'rcarriga/nvim-dap-ui'
-  Plug 'nvim-telescope/telescope-dap.nvim'
-  Plug 'leoluz/nvim-dap-go'
-  Plug 'jbyuki/one-small-step-for-vimkind'
-  Plug 'simrat39/rust-tools.nvim'
+ " Plug 'mfussenegger/nvim-dap'
+ " Plug 'mfussenegger/nvim-dap-python'
+ " 
+ " " Plug 'Pocco81/dap-buddy.nvim', {'commit': '24923c3'}
+ " Plug 'theHamsta/nvim-dap-virtual-text'
+ " Plug 'rcarriga/nvim-dap-ui'
+ " Plug 'nvim-telescope/telescope-dap.nvim'
+ " Plug 'leoluz/nvim-dap-go'
+ " Plug 'jbyuki/one-small-step-for-vimkind'
 
 call plug#end()
 

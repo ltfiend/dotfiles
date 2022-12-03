@@ -1,8 +1,7 @@
 -- PackerG
 require("ltfiend.plugins").setup()
 
--- load config directory (thinking I'll pull this back to load each from here, no reason for this abstraction)
-
+require("config.nvim-tree")
 require("config.barbar")
 require("config.cmp")
 require("config.devicons")
@@ -37,8 +36,8 @@ vim.opt.wrap=true --dont' wrap if off the screen to the right.  Need to think ab
 vim.opt.smartcase=true --case sensitive when search includes a capital, other case insensitve
 vim.opt.swapfile=false
 vim.opt.backup=false
-vim.opt.undodir='~/.config/nvim/undodir'
-vim.opt.undofile=true
+vim.opt.undodir='/home/peter/.config/nvim/undodir'
+vim.opt.undofile=false
 vim.opt.termguicolors=true
 vim.opt.scrolloff=8 -- number of lines to keep above and below the cursor when scrollling
 vim.opt.showmode=false --" If in Insert, Replace or Visual mode put a message on the last line.
@@ -94,13 +93,13 @@ local opts = { noremap = true, silent = true }
 
 require("nvim-tree").setup()
 
-map('n', '<C-N>', '<ESC>:NvimTreeToggle<CR>', opts)
+map('n', '<C-N>', ':NvimTreeToggle<CR>', opts)
 map('n', '<S-F1>', ':e /home/peter/Journals/logbook.2020<CR>', opts)
 map('n', '<S-F2>', ':e /home/peter/qmk_firmware/keymap-dactyl/keymap.c<CR>', opts)
 map('n', '<S-F3>', '/home/peter/Journals/Bookmarks<CR>', opts)
+map('n', '<S-F9>', ':lua require(\'dapui\').toggle()<CR>', opts)
 map('n', '<leader><CR>', ':so ~/.config/nvim/init.vim<CR>', opts)
-
-map('n', '<leader>f', ':Telescope buffers<CR>', opts)
+-- map('n', '<leader>f', ':Telescope buffers<CR>', opts)
 
 -- map('n', '<S-F4>', ':vsplit<CR>', opts)
 -- map('n', '<S-F5>', ':vsplit<CR>', opts)
@@ -111,15 +110,3 @@ map('n', '<leader>f', ':Telescope buffers<CR>', opts)
 -- map('n', '<S-F10>', ':vsplit<CR>', opts)
 -- map('n', '<S-F11>', ':vsplit<CR>', opts)
 -- map('n', '<S-F12>', ':vsplit<CR>', opts)
-
-
--- nnoremap <leader>w :set wrap<CR>
--- " Open help for the current word
--- nnoremap <leader>ghw :h <C-R>=expand("<cword>")<CR><CR>
--- nnoremap <leader>cw :cd <C-R>=expand("<cWORD>")<CR><CR>
--- nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
--- nnoremap <leader>dw :cd <C-R>=expand("<cword>")<CR><CR>
--- nnoremap <leader>dh :cd ~<CR>
---
--- " To be remapped over to vim layers
--- nnoremap <leader>T :split term://htop<CR>

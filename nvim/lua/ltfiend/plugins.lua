@@ -81,7 +81,8 @@ function M.setup()
          rocks = {"openssl", "lua-http-parser"}
     }
 
-    use { 'xiyaowong/telescope-emoji.nvim', }
+    use { 'nvim-telescope/telescope-symbols.nvim', }
+    -- use { 'xiyaowong/telescope-emoji.nvim', }
     use { 'ptethng/telescope-makefile' }
 
     use {

@@ -69,6 +69,21 @@ require 'lspconfig'.pyright.setup {
     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 }
 
+require 'lspconfig'.pylsp.setup {
+    on_attach = on_attach,
+    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+}
+
+-- require 'lspconfig'.sourcery.setup {
+--     on_attach = on_attach,
+--     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- }
+-- 
+-- require 'lspconfig'.jedi_language_server.setup {
+--     on_attach = on_attach,
+--     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- }
+
 require 'lspconfig'.clangd.setup {
     on_attach = on_attach,
     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())

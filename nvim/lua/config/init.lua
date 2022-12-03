@@ -9,6 +9,7 @@ require("config.sidebar")
 require("config.telescope")
 require("config.treesitter")
 require("config.treesitter-context")
+require("config.nvim-tree")
 -- require("config.whichkey")
 
 PLUGINS = {

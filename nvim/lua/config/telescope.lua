@@ -47,6 +47,7 @@ require('telescope').load_extension('fzy_native')
 require('telescope').load_extension('arecibo')
 -- require('telescope').load_extension('emoji')
 require('telescope').load_extension('dap')
+-- require('telescope').load_extension('symbols')
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }

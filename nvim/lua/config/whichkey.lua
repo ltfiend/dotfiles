@@ -109,6 +109,7 @@ local function normal_keymap()
     g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
     c = { "<cmd>Telescope commands<cr>", "Commands" },
     r = { "<cmd>Telescope file_browser<cr>", "Browser" },
+    s = { "<cmd>Telescope symbols<cr>", "Symbols" },
     w = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Current Buffer" },
     e = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
     G = {

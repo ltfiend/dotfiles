@@ -19,8 +19,10 @@ require("config.colorscheme")
 require("config.whichkey")
 require("config.dap")
 require("config.dap-gui")
+require("config.telekasten")
 --
 -- vim.opt.guicursor=true
+vim.g.mapleader=';'
 vim.opt.relativenumber=true
 vim.opt.hlsearch=true --don't highlight previous search pattern
 vim.opt.hidden=true --keeps buffers from being unloaded when it is abandonded (buffers)
@@ -88,17 +90,29 @@ local opts = {
     }
 }
 
-local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-
 require("nvim-tree").setup()
 
+local map = vim.api.nvim_set_keymap
 map('n', '<C-N>', ':NvimTreeToggle<CR>', opts)
 map('n', '<S-F1>', ':e /home/peter/Journals/logbook.2020<CR>', opts)
 map('n', '<S-F2>', ':e /home/peter/qmk_firmware/keymap-dactyl/keymap.c<CR>', opts)
 map('n', '<S-F3>', '/home/peter/Journals/Bookmarks<CR>', opts)
+map('n', '<S-F4>', ':Telekasten<CR>', opts)
+map('n', '<S-F5>', ':Telekasten toggle_todo<CR>', opts)
 map('n', '<S-F9>', ':lua require(\'dapui\').toggle()<CR>', opts)
-map('n', '<leader><CR>', ':so ~/.config/nvim/init.vim<CR>', opts)
+map('n', ';<CR>', ':so ~/.config/nvim/init.vim<CR>', opts)
+map('n', '<leader>e', ':set spell!<CR>', opts)
+map('n', '<Leader>f', ':Telescope fd<CR>', opts)
+map('n', '<Leader>s', ':Telescope live_grep<CR>', opts)
+map('n', '<Leader>;', ':Telescope buffers<CR>', opts)
+map('n', '<Leader>h', ':Telescope oldfiles<CR>', opts)
+map('n', '<Leader>H', ':Telescope help_tags<CR>', opts)
+map('n', '<Leader>m', ':Telescope marks<CR>', opts)
+map('n', '<Leader>M', ':Telescope man_pages<CR>', opts)
+map('n', '<Leader>vrc', ':lua require(\'ltfiend.telescope\').search_dotfiles()<CR>', opts)
+map('n', '<Leader>k', ':Telescope keymaps<CR>', opts)
+
 -- map('n', '<leader>f', ':Telescope buffers<CR>', opts)
 
 -- map('n', '<S-F4>', ':vsplit<CR>', opts)
@@ -110,3 +124,5 @@ map('n', '<leader><CR>', ':so ~/.config/nvim/init.vim<CR>', opts)
 -- map('n', '<S-F10>', ':vsplit<CR>', opts)
 -- map('n', '<S-F11>', ':vsplit<CR>', opts)
 -- map('n', '<S-F12>', ':vsplit<CR>', opts)
+--
+-- function Todo() print("Hello, Test") end

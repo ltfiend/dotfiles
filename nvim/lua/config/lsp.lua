@@ -84,6 +84,7 @@ require 'lspconfig'.pylsp.setup {
 --     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- }
 
+require 'lspconfig'.ccls.setup { on_attach = on_attach }
 require 'lspconfig'.clangd.setup {
     on_attach = on_attach,
     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())

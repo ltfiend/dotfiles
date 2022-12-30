@@ -70,11 +70,13 @@ function M.setup()
       args = {},
     },
     {
+      -- ./inspector --defaultsfile etc/default_values.conf -g geoip/ -F template -t ~/Work/all-fields-custom.tpl /var/log/Earth-20221213-01*.cdns -o -|less
+
       name = "Inspector",
       type = "lldb",
       request = "launch",
       program = "./inspector",
-      args = {'ecs-test-2.cdns'},
+      args = {'--defaultsfile', 'etc/default_values.conf', '-g', 'geoip/', '-F', 'template', '-t', '../../all-fields-custom.tpl', '../../Earth-20221212-211808_60_enp7s0.cdns', '-o', '-'},
       cwd = '${workspaceFolder}',
       stopOnEntry = false,
       runInTerminal = false,
@@ -92,7 +94,7 @@ function M.setup()
       type = "lldb",
       request = "launch",
       program = "./compactor",
-      args = { '-o', 'test-out.cdns', 'dns-sample.tcpd' },
+      args = { '-o', 'test-out.cdns', 'input.pcap' },
       cwd = '${workspaceFolder}',
       stopOnEntry = false,
       runInTerminal = false,
@@ -131,7 +133,7 @@ function M.setup()
     
   dap.adapters.lldb = {
     type = 'executable',
-    command = '/bin/lldb-vscode-12',
+    command = '/bin/lldb-vscode-14',
     name = "lldb"
   }
 end

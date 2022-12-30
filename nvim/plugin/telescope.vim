@@ -1,14 +1,14 @@
 " " lua require("ltfiend")
 " 
-nnoremap <Leader>f :Telescope fd<CR>
-nnoremap <Leader>s :Telescope live_grep<CR>
-nnoremap <Leader>; :Telescope buffers<CR>
-nnoremap <Leader>h :Telescope oldfiles<CR>
-nnoremap <Leader>H :Telescope help_tags<CR>
-nnoremap <Leader>m :Telescope marks<CR>
-nnoremap <Leader>M :Telescope man_pages<CR>
-nnoremap <Leader>k :Telescope keymaps<CR>
-nnoremap <Leader>vrc :lua require('ltfiend.telescope').search_dotfiles()<CR>
+" nnoremap <Leader>f :Telescope fd<CR>
+" nnoremap <Leader>s :Telescope live_grep<CR>
+" nnoremap <Leader>; :Telescope buffers<CR>
+" nnoremap <Leader>h :Telescope oldfiles<CR>
+" nnoremap <Leader>H :Telescope help_tags<CR>
+" nnoremap <Leader>m :Telescope marks<CR>
+" nnoremap <Leader>M :Telescope man_pages<CR>
+" nnoremap <Leader>k :Telescope keymaps<CR>
+" nnoremap <Leader>vrc :lua require('ltfiend.telescope').search_dotfiles()<CR>
 
 
 

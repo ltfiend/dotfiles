@@ -30,7 +30,7 @@ lua require ("ltfiend")
 if executable('rg')
     let g:rg_derive_root='true'
 endif
-let mapleader = ";"
+" let mapleader = ";"
 " let loaded_matchparen = 1
 let g:netrw_browse_split = 2
 let g:netrw_banner = 0

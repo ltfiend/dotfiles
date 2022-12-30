@@ -55,7 +55,8 @@ function M.setup()
              'nvim-telescope/telescope-live-grep-raw.nvim',
              'nvim-telescope/telescope.nvim',
              'nvim-telescope/telescope-fzy-native.nvim',
-             'nvim-telescope/telescope-dap.nvim'
+             'nvim-telescope/telescope-dap.nvim',
+             'nvim-telescope/telescope-media-files.nvim'
         }
     }
 
@@ -73,7 +74,7 @@ function M.setup()
     -- use { 'luisiacc/gruvbox-baby' }
     use { "ellisonleao/gruvbox.nvim" }
     use { 'EdenEast/nightfox.nvim' }
-    use { 'folke/tokyonight.nvim' }
+    -- use { 'folke/tokyonight.nvim' }
     use { 'sidebar-nvim/sidebar.nvim' }
 
     use {
@@ -108,7 +109,7 @@ function M.setup()
     use { 'nvim-treesitter/nvim-treesitter', }
     use { 'nvim-treesitter/nvim-treesitter-context' }
 
-    use { "rest-nvim/rest.nvim", requires = { "nvim-lua/plenary.nvim" }}
+    -- use { "rest-nvim/rest.nvim", requires = { "nvim-lua/plenary.nvim" }}
 
 --    use {
 --        '~/Git/ietf-plugin.nvim/'
@@ -164,8 +165,25 @@ function M.setup()
       "folke/which-key.nvim",
       config = function()
         require("which-key").setup {
-	}
+	    }
       end
+    }
+
+    use { 'renerocksai/calendar-vim' }
+    use { 'nvim-telescope/telescope-media-files.nvim' }
+    -- use { 'renerocksai/telekasten.nvim' }
+    use { '~/Git/telekasten.nvim' }
+
+    use {
+        "kode-team/mastodon.nvim",
+        requires = {
+          "nvim-lua/plenary.nvim",
+          "rcarriga/nvim-notify",
+          "kkharji/sqlite.lua",
+        },
+        config = function()
+        require("mastodon").setup()
+    end
     }
 
 --     use {

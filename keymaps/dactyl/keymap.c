@@ -98,10 +98,14 @@ enum custom_keycodes {
     NVIMRL,
     NVIMRD,
     NVIMRU,
-    NVIMZ,
-    NVIMUZ,
     VIMJOUR,
     VIMKEYM,
+    NVIMSF3,
+    NVIMSF4,
+    NVIMSF5,
+    NVIMSF6,
+    NVIMSF7,
+    NVIMSF8,
     VIMQUIT,
     VIMSAVE,
     NVIMSPL,
@@ -110,9 +114,11 @@ enum custom_keycodes {
     VIMFOLD,
     DAPTERM,
     DAPBPNT,
+    DAPCONT,
     NVIMPT,
     NVIMNT,
-    NVIMVSP
+    NVIMVSP,
+    DAPUI_T
 };
 
 enum {
@@ -122,7 +128,9 @@ enum {
   TD_RBRC,
   TD_SCTP,
   TD_9_0,
-  TD_VI_Z,
+  VIZ,
+  VIQ,
+  VIW,
 };
 
 // Removed, to used to hold shift and bkspacing.   Causes issues in screen
@@ -141,7 +149,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case SCREENA:
         if (record->event.pressed) {
             // when keycode is pressed
-            SEND_STRING(SS_LCTRL("A"));
+            SEND_STRING(SS_LCTL("A"));
         } else {
             // when keycode is released
         }
@@ -585,50 +593,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     case LOGCOM:
         if (record->event.pressed) {
-            // when keycode is pressed
-            register_code(KC_UP);
-            unregister_code(KC_UP);
+            tap_code(KC_UP);
             SEND_STRING(("\' >> ~/.commands"));
-            register_code(KC_ESC);
-            unregister_code(KC_ESC);
-            register_code(KC_ESC);
-            unregister_code(KC_ESC);
-            register_code(KC_ESC);
-            unregister_code(KC_ESC);
-            // register_code(S(KC_I));
-            // unregister_code(S(KC_I));
+            tap_code(KC_ESC);
+            tap_code(KC_ESC);
+            tap_code(KC_ESC);
             SEND_STRING(("I"));
             SEND_STRING(("echo \'"));
-            register_code(KC_ENT);
-            unregister_code(KC_ENT);
+            tap_code(KC_ENT);
         } else {
             // when keycode is released
         }
         break;
     case NVIML:
         if (record->event.pressed) {
-            SEND_STRING(SS_LCTL("h"));
+            SEND_STRING(SS_LCTL("\\nh"));
         } else {
             // when keycode is released
         }
         break;
     case NVIMR:
         if (record->event.pressed) {
-            SEND_STRING(SS_LCTL("l"));
+            SEND_STRING(SS_LCTL("\\nl"));
         } else {
             // when keycode is released
         }
         break;
     case NVIMU:
         if (record->event.pressed) {
-            SEND_STRING(SS_LCTL("k"));
+            SEND_STRING(SS_LCTL("\\nk"));
         } else {
             // when keycode is released
         }
         break;
     case NVIMD:
         if (record->event.pressed) {
-            SEND_STRING(SS_LCTL("j"));
+            SEND_STRING(SS_LCTL("\\nj"));
         } else {
             // when keycode is released
         }
@@ -661,24 +661,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             SEND_STRING(SS_LCTL("w"));
             SEND_STRING("-");
-        } else {
-            // when keycode is released
-        }
-        break;
-    case NVIMZ:
-        if (record->event.pressed) {
-            SEND_STRING(SS_LCTL("w"));
-            SEND_STRING("|");
-            SEND_STRING(SS_LCTL("w"));
-            SEND_STRING("_");
-        } else {
-            // when keycode is released
-        }
-        break;
-    case NVIMUZ:
-        if (record->event.pressed) {
-            SEND_STRING(SS_LCTL("w"));
-            SEND_STRING("=");
         } else {
             // when keycode is released
         }
@@ -721,6 +703,76 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // when keycode is released
         }
         break;
+    case NVIMSF3:
+        if (record->event.pressed) {
+            tap_code(KC_ESC);
+            register_code(KC_LSFT);
+            tap_code(KC_F3);
+            unregister_code(KC_LSFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case NVIMSF4:
+        if (record->event.pressed) {
+            tap_code(KC_ESC);
+            register_code(KC_LSFT);
+            tap_code(KC_F4);
+            unregister_code(KC_LSFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case NVIMSF5:
+        if (record->event.pressed) {
+            tap_code(KC_ESC);
+            register_code(KC_LSFT);
+            tap_code(KC_F5);
+            unregister_code(KC_LSFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case NVIMSF6:
+        if (record->event.pressed) {
+            tap_code(KC_ESC);
+            register_code(KC_LSFT);
+            tap_code(KC_F6);
+            unregister_code(KC_LSFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case NVIMSF7:
+        if (record->event.pressed) {
+            tap_code(KC_ESC);
+            register_code(KC_LSFT);
+            tap_code(KC_F7);
+            unregister_code(KC_LSFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case NVIMSF8:
+        if (record->event.pressed) {
+            tap_code(KC_ESC);
+            register_code(KC_LSFT);
+            tap_code(KC_F8);
+            unregister_code(KC_LSFT);
+        } else {
+            // when keycode is released
+        }
+        break;
+    case DAPUI_T:
+        if (record->event.pressed) {
+            tap_code(KC_ESC);
+            register_code(KC_LSFT);
+            tap_code(KC_F9);
+            unregister_code(KC_LSFT);
+        } else {
+            // when keycode is released
+        }
+        break;
     case DAPBPNT:
         if (record->event.pressed) {
             tap_code(KC_ESC);
@@ -749,6 +801,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             tap_code(KC_ESC);
             SEND_STRING(";dx\n");
+        } else {
+            // when keycode is released
+        }
+        break;
+    case DAPCONT:
+        if (record->event.pressed) {
+            tap_code(KC_ESC);
+            SEND_STRING(":DapContinue\n");
         } else {
             // when keycode is released
         }
@@ -903,19 +963,62 @@ void matrix_scan_user(void) {
   }
 }
 
-// Tap Dance Screen Function
-void screen_taps(qk_tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
+void quit_nvim(qk_tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
         case 1:
-            SEND_STRING(SS_LCTL("a"));
+            tap_code(KC_ESC);
+            SEND_STRING(":q\n");
             break;
         case 2:
-            SEND_STRING(SS_LCTL("a"));
-            SEND_STRING(SS_LCTL("a"));
+            tap_code(KC_ESC);
+            SEND_STRING(":qa\n");
             break;
         case 3:
-            SEND_STRING(SS_LCTL("a"));
-            SEND_STRING(SS_LSFT("\""));
+            tap_code(KC_ESC);
+            SEND_STRING(":q!\n");
+            break;
+        case 4:
+            tap_code(KC_ESC);
+            SEND_STRING(":qa!\n");
+            break;
+        case 100:
+            SEND_STRING("format drive");
+            break;
+    }
+}
+
+void write_nvim(qk_tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
+        case 1:
+            tap_code(KC_ESC);
+            SEND_STRING(":w\n");
+            break;
+        case 2:
+            tap_code(KC_ESC);
+            SEND_STRING(":wa\n");
+            break;
+        case 3:
+            tap_code(KC_ESC);
+            SEND_STRING(":wq!\n");
+            break;
+        case 4:
+            tap_code(KC_ESC);
+            SEND_STRING(":wqa!\n");
+            break;
+    }
+}
+
+void zoom_window(qk_tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
+        case 1:
+            SEND_STRING(SS_LCTL("w"));
+            SEND_STRING("|");
+            SEND_STRING(SS_LCTL("w"));
+            SEND_STRING("_");
+            break;
+        case 2:
+            SEND_STRING(SS_LCTL("w"));
+            SEND_STRING("=");
             break;
     }
 }
@@ -927,10 +1030,12 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_SQDQ] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),
   [TD_LBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_LBRC),
   [TD_RBRC] = ACTION_TAP_DANCE_DOUBLE(KC_RCBR, KC_RBRC),
-  [TD_SCTP] = ACTION_TAP_DANCE_FN(screen_taps),
   [TD_9_0] = ACTION_TAP_DANCE_DOUBLE(KC_9, KC_0),
-  [TD_VI_Z] = ACTION_TAP_DANCE_DOUBLE(NVIMZ, NVIMUZ),
+  [VIZ] = ACTION_TAP_DANCE_FN(zoom_window),
+  [VIQ] = ACTION_TAP_DANCE_FN(quit_nvim),
+  [VIW] = ACTION_TAP_DANCE_FN(write_nvim),
 };
+
       
 // Saving for the future when I have a speaker
 // void leader_start(void) {
@@ -957,7 +1062,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_ESC , KC_1  , KC_2  , KC_3  , KC_4  , KC_5  ,                         KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
      KC_TAB , KC_Q  , KC_W  , KC_E  , KC_R  , KC_T  ,                         KC_Y  , KC_U  , KC_I  , KC_O  , KC_P  ,KC_MINS,
      KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                         KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
-     KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                         KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLASH,
+     KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                         KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLS,
                                       KC_LBRC,KC_RBRC,                    KC_PLUS, KC_EQL,
                                       TMUXLAY,RAISE,                    KC_SPC, KC_ENT,
                                       RAISE,KC_LGUI,                      NEOVIM, MLAYER,
@@ -965,7 +1070,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_RAISE] = LAYOUT_5x6(
        KC_TILD,S(KC_1),S(KC_2),S(KC_3),S(KC_4),S(KC_5),                        S(KC_6),S(KC_7),S(KC_8),S(KC_9),S(KC_0),KC_DEL,
-       KC_GRV ,KC_6   ,KC_7   ,KC_8   ,TD(TD_9_0),KC_LBRC,                     KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SLCK,KC_MUTE,
+       KC_GRV ,KC_6   ,KC_7   ,KC_8   ,TD(TD_9_0),KC_LBRC,                     KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SCRL,KC_MUTE,
        _______,KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT,KC_LPRN,                        KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,KC_VOLU,
        _______,KC_DEL ,SPOILER, CBLOCK,KC_SPC ,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
                                                KC_WH_U,KC_WH_D,            KC_EQL ,_______,
@@ -974,12 +1079,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                SNGLEFT,_______,            KC_BTN3,_______
   ),
   [_NEOVIM] = LAYOUT_5x6(
-       _______,VIMJOUR,VIMKEYM,_______,_______,_______,                        NVIMRL ,NVIMRD ,NVIMRU ,NVIMRR ,_______,_______,
-       _______,VIMQUIT,VIMSAVE,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+       _______,VIMJOUR,VIMKEYM,NVIMSF3,NVIMSF4,NVIMSF5,                        NVIMRL ,NVIMRD ,NVIMRU ,NVIMRR ,_______,_______,
+       _______,TD(VIQ),TD(VIW),_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
        _______,_______,NVIMSPL,DAPBACK,DAPFORW,_______,                        NVIML  ,NVIMD  ,NVIMU  ,NVIMR  ,_______,_______,
-       _______,VIMFOLD,DAPTERM,_______,NVIMVSP,DAPBPNT,                    TD(TD_VI_Z),_______,NVIMPT ,NVIMNT ,_______,NVIMVSP,
+       _______,VIMFOLD,DAPTERM,_______,NVIMVSP,DAPBPNT,                        TD(VIZ),_______,NVIMPT ,NVIMNT ,_______,NVIMVSP,
                                                DAPBACK,DAPFORW,            _______,_______,
-                                               _______,_______,            _______,_______,
+                                               DAPUI_T,DAPCONT,            _______,_______,
                                                _______,_______,            _______,_______,
                                                _______,_______,            _______,_______
   ),
@@ -1037,7 +1142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_Y  , KC_U  , KC_I  , KC_O  , KC_P  ,KC_MINS,
        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
-       QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLASH,
+       QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLS,
                                                QWERTO ,QWERTO ,            KC_PLUS, KC_EQL ,
                                                QWERTO ,QWERTO ,            KC_SPC , KC_ENT ,
                                                QWERTO ,QWERTO ,            KC_SCLN, MLAYER ,

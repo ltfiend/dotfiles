@@ -104,7 +104,7 @@ alias cfip='curl https://api.cloudflare.com/client/v4/ips|jq "[.result.ipv6_cidr
 alias c='cat ~/.commands | fzf --print0'
 alias fd=fdfind
 alias f='fdfind -I|fzf'
-alias dff='duf --hide loops,special'
+alias dff='/usr/bin/duf --hide loops,special'
 alias rs='source ~/Git/trueline/trueline.sh'
 
 # Alias definitions.

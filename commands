@@ -44,3 +44,6 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 az storage account create --name 1blob1 --resource-group Datalake1 --location "usgovarizona" --sku Standard_ZRS --encryption-services blob 2>&1 |tee az-storage-account-create
 kubectl exec -i -t --namespace=ers rs1-0 -c rs1-bind916 -- /bin/bash
 for x in `cat aws-ips.txt`; do nmap -PS -p22 ${x}; done
+ffmpeg -ss 1 -t 8 -i 20220723_140814_001.mp4 -vf "fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 ~/slidev/images/oled.gif 
+curl https://datatracker.ietf.org/api/v1/doc/document/?|jq|head
+cat /proc/sys/kernel/random/uuid 

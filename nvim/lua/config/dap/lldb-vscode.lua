@@ -76,7 +76,7 @@ function M.setup()
       type = "lldb",
       request = "launch",
       program = "./inspector",
-      args = {'--defaultsfile', 'etc/default_values.conf', '-g', 'geoip/', '-F', 'template', '-t', '../../all-fields-custom.tpl', '../../Earth-20221212-211808_60_enp7s0.cdns', '-o', '-'},
+      args = {'--defaultsfile', 'etc/default_values.conf', '-F', 'template', '-t', '/home/peter/Work/all-fields-custom.tpl', 'Earth-20221213-011810_60_enp7s0.cdns', '-o', '-'},
       cwd = '${workspaceFolder}',
       stopOnEntry = false,
       runInTerminal = false,

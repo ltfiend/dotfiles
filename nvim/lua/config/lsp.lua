@@ -109,7 +109,7 @@ require 'lspconfig'.marksman.setup {
     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 }
 
-require 'lspconfig'.sumneko_lua.setup {
+require 'lspconfig'.lua_ls.setup {
     on_attach = on_attach,
     cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
     filetypes = { "lua", "ttslua" },

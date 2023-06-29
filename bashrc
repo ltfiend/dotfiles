@@ -130,7 +130,7 @@ fi
 # bloop completions
 # . $HOME/.bloop/bash/bloop
 
-export PATH=$PATH:/home/peter/.local/bin
+export PATH=$PATH:/home/peter/.local/bin:/home/peter/.cargo/bin
 
 # Adjust screen terminal names
 # vi() { 

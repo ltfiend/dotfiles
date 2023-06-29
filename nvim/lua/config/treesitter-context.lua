@@ -32,9 +32,9 @@ require'treesitter-context'.setup{
             'struct',
             'enum',
         },
-        scala = {
-            'object_definition',
-        },
+        -- scala = {
+        --     'object_definition',
+        -- },
         vhdl = {
             'process_statement',
             'architecture_body',

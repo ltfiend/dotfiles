@@ -47,3 +47,7 @@ for x in `cat aws-ips.txt`; do nmap -PS -p22 ${x}; done
 ffmpeg -ss 1 -t 8 -i 20220723_140814_001.mp4 -vf "fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 ~/slidev/images/oled.gif 
 curl https://datatracker.ietf.org/api/v1/doc/document/?|jq|head
 cat /proc/sys/kernel/random/uuid 
+aws logs get-log-events --log-stream-name 7b35b4a0-5214-4585-acb5-be390abbc0a4 --log-group-name /aws/codebuild/iodyntest3|grep message|sed s/^s*"message":s"(.*)",$/1/g
+sam package --template-file .aws-sam/build/template.yaml --region us-east-1 --output-template-file cloudformation/generated-sam-template.yaml
+sam deploy --template-file /home/peter/aws-playground/Auth1-CF/cloudformation/generated-sam-template.yaml --stack-name TestStack8 --capabilities CAPABILITY_NAMED_IAM
+sam package --template-file .aws-sam/build/template.yaml --region us-east-1 --output-template-file cloudformation/generated-sam-template.yaml

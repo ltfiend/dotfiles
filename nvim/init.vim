@@ -22,9 +22,6 @@ set foldmethod=indent
 set foldnestmax=1
 set nofoldenable
 
-call plug#begin('~/.config/nvim/plugged')
-call plug#end()
-
 lua require ("ltfiend")
 
 if executable('rg')

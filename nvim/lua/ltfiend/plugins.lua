@@ -109,23 +109,9 @@ function M.setup()
     use { 'nvim-treesitter/nvim-treesitter', }
     use { 'nvim-treesitter/nvim-treesitter-context' }
 
-    -- use { "rest-nvim/rest.nvim", requires = { "nvim-lua/plenary.nvim" }}
-
 --    use {
 --        '~/Git/ietf-plugin.nvim/'
 --    }
-
---     use({ "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
---         config = function()
---             require("lsp_lines").register_lsp_virtual_lines()
---         end,
---     })
-
---
---     use {
---      'sheerun/vim-polyglot'
---     }
-
 
     use { 'junegunn/fzf.vim' }
     use { 'tpope/vim-dispatch' }
@@ -174,17 +160,17 @@ function M.setup()
     -- use { 'renerocksai/telekasten.nvim' }
     use { '~/Git/telekasten.nvim' }
 
-    use {
-        "kode-team/mastodon.nvim",
-        requires = {
-          "nvim-lua/plenary.nvim",
-          "rcarriga/nvim-notify",
-          "kkharji/sqlite.lua",
-        },
-        config = function()
-        require("mastodon").setup()
-    end
-    }
+--    use {
+--        "kode-team/mastodon.nvim",
+--        requires = {
+--          "nvim-lua/plenary.nvim",
+--          "rcarriga/nvim-notify",
+--          "kkharji/sqlite.lua",
+--        },
+--        config = function()
+--        require("mastodon").setup()
+--    end
+--    }
 
 --     use {
 --       "mfussenegger/nvim-dap",

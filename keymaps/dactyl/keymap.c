@@ -1,4 +1,4 @@
-/* A standard layout for the Dactyl Manuform 5x6 Keyboard */ 
+/* A standard layout for the Dactyl Manuform 5x6 Keyboard */
 
 // Layout editor colors
 // - mouse - 5500ff
@@ -20,7 +20,6 @@
 #define RAISE MO(_RAISE)
 #define LAYER2 MO(_LAYER2)
 #define MLAYMO MO(_MLAYER)
-#define NUMLAY MO(_NUMLAY)
 #define MLAYTT TT(_MLAYER)
 #define MLAYER MO(_MLAYER)
 #define QWERTO TO(_QWERTY)
@@ -29,18 +28,27 @@
 #define SNGRGHT TG(_RGHTONLY)
 #define NEOVIM LT(_NEOVIM, KC_SCLN)
 
-LEADER_EXTERNS();
 #define LEADER_PER_KEY_TIMING
 #define LEADER_TIMEOUT 750
 
-bool did_leader_succeed;
+#ifdef RGBLIGHT_ENABLE
+void keyboard_post_init_user(void) {
+    rgblight_enable_noeeprom();
+    rgblight_sethsv_noeeprom(HSV_GREEN);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_sethsv_range(HSV_GREEN, 0, 52);
+}
+#endif
+
+
+// bool did_leader_succeed;
 
 /* need to install a speaker and enable this in rules.mk */
 // #ifdef AUDIO_ENABLE
 // float leader_start[][2] = SONG(ONE_UP_SOUND );
 // float leader_succeed[][2] = SONG(ALL_STAR);
 // float leader_fail[][2] = SONG(RICK_ROLL);
-// #endif 
+// #endif
 
 enum custom_keycodes {
     SCREENA = SAFE_RANGE,
@@ -118,20 +126,21 @@ enum custom_keycodes {
     NVIMPT,
     NVIMNT,
     NVIMVSP,
-    DAPUI_T
+    DAPUI_T,
+    SHIFINS
 };
 
-enum {
-  TD_SC_C,
-  TD_SQDQ,
-  TD_LBRC,
-  TD_RBRC,
-  TD_SCTP,
-  TD_9_0,
-  VIZ,
-  VIQ,
-  VIW,
-};
+// enum {
+//   TD_SC_C,
+//   TD_SQDQ,
+//   TD_LBRC,
+//   TD_RBRC,
+//   TD_SCTP,
+//   TD_9_0,
+//   VIZ,
+//   VIQ,
+//   VIW,
+// };
 
 // Removed, to used to hold shift and bkspacing.   Causes issues in screen
 // Key Overrides - new # KEY_OVERRIDE_ENABLE = yes
@@ -853,10 +862,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             // when keycode is released
         }
         break;
+    case SHIFINS:
+        if (record->event.pressed) {
+            register_code(KC_LSFT);
+            register_code(KC_INS);
+            unregister_code(KC_LSFT);
+            unregister_code(KC_INS);
+        } else {
+            // when keycode is released
+        }
+        break;
 // Template
 //     case LOGCOM:
 //         if (record->event.pressed) {
-// 
+//
 //         } else {
 //             // when keycode is released
 //         }
@@ -866,184 +885,184 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 };
 
 // LEADER KEY
-void matrix_scan_user(void) {
-  LEADER_DICTIONARY() {
-    did_leader_succeed = leading = false;
-    /// General Purpose
-    SEQ_ONE_KEY(KC_L) {
-        SEND_STRING("ls -l");
-    } else
-    SEQ_TWO_KEYS(KC_L, KC_L) {
-        SEND_STRING("ls -lhart");
-    } else
-      //////////// CHROME ////////////////
-      // Chrome - open last closed tab
-    SEQ_ONE_KEY(KC_R) {
-      register_code(KC_LCTL);
-      register_code(KC_F5);
-      unregister_code(KC_F5);
-      unregister_code(KC_LCTL);
-      did_leader_succeed = true;
-    } else
-    SEQ_ONE_KEY(KC_T) {
-      SEND_STRING(SS_LCTL(SS_LSFT("t")));
-      did_leader_succeed = true;
-    } else
-    SEQ_TWO_KEYS(KC_C, KC_T) {
-      SEND_STRING(SS_LCTL(SS_LSFT("t")));
-      did_leader_succeed = true;
-    } else
-      // Chrome - goto address bar
-    SEQ_ONE_KEY(KC_A) {
-      SEND_STRING(SS_LALT("d"));
-      did_leader_succeed = true;
-    } else
-    SEQ_TWO_KEYS(KC_C, KC_A) {
-      SEND_STRING(SS_LALT("d"));
-      did_leader_succeed = true;
-    } else
-      //////////// VI //////////////
-      /* VI - send :w */
-    SEQ_ONE_KEY(KC_W) {
-      SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":w" SS_TAP(X_ENT));
-      did_leader_succeed = true;
-    } else
-    SEQ_TWO_KEYS(KC_V, KC_W) {
-      SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":w" SS_TAP(X_ENT));
-      did_leader_succeed = true;
-    } else
-      /* VI - send :wq */
-    SEQ_ONE_KEY(KC_Q) {
-      SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":wq" SS_TAP(X_ENT));
-      did_leader_succeed = true;
-    } else
-    SEQ_TWO_KEYS(KC_V, KC_Q) {
-      SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":wq" SS_TAP(X_ENT));
-      did_leader_succeed = true;
-    } else
-      /* VI - send :q! */
-    SEQ_ONE_KEY(KC_X) {
-      SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":q!" SS_TAP(X_ENT));
-      did_leader_succeed = true;
-    } else
-    SEQ_TWO_KEYS(KC_V, KC_X) {
-      SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":q!" SS_TAP(X_ENT));
-      did_leader_succeed = true;
-    } else
-      //////////// SCREEN //////////////
-      /* screen - open window list */
-    SEQ_TWO_KEYS(KC_S, KC_L) {
-      SEND_STRING(SS_LCTL("a") "\"");
-      did_leader_succeed = true;
-    }
-      /* screen - last screen */
-    SEQ_TWO_KEYS(KC_S, KC_S) {
-      SEND_STRING(SS_LCTL("a") SS_LCTL("a"));
-      did_leader_succeed = true;
-    }
-    SEQ_TWO_KEYS(KC_S, KC_A) {
-      SEND_STRING(SS_LCTL("a") SS_LCTL("a"));
-      did_leader_succeed = true;
-    }
-    //////////// i3  //////////////
-    /* i3 - close window */
-    SEQ_TWO_KEYS(KC_I, KC_Q) {
-      SEND_STRING(SS_LGUI(SS_LSFT("q")) "\"");
-      did_leader_succeed = true;
-    }
-    SEQ_TWO_KEYS(KC_I, KC_COMM) {
-      SEND_STRING(SS_LGUI(SS_LALT(SS_LSFT("<"))) "\"");
-      did_leader_succeed = true;
-    }
-    SEQ_TWO_KEYS(KC_I, KC_DOT) {
-      SEND_STRING(SS_LGUI(SS_LALT(SS_LSFT(">"))) "\"");
-      did_leader_succeed = true;
-    }
-    leader_end();
-  }
-}
+// void matrix_scan_user(void) {
+//   LEADER_DICTIONARY() {
+//     did_leader_succeed = leading = false;
+//     /// General Purpose
+//     SEQ_ONE_KEY(KC_L) {
+//         SEND_STRING("ls -l");
+//     } else
+//     SEQ_TWO_KEYS(KC_L, KC_L) {
+//         SEND_STRING("ls -lhart");
+//     } else
+//       //////////// CHROME ////////////////
+//       // Chrome - open last closed tab
+//     SEQ_ONE_KEY(KC_R) {
+//       register_code(KC_LCTL);
+//       register_code(KC_F5);
+//       unregister_code(KC_F5);
+//       unregister_code(KC_LCTL);
+//       did_leader_succeed = true;
+//     } else
+//     SEQ_ONE_KEY(KC_T) {
+//       SEND_STRING(SS_LCTL(SS_LSFT("t")));
+//       did_leader_succeed = true;
+//     } else
+//     SEQ_TWO_KEYS(KC_C, KC_T) {
+//       SEND_STRING(SS_LCTL(SS_LSFT("t")));
+//       did_leader_succeed = true;
+//     } else
+//       // Chrome - goto address bar
+//     SEQ_ONE_KEY(KC_A) {
+//       SEND_STRING(SS_LALT("d"));
+//       did_leader_succeed = true;
+//     } else
+//     SEQ_TWO_KEYS(KC_C, KC_A) {
+//       SEND_STRING(SS_LALT("d"));
+//       did_leader_succeed = true;
+//     } else
+//       //////////// VI //////////////
+//       /* VI - send :w */
+//     SEQ_ONE_KEY(KC_W) {
+//       SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":w" SS_TAP(X_ENT));
+//       did_leader_succeed = true;
+//     } else
+//     SEQ_TWO_KEYS(KC_V, KC_W) {
+//       SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":w" SS_TAP(X_ENT));
+//       did_leader_succeed = true;
+//     } else
+//       /* VI - send :wq */
+//     SEQ_ONE_KEY(KC_Q) {
+//       SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":wq" SS_TAP(X_ENT));
+//       did_leader_succeed = true;
+//     } else
+//     SEQ_TWO_KEYS(KC_V, KC_Q) {
+//       SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":wq" SS_TAP(X_ENT));
+//       did_leader_succeed = true;
+//     } else
+//       /* VI - send :q! */
+//     SEQ_ONE_KEY(KC_X) {
+//       SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":q!" SS_TAP(X_ENT));
+//       did_leader_succeed = true;
+//     } else
+//     SEQ_TWO_KEYS(KC_V, KC_X) {
+//       SEND_STRING(SS_TAP(X_ESC) SS_TAP(X_ESC) ":q!" SS_TAP(X_ENT));
+//       did_leader_succeed = true;
+//     } else
+//       //////////// SCREEN //////////////
+//       /* screen - open window list */
+//     SEQ_TWO_KEYS(KC_S, KC_L) {
+//       SEND_STRING(SS_LCTL("a") "\"");
+//       did_leader_succeed = true;
+//     }
+//       /* screen - last screen */
+//     SEQ_TWO_KEYS(KC_S, KC_S) {
+//       SEND_STRING(SS_LCTL("a") SS_LCTL("a"));
+//       did_leader_succeed = true;
+//     }
+//     SEQ_TWO_KEYS(KC_S, KC_A) {
+//       SEND_STRING(SS_LCTL("a") SS_LCTL("a"));
+//       did_leader_succeed = true;
+//     }
+//     //////////// i3  //////////////
+//     /* i3 - close window */
+//     SEQ_TWO_KEYS(KC_I, KC_Q) {
+//       SEND_STRING(SS_LGUI(SS_LSFT("q")) "\"");
+//       did_leader_succeed = true;
+//     }
+//     SEQ_TWO_KEYS(KC_I, KC_COMM) {
+//       SEND_STRING(SS_LGUI(SS_LALT(SS_LSFT("<"))) "\"");
+//       did_leader_succeed = true;
+//     }
+//     SEQ_TWO_KEYS(KC_I, KC_DOT) {
+//       SEND_STRING(SS_LGUI(SS_LALT(SS_LSFT(">"))) "\"");
+//       did_leader_succeed = true;
+//     }
+//     leader_end();
+//   }
+// }
+// 
+// void quit_nvim(qk_tap_dance_state_t *state, void *user_data) {
+//     switch(state->count) {
+//         case 1:
+//             tap_code(KC_ESC);
+//             SEND_STRING(":q\n");
+//             break;
+//         case 2:
+//             tap_code(KC_ESC);
+//             SEND_STRING(":qa\n");
+//             break;
+//         case 3:
+//             tap_code(KC_ESC);
+//             SEND_STRING(":q!\n");
+//             break;
+//         case 4:
+//             tap_code(KC_ESC);
+//             SEND_STRING(":qa!\n");
+//             break;
+//         case 100:
+//             SEND_STRING("format drive");
+//             break;
+//     }
+// }
+//
+// void write_nvim(qk_tap_dance_state_t *state, void *user_data) {
+//     switch(state->count) {
+//         case 1:
+//             tap_code(KC_ESC);
+//             SEND_STRING(":w\n");
+//             break;
+//         case 2:
+//             tap_code(KC_ESC);
+//             SEND_STRING(":wa\n");
+//             break;
+//         case 3:
+//             tap_code(KC_ESC);
+//             SEND_STRING(":wq!\n");
+//             break;
+//         case 4:
+//             tap_code(KC_ESC);
+//             SEND_STRING(":wqa!\n");
+//             break;
+//     }
+// }
+//
+// void zoom_window(qk_tap_dance_state_t *state, void *user_data) {
+//     switch(state->count) {
+//         case 1:
+//             SEND_STRING(SS_LCTL("w"));
+//             SEND_STRING("|");
+//             SEND_STRING(SS_LCTL("w"));
+//             SEND_STRING("_");
+//             break;
+//         case 2:
+//             SEND_STRING(SS_LCTL("w"));
+//             SEND_STRING("=");
+//             break;
+//     }
+// }
+//
+// // Tap Dance
+// qk_tap_dance_action_t tap_dance_actions[] = {
+//   // Tap once for Escape, twice for Caps Lock
+//   [TD_SC_C] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
+//   [TD_SQDQ] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),
+//   [TD_LBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_LBRC),
+//   [TD_RBRC] = ACTION_TAP_DANCE_DOUBLE(KC_RCBR, KC_RBRC),
+//   [TD_9_0] = ACTION_TAP_DANCE_DOUBLE(KC_9, KC_0),
+//   [VIZ] = ACTION_TAP_DANCE_FN(zoom_window),
+//   [VIQ] = ACTION_TAP_DANCE_FN(quit_nvim),
+//   [VIW] = ACTION_TAP_DANCE_FN(write_nvim),
+// };
 
-void quit_nvim(qk_tap_dance_state_t *state, void *user_data) {
-    switch(state->count) {
-        case 1:
-            tap_code(KC_ESC);
-            SEND_STRING(":q\n");
-            break;
-        case 2:
-            tap_code(KC_ESC);
-            SEND_STRING(":qa\n");
-            break;
-        case 3:
-            tap_code(KC_ESC);
-            SEND_STRING(":q!\n");
-            break;
-        case 4:
-            tap_code(KC_ESC);
-            SEND_STRING(":qa!\n");
-            break;
-        case 100:
-            SEND_STRING("format drive");
-            break;
-    }
-}
 
-void write_nvim(qk_tap_dance_state_t *state, void *user_data) {
-    switch(state->count) {
-        case 1:
-            tap_code(KC_ESC);
-            SEND_STRING(":w\n");
-            break;
-        case 2:
-            tap_code(KC_ESC);
-            SEND_STRING(":wa\n");
-            break;
-        case 3:
-            tap_code(KC_ESC);
-            SEND_STRING(":wq!\n");
-            break;
-        case 4:
-            tap_code(KC_ESC);
-            SEND_STRING(":wqa!\n");
-            break;
-    }
-}
-
-void zoom_window(qk_tap_dance_state_t *state, void *user_data) {
-    switch(state->count) {
-        case 1:
-            SEND_STRING(SS_LCTL("w"));
-            SEND_STRING("|");
-            SEND_STRING(SS_LCTL("w"));
-            SEND_STRING("_");
-            break;
-        case 2:
-            SEND_STRING(SS_LCTL("w"));
-            SEND_STRING("=");
-            break;
-    }
-}
-
-// Tap Dance
-qk_tap_dance_action_t tap_dance_actions[] = {
-  // Tap once for Escape, twice for Caps Lock
-  [TD_SC_C] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
-  [TD_SQDQ] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),
-  [TD_LBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_LBRC),
-  [TD_RBRC] = ACTION_TAP_DANCE_DOUBLE(KC_RCBR, KC_RBRC),
-  [TD_9_0] = ACTION_TAP_DANCE_DOUBLE(KC_9, KC_0),
-  [VIZ] = ACTION_TAP_DANCE_FN(zoom_window),
-  [VIQ] = ACTION_TAP_DANCE_FN(quit_nvim),
-  [VIW] = ACTION_TAP_DANCE_FN(write_nvim),
-};
-
-      
 // Saving for the future when I have a speaker
 // void leader_start(void) {
 // #ifdef AUDIO_ENABLE
 //     PLAY_SONG(leader_start);
 // #endif
 // }
-// 
+//
 // void leader_end(void) {
 //   if (did_leader_succeed) {
 // #ifdef AUDIO_ENABLE
@@ -1061,28 +1080,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_5x6(
      KC_ESC , KC_1  , KC_2  , KC_3  , KC_4  , KC_5  ,                         KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
      KC_TAB , KC_Q  , KC_W  , KC_E  , KC_R  , KC_T  ,                         KC_Y  , KC_U  , KC_I  , KC_O  , KC_P  ,KC_MINS,
-     KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                         KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
+     KC_LSFT, KC_A  , KC_S  , KC_D  , KC_F  , KC_G  ,                         KC_H  , KC_J  , KC_K  , KC_L  ,KC_SCLN,KC_QUOT,
      KC_LCTL, KC_Z  , KC_X  , KC_C  , KC_V  , KC_B  ,                         KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLS,
-                                      KC_LBRC,KC_RBRC,                    KC_PLUS, KC_EQL,
+                                      KC_LBRC,KC_RBRC,                                KC_PLUS, KC_EQL, 
                                       TMUXLAY,RAISE,                    KC_SPC, KC_ENT,
                                       RAISE,KC_LGUI,                      NEOVIM, MLAYER,
-                                      KC_LALT, TD(TD_SCTP),                   KC_LEAD, LAYER2
+                                      KC_LALT,_______,                   _______, LAYER2
   ),
   [_RAISE] = LAYOUT_5x6(
        KC_TILD,S(KC_1),S(KC_2),S(KC_3),S(KC_4),S(KC_5),                        S(KC_6),S(KC_7),S(KC_8),S(KC_9),S(KC_0),KC_DEL,
-       KC_GRV ,KC_6   ,KC_7   ,KC_8   ,TD(TD_9_0),KC_LBRC,                     KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SCRL,KC_MUTE,
+       KC_GRV ,KC_6   ,KC_7   ,KC_8   ,UG_TOGG,KC_LBRC,                     KC_RBRC,KC_PGDN,KC_PGUP,KC_INS ,KC_SCRL,KC_MUTE,
        _______,KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT,KC_LPRN,                        KC_LEFT,KC_DOWN,KC_UP  ,KC_RGHT,_______,KC_VOLU,
-       _______,KC_DEL ,SPOILER, CBLOCK,KC_SPC ,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
+       _______,KC_DEL ,SPOILER, CBLOCK,SHIFINS,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
                                                KC_WH_U,KC_WH_D,            KC_EQL ,_______,
-                                               KC_DEL ,_______,            TD(TD_LBRC),TD(TD_RBRC),
+                                               KC_DEL ,_______,            KC_LBRC,KC_RBRC,
                                                _______,_______,            _______,KC_ESC,
                                                SNGLEFT,_______,            KC_BTN3,_______
   ),
   [_NEOVIM] = LAYOUT_5x6(
        _______,VIMJOUR,VIMKEYM,NVIMSF3,NVIMSF4,NVIMSF5,                        NVIMRL ,NVIMRD ,NVIMRU ,NVIMRR ,_______,_______,
-       _______,TD(VIQ),TD(VIW),_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
+       _______,_______,_______,_______,_______,_______,                        _______,_______,_______,_______,_______,_______,
        _______,_______,NVIMSPL,DAPBACK,DAPFORW,_______,                        NVIML  ,NVIMD  ,NVIMU  ,NVIMR  ,_______,_______,
-       _______,VIMFOLD,DAPTERM,_______,NVIMVSP,DAPBPNT,                        TD(VIZ),_______,NVIMPT ,NVIMNT ,_______,NVIMVSP,
+       _______,VIMFOLD,DAPTERM,_______,NVIMVSP,DAPBPNT,                        _______,_______,NVIMPT ,NVIMNT ,_______,NVIMVSP,
                                                DAPBACK,DAPFORW,            _______,_______,
                                                DAPUI_T,DAPCONT,            _______,_______,
                                                _______,_______,            _______,_______,
@@ -1118,16 +1137,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                KC_ESC ,KC_WH_U,            _______,_______,
                                                _______,KC_WH_D,            _______,_______
   ),
-  [_NUMLAY] = LAYOUT_5x6(
-        _______,KC_1   ,KC_2   ,KC_3   ,_______,KC_PLUS,                        KC_MINS,KC_EQL ,KC_0   ,KC_DOT ,_______,_______,
-        _______,KC_4   ,KC_5   ,KC_6   ,_______,KC_LCBR,                        KC_RCBR,KC_1   ,KC_2   ,KC_3   ,_______,_______,
-        _______,KC_7   ,KC_8   ,KC_9   ,_______,KC_LPRN,                        KC_RPRN,KC_4   ,KC_5   ,KC_6   ,_______,_______,
-        _______,_______,KC_0   ,KC_DOT ,_______,KC_LBRC,                        KC_RBRC,KC_7   ,KC_8   ,KC_9   ,_______,_______,
-                                                _______,_______,            _______,_______,
-                                                _______,_______,            _______,_______,
-                                                _______,_______,            _______,_______,
-                                                _______,_______,            _______,_______
-  ),
   [_LEFTONLY] = LAYOUT_5x6(
        KC_ESC ,KC_1   ,KC_2   ,KC_3   ,KC_4   ,KC_5   ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
        KC_TAB , KC_Q  , KC_W  , KC_E  , KC_R  , KC_T  ,                        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,
@@ -1136,33 +1145,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                              KC_LBRC,KC_RBRC,              QWERTO ,QWERTO ,
                                              TMUXLAY,RAISE  ,              QWERTO ,QWERTO ,
                                              RAISE  ,KC_LGUI,              QWERTO ,QWERTO ,
-                                             KC_ENT ,KC_SPC ,              QWERTO ,QWERTO 
+                                             KC_ENT ,KC_SPC ,              QWERTO ,QWERTO
   ),
   [_RGHTONLY] = LAYOUT_5x6(
        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_6  , KC_7  , KC_8  , KC_9  , KC_0  ,KC_BSPC,
        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_Y  , KC_U  , KC_I  , KC_O  , KC_P  ,KC_MINS,
-       QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_H  , KC_J  , KC_K  , KC_L  ,TD(TD_SC_C),TD(TD_SQDQ),
+       QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_H  , KC_J  , KC_K  , KC_L  ,KC_SCLN,KC_QUOT,
        QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,QWERTO ,                        KC_N  , KC_M  ,KC_COMM,KC_DOT ,KC_SLSH,KC_BSLS,
                                                QWERTO ,QWERTO ,            KC_PLUS, KC_EQL ,
                                                QWERTO ,QWERTO ,            KC_SPC , KC_ENT ,
                                                QWERTO ,QWERTO ,            KC_SCLN, MLAYER ,
-                                               QWERTO ,QWERTO ,            KC_LEAD, LAYER2
+                                               QWERTO ,QWERTO ,            _______, LAYER2
   ),
 };
 
 // Plans for single handed keyboard modes:
-// 
+//
 // single left, when using the mouse, playing a FPS, cad work, etc.
 // Reqs:
-// from right: space, enter, vi leader, 6-9, backspace, browser mod?, brackets, 
+// from right: space, enter, vi leader, 6-9, backspace, browser mod?, brackets,
 // New: enter single left operation, revert to standard operation
 // Keep:
-// 
+//
 // single right, when standing up and needing to quick enter something
 // Reqs:
-// from left: mod, i3 mod, tmux mod, 1-5, brackets, shift, esc, tab?, ctrl, 
-// New: enter single right operation, revert to standard operation, 
-// Keep: letters, numbers, 
+// from left: mod, i3 mod, tmux mod, 1-5, brackets, shift, esc, tab?, ctrl,
+// New: enter single right operation, revert to standard operation,
+// Keep: letters, numbers,
 //
 //
 //
@@ -1177,7 +1186,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                                _______,_______,            _______,_______
 //   ),
 
-/* 
+/*
 
 // Thumb clusters, match to the comments in the keymaps
 //

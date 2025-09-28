@@ -1,0 +1,15 @@
+#pragma once
+#define SERIAL
+#define MASTER_LEFT
+#define SPLIT_USB_DETECT
+#define SPLIT_TRANSPORT_MIRROR
+#define SPLIT_LAYER_STATE_ENABLE
+
+// #undef DIODE_DIRECTION
+// #define DIODE_DIRECTION ROW2COL
+
+// #undef WS2812_DI_PIN
+// #define WS2812_DI_PIN B7
+// #undef RGBLIGHT_LED_COUNT
+// #define RGBLIGHT_LED_COUNT 52
+// #define RGBLED_SPLIT { 26, 26 }

@@ -52,3 +52,16 @@ sam package --template-file .aws-sam/build/template.yaml --region us-east-1 --ou
 sam deploy --template-file /home/peter/aws-playground/Auth1-CF/cloudformation/generated-sam-template.yaml --stack-name TestStack8 --capabilities CAPABILITY_NAMED_IAM
 sam package --template-file .aws-sam/build/template.yaml --region us-east-1 --output-template-file cloudformation/generated-sam-template.yaml
 
+grim -g "$(slurp -d)" - | wl-copy
+
+docker run --rm -ti   --name=lazydocker   --volume /var/run/docker.sock:/var/run/docker.sock:ro lazyteam/lazydocker
+
+docker run --rm -ti   --name=ctop   --volume /var/run/docker.sock:/var/run/docker.sock:ro ctop
+
+/home/peter/go/bin/prometheus-dnssec-exporter --config dnssec-checks --resolvers 192.168.1.3:53,8.8.8.8:53
+
+dig @192.168.1.3 devries.tv ns +short|xargs -I '{}' dig @{} devries.tv soa +short
+
+docker run -it docker.io/certbot/certbot certonly --manual --preferred-challenges dns -d unifi.devries.tv --key-type rsa
+docker run -it docker.io/certbot/certbot certonly --manual --preferred-challenges dns -d ha.devries.tv
+

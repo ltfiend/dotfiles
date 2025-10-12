@@ -1,0 +1,3 @@
+BOOTLOADER = caterina
+RGBLIGHT_ENABLE = yes
+ENCODER_ENABLE = yes

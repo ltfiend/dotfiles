@@ -115,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,KC_DEL ,_______,_______,KC_SPC ,KC_LCBR,                        KC_RCBR,_______,_______,_______,KC_TILD,KC_VOLD,
                                                 MS_WHLU,_______,            KC_EQL ,_______,
                                                 KC_DEL ,_______,            KC_SPC ,KC_ENT ,
-                                                UG_TOGG,_______,            _______,KC_ESC,
+                                                UG_TOGG,_______,            KC_PSCR,KC_ESC,
                                                 _______,_______,            MS_BTN3,SHIFINS
     ),
     [_LAYER2] = LAYOUT_5x6(

@@ -105,8 +105,7 @@ alias gcheck='curl https://www.gstatic.com/ipranges/publicdns.json | jq ".prefix
 alias awsip='curl https://ip-ranges.amazonaws.com/ip-ranges.json | jq -jr ".prefixes[] | .ip_prefix, \" - \", .region, \"\n\""|fzf'
 alias cfip='curl https://api.cloudflare.com/client/v4/ips|jq "[.result.ipv6_cidrs, .result.ipv4_cidrs]"|awk -F"\"" "/\w+/{print $2}"|fzf'
 alias c='cat ~/.commands | fzf --bind "enter:become(sh -c {})"'
-alias fd=fdfind
-alias f='fdfind -I|fzf --multi --bind "enter:become(vim {+})"'
+alias f='fd -I|fzf --multi --bind "enter:become(vim {+})"'
 alias dff='/usr/bin/duf --hide loops,special'
 alias rs='source ~/Git/trueline/trueline.sh'
 alias whatsmyip='dig TXT +short o-o.myaddr.l.google.com @ns1.google.com'
@@ -135,6 +134,9 @@ fi
 
 # bloop completions
 # . $HOME/.bloop/bash/bloop
+
+# SSH agent via systemd socket activation
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 export PATH=$PATH:/home/peter/.local/bin:/home/peter/.cargo/bin
 

@@ -1,0 +1,127 @@
+neodocker() {
+  # Mount current folder OR folders/files given as parameters, then
+  # open neovim. Container will be removed on neovim exit.
+  # Mount wayland for clipboard sync.
+  # Also pass all parameters to neovim as its arguments.
+  local PYTHON_PATH="/usr/lib/python3.11"
+  local RUN_FILE=""
+
+  for arg in "$@"; do
+    if [ -f "$arg" ] || [ -d "$arg" ]; then
+      # mount the file into the local user directory in neodocker (ubuntu)
+      local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "./$arg:/home/ubuntu/$arg:rw")
+      local RUN_FILE="/home/ubuntu/$arg"
+      echo "Mounting $arg"
+
+    fi
+  done
+
+  # Always do this, not only if an arg is mounted.
+    # mount on base_path to make sessions saving work
+    # use list as a trick to allow paths with spaces
+  local base_path="$(pwd)"
+  local MOUNT_FILE=("${MOUNT_FILE[@]}" --workdir "/data$base_path" -v "$base_path:/data$base_path:rw")
+
+  local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME:/data/home:rw")
+
+  if [ -f "$HOME/.gitconfig" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.gitconfig:/home/ubuntu/.gitconfig:ro")
+  fi
+
+  if [ -f "$HOME/.ssh/known_hosts" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.ssh/known_hosts:/home/ubuntu/.ssh/known_hosts:ro")
+  fi
+
+  if [ -d "$XDG_RUNTIME_DIR" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$XDG_RUNTIME_DIR:/runtime_dir:rw")
+  else
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" --tmpfs "/runtime_dir")
+  fi
+
+  if [ -S "$SSH_AUTH_SOCK" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$SSH_AUTH_SOCK:/runtime_dir/ssh-agent.socket:rw")
+  fi
+
+  if [ -d "$NVIMCONFDIR/config/nvim" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$NVIMCONFDIR/config/nvim:/home/ubuntu/.config/nvim/:rw")
+  fi
+
+  if [ -d "$NVIMCONFDIR/state" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$NVIMCONFDIR/state:/home/ubuntu/.local/state:rw")
+  fi
+
+  if [ -d "$NVIMCONFDIR/share" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$NVIMCONFDIR/share:/home/ubuntu/.local/share:rw") 
+  fi
+
+  if [ -d "$HOME/.aws" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.aws:/home/ubuntu/.aws:ro") 
+  fi
+
+  if [ -d "$HOME/Git" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/Git:/home/ubuntu/Git:rw") 
+  fi
+
+  if [ -d "$HOME/zettelkasten" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/zettelkasten:/home/ubuntu/zettelkasten:rw") 
+  fi
+
+  if [ -d "/etc/bind" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "/etc/bind:/etc/bind:ro")
+  fi
+
+  if [ -f "$HOME/.gpt-api" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.gpt-api:/home/ubuntu/.gpt-api:ro")
+  fi
+
+  if [ -f "$HOME/.gpt-api" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.gpt-api:/home/ubuntu/.claude-api:ro")
+  fi
+
+  if [ -f "$HOME/.iodyn-mgmt.conf" ]; then
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.aws:/home/ubuntu/.iodyn-mgmt.conf:ro") 
+  fi
+
+  for PYTHONDIR in `ls -1d ~/.local/lib/python*|awk -F python '{print $2}'`
+    do
+      if [ -d "$HOME/.local/lib/python$PYTHONDIR/site-packages" ]; then
+        local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.local/lib/python$PYTHONDIR/site-packages:/home/ubuntu/.local/lib/python$PYTHONDIR/site-packages:ro") 
+        local PYTHON_PATH=("${PYTHON_PATH}:/home/ubuntu/.local/lib/python$PYTHONDIR/site-packages") 
+      fi
+   done 
+
+# Old method
+#  if [ -d "$HOME/.local/lib/python3.12/site-packages" ]; then
+#    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.local/lib/python3.12/site-packages:/home/ubuntu/.local/lib/python3.12/site-packages:ro") 
+#    local PYTHON_PATH=("${PYTHON_PATH}:/home/ubuntu/.local/lib/python3.12/site-packages") 
+#  fi
+
+# Havent had a use case for opt but can be done the same way as user
+#  if [ -d "/opt/lib/python3.11" ]; then
+#    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "/opt/lib/python3.11:/opt/lib/python3.11:ro") 
+#    local PYTHON_PATH=("${PYTHON_PATH}:/opt/lib/python3.11") 
+#  fi
+
+# You don't really want to mount the OS python libs into the docker because certain things will conflict.  Add only what you need in home or opt
+#  if [ -d "/usr/lib/python3.11" ]; then
+#    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "/usr/lib/python3.11:/usr/oslib/python3.11:ro") 
+#    local PYTHON_PATH=("${PYTHON_PATH}:/usr/oslib/python3.11") 
+#  fi
+#
+  # make sure there is a folder for sessions on default path
+  mkdir -p ~/.local/share/nvim/sessions ~/.local/state/nvim/shada
+
+  # debugging
+  # echo "Files mount options: ${MOUNT_FILE[*]}"
+
+  docker run --privileged -it --rm\
+    --shm-size=0 \
+    --init \
+    --network host \
+    --user ubuntu \
+    -e XDG_RUNTIME_DIR=/runtime_dir \
+    -e PYTHONPATH=${PYTHON_PATH} \
+    "${MOUNT_FILE[@]}" \
+    registry.devries.tv/neodocker:stable ${RUN_FILE}
+}
+#    neovim-docker:alpine "$@"

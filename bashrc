@@ -111,6 +111,8 @@ alias rs='source ~/Git/trueline/trueline.sh'
 alias whatsmyip='dig TXT +short o-o.myaddr.l.google.com @ns1.google.com'
 alias whatsmyv6ip='dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com'
 alias ctop='docker run --rm -ti   --name=ctop   --volume /var/run/docker.sock:/var/run/docker.sock:ro   quay.io/vektorlab/ctop:latest'
+alias tlds='curl https://www.internic.net/domain/root.zone|rg NS|awk "{print $1}"|uniq|fzf'
+alias tld2='curl https://www.internic.net/domain/root.zone'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -197,6 +199,7 @@ stty erase ^?
 
 set keymap vi
 # setxkbmap -config /home/peter/.config/keymap.config
+source ~/.claude_completion.bash
 source ~/.fzf_completion.bash
 source ~/.fzf_bindings.bash
 export FZF_DEFAULT_OPTS="--height 40% --border"

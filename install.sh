@@ -43,4 +43,8 @@ link "$REPO_DIR/tmux.conf"            "$HOME/.tmux.conf"
 link "$REPO_DIR/neodocker.rc"         "$HOME/.neodocker.rc"
 link "$REPO_DIR/neodocker-slim.rc"    "$HOME/.neodocker-slim.rc"
 
+# Enable this repo's tracked git hooks (pre-push gitleaks scan).
+git -C "$REPO_DIR" config core.hooksPath githooks
+echo "HOOKS   core.hooksPath = githooks"
+
 echo "Done."

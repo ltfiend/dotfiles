@@ -1,2 +1,0 @@
-BOOTLOADER = caterina
-RGBLIGHT_ENABLE = no

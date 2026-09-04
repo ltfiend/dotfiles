@@ -1,0 +1,11 @@
+*metals.log
+
+# Claude Code / AI assistant files
+PROMPTS.md
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+.claude-*
+
+# Editor/LSP caches
+.ccls-cache/

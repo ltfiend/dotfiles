@@ -1,17 +1,15 @@
 
 neodocker-slim() {
-  export RNDC_BIND_IP=192.168.1.3
-  export RNDC_CATALOG_DOMAIN="catalog.devries"
-  export RNDC_TSIG_KEY="/etc/bind/tcs-tsig-transfer.key"
   # Minimal wrapper for the slim image: BIND zone/config editing only
   # (nvim-rndc-zone + nvim-named-conf). Compared to neodocker.rc this drops
   # --privileged and the home-directory mounts, runs as the host user, and
   # makes the container filesystem read-only.
   #
-  # Configure the rndczone plugin per-run via environment variables:
-  #   RNDC_BIND_IP          BIND server IP        (default 127.0.0.1)
-  #   RNDC_CATALOG_DOMAIN   catalog zone name     (default catalog.example)
-  #   RNDC_TSIG_KEY         TSIG key file for dig (default /etc/bind/tsig.key)
+  # Configure the rndczone plugin in ~/.neodocker-slim.env (untracked), e.g.:
+  #   export RNDC_BIND_IP=127.0.0.1            # BIND server IP
+  #   export RNDC_CATALOG_DOMAIN="catalog.example"  # catalog zone name
+  #   export RNDC_TSIG_KEY="/etc/bind/tsig.key"     # TSIG key file for dig
+  [ -f ~/.neodocker-slim.env ] && source ~/.neodocker-slim.env
   local run_args=()
   local base_path
   base_path="$(pwd)"

@@ -113,6 +113,28 @@ alias whatsmyv6ip='dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com'
 alias ctop='docker run --rm -ti   --name=ctop   --volume /var/run/docker.sock:/var/run/docker.sock:ro   quay.io/vektorlab/ctop:latest'
 alias tlds='curl https://www.internic.net/domain/root.zone|rg NS|awk "{print $1}"|uniq|fzf'
 alias tld2='curl https://www.internic.net/domain/root.zone'
+alias atac-dns='read -sp "Enter Password: " PASSWORD; echo; export TOKEN=$(curl -s -X POST https://dnsmanager.devries.tv/api/v1/auth/login -H "Content-Type: application/x-www-form-urlencoded" --data-urlencode "username=admin@devries.tv" --data-urlencode "password=$PASSWORD" | jq -r ".access_token"); unset PASSWORD; atac'
+
+alias stop-rhel8-ec2='aws ec2 stop-instances  --instance-ids i-06f1b2bc6f949ee8a'
+alias start-rhel8-ec2='aws ec2 start-instances  --instance-ids i-06f1b2bc6f949ee8a'
+alias rhel-ec2-ip='aws ec2 describe-instances --filters "Name=tag:Name,Values=rhel8-stig-test" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].PublicIpAddress' --output text'
+
+export RHEL8STIGIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=rhel8-stig-test" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].PublicIpAddress' --output text)
+
+get_token() {
+    read -rsp "Password: " pw
+    echo
+    export TOKEN=$(curl -s -X POST https://dnsmanager.devries.tv/api/v1/auth/login\
+        -d "username=admin@devries.tv" \
+        --data-urlencode "password=$pw" \
+        | jq -r '.access_token')
+    unset pw
+    if [ -n "$TOKEN" ] && [ "$TOKEN" != "null" ]; then
+        echo "Token set."
+    else
+        echo "Failed to retrieve token." >&2
+    fi
+}
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -295,3 +317,7 @@ complete -C '/usr/local/bin/aws_completer' aws
 
 export NVIMCONFDIR='/home/peter/neodocker-conf/'
 [ -f ~/.neodocker.rc ] && source ~/.neodocker.rc
+[ -f ~/.neodocker-slim.rc ] && source ~/.neodocker-slim.rc
+. "$HOME/.cargo/env"
+
+

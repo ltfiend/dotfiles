@@ -65,3 +65,4 @@ dig @192.168.1.3 devries.tv ns +short|xargs -I '{}' dig @{} devries.tv soa +shor
 docker run -it docker.io/certbot/certbot certonly --manual --preferred-challenges dns -d unifi.devries.tv --key-type rsa
 docker run -it docker.io/certbot/certbot certonly --manual --preferred-challenges dns -d ha.devries.tv
 
+tcpdump -nr dumpmec-20260827154005 | grep 'in-addr\.arpa' | awk 'match($0, /([A-Za-z0-9]+)\?/, m) {count[m[1]]++; total++} END {for (k in count) printf "%-6s %5d (%6.2f%%)\n", k, count[k], (count[k]/total)*100}'

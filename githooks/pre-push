@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
-# Block pushes containing secrets. Scans only the commits being pushed.
+# Global pre-push hook (enabled via: git config --global core.hooksPath).
 #
-# Enable with: git config core.hooksPath githooks
+# 1. Chains to the repo's own .git/hooks/pre-push if present, since a global
+#    core.hooksPath would otherwise hide it.
+# 2. Blocks pushes containing secrets. Scans only the commits being pushed.
 set -euo pipefail
+
+# stdin: <local_ref> <local_sha> <remote_ref> <remote_sha> per ref being
+# pushed. Capture it so it can be replayed to a chained local hook.
+refs="$(cat)"
+
+# Deliberately not --git-path hooks/pre-push: that resolves through
+# core.hooksPath and would return this script itself.
+local_hook="$(git rev-parse --absolute-git-dir)/hooks/pre-push"
+if [ -x "$local_hook" ] && [ "$(realpath "$local_hook")" != "$(realpath "${BASH_SOURCE[0]}")" ]; then
+    printf '%s\n' "$refs" | "$local_hook" "$@"
+fi
 
 if ! command -v gitleaks >/dev/null 2>&1; then
     echo "pre-push: gitleaks not installed, skipping secret scan" >&2
@@ -11,8 +24,9 @@ fi
 
 zero=0000000000000000000000000000000000000000
 
-# stdin: <local_ref> <local_sha> <remote_ref> <remote_sha> per ref being pushed
 while read -r local_ref local_sha remote_ref remote_sha; do
+    [ -z "$local_sha" ] && continue
+
     # Branch deletion: nothing to scan.
     [ "$local_sha" = "$zero" ] && continue
 
@@ -29,6 +43,6 @@ while read -r local_ref local_sha remote_ref remote_sha; do
         echo "To bypass (use sparingly): git push --no-verify" >&2
         exit 1
     fi
-done
+done <<< "$refs"
 
 exit 0

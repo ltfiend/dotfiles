@@ -10,7 +10,7 @@ neodocker() {
     if [ -f "$arg" ] || [ -d "$arg" ]; then
       # mount the file into the local user directory in neodocker (ubuntu)
       local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "./$arg:/home/ubuntu/$arg:rw")
-      local RUN_FILE="/home/ubuntu/$arg"
+      # local RUN_FILE="/home/ubuntu/$arg"
       echo "Mounting $arg"
 
     fi
@@ -79,7 +79,7 @@ neodocker() {
   fi
 
   if [ -f "$HOME/.iodyn-mgmt.conf" ]; then
-    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.aws:/home/ubuntu/.iodyn-mgmt.conf:ro") 
+    local MOUNT_FILE=("${MOUNT_FILE[@]}" -v "$HOME/.iodyn-mgmt.conf:/home/ubuntu/.iodyn-mgmt.conf:ro") 
   fi
 
   for PYTHONDIR in `ls -1d ~/.local/lib/python*|awk -F python '{print $2}'`
@@ -114,14 +114,13 @@ neodocker() {
   # debugging
   # echo "Files mount options: ${MOUNT_FILE[*]}"
 
-  docker run --privileged -it --rm\
+  docker run -it --rm\
     --shm-size=0 \
     --init \
-    --network host \
     --user ubuntu \
     -e XDG_RUNTIME_DIR=/runtime_dir \
     -e PYTHONPATH=${PYTHON_PATH} \
     "${MOUNT_FILE[@]}" \
-    registry.devries.tv/neodocker:stable ${RUN_FILE}
+    registry.devries.tv/neodocker:nightly ${RUN_FILE}
 }
 #    neovim-docker:alpine "$@"

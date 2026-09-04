@@ -1,0 +1,45 @@
+
+neodocker-slim() {
+  export RNDC_BIND_IP=192.168.1.3
+  export RNDC_CATALOG_DOMAIN="catalog.devries"
+  export RNDC_TSIG_KEY="/etc/bind/tcs-tsig-transfer.key"
+  # Minimal wrapper for the slim image: BIND zone/config editing only
+  # (nvim-rndc-zone + nvim-named-conf). Compared to neodocker.rc this drops
+  # --privileged and the home-directory mounts, runs as the host user, and
+  # makes the container filesystem read-only.
+  #
+  # Configure the rndczone plugin per-run via environment variables:
+  #   RNDC_BIND_IP          BIND server IP        (default 127.0.0.1)
+  #   RNDC_CATALOG_DOMAIN   catalog zone name     (default catalog.example)
+  #   RNDC_TSIG_KEY         TSIG key file for dig (default /etc/bind/tsig.key)
+  local run_args=()
+  local base_path
+  base_path="$(pwd)"
+  run_args+=(--workdir "/data$base_path" -v "$base_path:/data$base_path:rw")
+
+  # rndc.key / tsig keys, read-only
+  if [ -d /etc/bind ]; then
+    run_args+=(-v /etc/bind:/etc/bind:ro)
+    # rndc.key is usually root:bind 640 — grant the container user the bind
+    # group so rndc can read it.
+    local bind_gid
+    bind_gid="$(getent group bind | cut -d: -f3)"
+    if [ -n "$bind_gid" ]; then
+      run_args+=(--group-add "$bind_gid")
+    fi
+  fi
+
+  docker run --rm -it \
+    --init \
+    --user "$(id -u):$(id -g)" \
+    --cap-drop ALL \
+    --security-opt no-new-privileges \
+    --read-only \
+    --tmpfs /tmp \
+    -e HOME=/tmp/home \
+    -e RNDC_BIND_IP \
+    -e RNDC_CATALOG_DOMAIN \
+    -e RNDC_TSIG_KEY \
+    "${run_args[@]}" \
+    registry.devries.tv/neodocker:slim-nightly "$@"
+}

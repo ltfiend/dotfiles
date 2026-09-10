@@ -222,6 +222,8 @@ stty erase ^?
 set keymap vi
 # setxkbmap -config /home/peter/.config/keymap.config
 source ~/.claude_completion.bash
+# Offer to resume the last Claude Code session recorded in ./.claude-resume
+[ -r ~/.claude/claude-resume.sh ] && source ~/.claude/claude-resume.sh
 source ~/.fzf_completion.bash
 source ~/.fzf_bindings.bash
 export FZF_DEFAULT_OPTS="--height 40% --border"

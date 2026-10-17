@@ -1,0 +1,230 @@
+#!/usr/bin/env bash
+# neodocker-dns — containerized nvim for BIND zone/config editing.
+#
+# System-wide install of the neodocker-dns.rc wrapper so sudoers can target a
+# real executable (sudo cannot run shell functions):
+#   alice-admin ALL=(root) ROLE=namedadm_r TYPE=namedadm_t NOPASSWD: /usr/local/bin/neodocker-dns
+#
+# Site configuration lives in /etc/neodocker-dns.conf. sudo's env_reset +
+# always_set_home strip the caller's RNDC_*/HOME-relative settings, so the
+# config file is the only reliable channel under sudo.
+#
+# Deviations from the upstream rc function (see repo neodocker-dns.rc):
+#   - rootless-only flags (--userns=keep-id, --group-add keep-groups) are
+#     skipped when running as root: rootful podman rejects keep-id.
+#   - -it is only passed when stdin/stdout are a tty, so headless invocations
+#     (probes, CI) work.
+set -u
+
+if [ -f /etc/neodocker-dns.conf ]; then
+  set -a
+  . /etc/neodocker-dns.conf
+  set +a
+fi
+
+neodocker-dns() {
+  if [ -z "${RNDC_BIND_IP:-}" ] || [ -z "${RNDC_CATALOG_DOMAIN:-}" ]; then
+    echo "neodocker-dns: RNDC_BIND_IP/RNDC_CATALOG_DOMAIN not set —" \
+      ":RNDZList will query the defaults (127.0.0.1 / catalog.example)" \
+      "and likely report 'No zones found in catalog'." >&2
+  fi
+
+  # --- runtime selection -----------------------------------------------
+  local runtime="${NEODOCKER_RUNTIME:-}"
+  if [ -z "$runtime" ]; then
+    if command -v podman >/dev/null 2>&1; then
+      runtime=podman
+    elif command -v docker >/dev/null 2>&1; then
+      runtime=docker
+    else
+      echo "neodocker-dns: neither podman nor docker found" >&2
+      return 1
+    fi
+  fi
+
+  local run_args=()
+  local base_path g
+  base_path="$(pwd)"
+  run_args+=(--workdir "/data$base_path" -v "$base_path:/data$base_path:rw")
+
+  # SELinux container domain selection. The editor should be able to edit what
+  # the caller's CURRENT ROLE can edit (like vi in that role). podman never
+  # runs the editor in the login domain itself (staff_t/sysadm_t/namedadm_t) —
+  # it always runs a container domain — so we mirror the role with a derived
+  # "<role>_container_t" type (see the *_container.te modules) and select it
+  # from the caller's current role:  staff_r -> type:staff_container_t,
+  # namedadm_r -> type:namedadm_container_t, etc.
+  #
+  # NEODOCKER_SELINUX in the environment/conf overrides this (set a specific
+  # type:, or 'inherit'/'default'); 'auto' or unset triggers role mapping.
+  # Fallbacks when no mirror type is installed for the role:
+  #   - rootful  -> inherit (files-unconfined; fine for an all-powerful role
+  #                 like sysadm, and required because inherit execs fine as root)
+  #   - rootless -> default labeling + a warning (execs on noexec /home, but
+  #                 host-file edits will be denied without a mirror type;
+  #                 'inherit' cannot exec rootless on noexec /home).
+  if command -v selinuxenabled >/dev/null 2>&1 && selinuxenabled 2>/dev/null; then
+    if [ -z "${NEODOCKER_SELINUX:-}" ] || [ "${NEODOCKER_SELINUX}" = auto ]; then
+      local cur_role cand
+      cur_role="$(id -Z 2>/dev/null | cut -d: -f2)"
+      cand="${cur_role%_r}_container_t"
+      if [ -n "$cur_role" ] && command -v seinfo >/dev/null 2>&1 && seinfo -t "$cand" >/dev/null 2>&1; then
+        NEODOCKER_SELINUX="type:$cand"
+      elif [ "$(id -u)" = 0 ]; then
+        NEODOCKER_SELINUX=inherit
+      else
+        NEODOCKER_SELINUX=default
+        echo "neodocker-dns: no ${cand} policy for role '${cur_role}' — using default labeling; edits to host files may be denied (build a ${cand} module, see README)" >&2
+      fi
+    fi
+  fi
+
+  # --- identity, groups, limits (runtime-specific) ---------------------
+  if [ "$runtime" = podman ]; then
+    if [ "$(id -u)" != 0 ]; then
+      # Rootless: keep-id maps the caller 1:1 into the user namespace. But
+      # keep-id does NOT change the process uid — without --user the editor
+      # runs as the image's own USER (uid 1000) and cannot write the caller's
+      # files. Pin --user to the real caller so it runs as them (uid 1001),
+      # owning their files. keep-groups (crun only) carries supplementary
+      # groups so host group permissions (e.g. the named group) keep working.
+      run_args+=(--userns=keep-id --user "$(id -u):$(id -g)")
+      if command -v crun >/dev/null 2>&1; then
+        run_args+=(--runtime crun --group-add keep-groups)
+      else
+        for g in $(id -G); do run_args+=(--group-add "$g"); done
+      fi
+    else
+      # Rootful (invoked via sudo): run the editor as root, overriding the
+      # image's unprivileged USER, so DAC lets it write the root-owned BIND
+      # files (named.conf is root:named 640). What the editor may touch is
+      # governed by SELinux (NEODOCKER_SELINUX=type:...), not by uid — the
+      # sudoedit model: root for DAC, a confined domain for MAC.
+      run_args+=(--user 0:0)
+    fi
+    if [ "$($runtime info --format '{{.Host.CgroupsVersion}}' 2>/dev/null)" = "v2" ]; then
+      run_args+=(--pids-limit 512)
+    else
+      echo "neodocker-dns: cgroups v1 — running without --pids-limit (rootless limitation)" >&2
+    fi
+    # SELinux labeling. type:<domain_t> runs the container processes in a
+    # derived confined domain (e.g. namedadm_container_t) whose TE rules are
+    # limited to the BIND file types; inherit disables labeling and lands in
+    # the runtime's domain (files-unconfined container_runtime_t on RHEL —
+    # avoid for confined roles).
+    if command -v selinuxenabled >/dev/null 2>&1 && selinuxenabled 2>/dev/null; then
+      case "${NEODOCKER_SELINUX:-inherit}" in
+        inherit) run_args+=(--security-opt label=disable) ;;
+        type:*) run_args+=(--security-opt "label=${NEODOCKER_SELINUX}") ;;
+        default) ;;
+        *) echo "neodocker-dns: unknown NEODOCKER_SELINUX='${NEODOCKER_SELINUX}' — using default labeling" >&2 ;;
+      esac
+    fi
+  else
+    run_args+=(--user "$(id -u):$(id -g)")
+    for g in $(id -G); do run_args+=(--group-add "$g"); done
+    run_args+=(--pids-limit 512)
+  fi
+
+  # rndc.key / tsig keys, read-only
+  if [ -d /etc/bind ]; then
+    run_args+=(-v /etc/bind:/etc/bind:ro)
+    if [ "$runtime" = docker ]; then
+      local bind_gid
+      bind_gid="$(getent group bind | cut -d: -f3)"
+      if [ -n "$bind_gid" ]; then
+        run_args+=(--group-add "$bind_gid")
+      fi
+    fi
+  fi
+
+  # BIND chroot/config tree, mounted rw at the IDENTICAL path so directory/
+  # $INCLUDE statements and named-checkconf resolve. Auto-detects
+  # /var/named/chroot when NAMED_DIR is unset; NAMED_DIR="" opts out.
+  # NEVER mount this with :z/:Z — relabeling live BIND data to
+  # container_file_t locks named itself out and persists after exit.
+  local named_dir="${NAMED_DIR-}"
+  if [ -z "${NAMED_DIR+x}" ] && [ -d /var/named/chroot ]; then
+    named_dir=/var/named/chroot
+  fi
+  if [ -n "$named_dir" ]; then
+    if [ -d "$named_dir" ]; then
+      run_args+=(-v "$named_dir:$named_dir:rw" -e "NAMED_DIR=$named_dir")
+    else
+      echo "neodocker-dns: NAMED_DIR=$named_dir not found — ignoring" >&2
+    fi
+  fi
+
+  # rndc credentials living outside /etc/bind, mounted at the canonical paths
+  if [ -n "${RNDC_KEY_FILE:-}" ]; then
+    if [ -f "$RNDC_KEY_FILE" ]; then
+      run_args+=(-v "$RNDC_KEY_FILE:/etc/bind/rndc.key:ro")
+    else
+      echo "neodocker-dns: RNDC_KEY_FILE=$RNDC_KEY_FILE not found — ignoring" >&2
+    fi
+  fi
+  if [ -n "${RNDC_CONF_FILE:-}" ]; then
+    if [ -f "$RNDC_CONF_FILE" ]; then
+      run_args+=(-v "$RNDC_CONF_FILE:/etc/bind/rndc.conf:ro")
+    else
+      echo "neodocker-dns: RNDC_CONF_FILE=$RNDC_CONF_FILE not found — ignoring" >&2
+    fi
+  fi
+
+  # gp.nvim API keys, mounted read-only at the container-canonical /etc/gp/
+  local gp_key
+  gp_key="${GPT_API_FILE:-$HOME/.gpt-api}"
+  [ -f "$gp_key" ] && run_args+=(-v "$gp_key:/etc/gp/openai.key:ro")
+  gp_key="${ANTHROPIC_API_FILE:-$HOME/.anthropic-api}"
+  [ -f "$gp_key" ] && run_args+=(-v "$gp_key:/etc/gp/anthropic.key:ro")
+
+  # Optional persistent gp.nvim chat history; default is ephemeral on tmpfs.
+  if [ -n "${GP_CHAT_DIR:-}" ]; then
+    if [ -d "$GP_CHAT_DIR" ]; then
+      run_args+=(-v "$GP_CHAT_DIR:/var/lib/gp/chats:rw" -e GP_CHAT_DIR=/var/lib/gp/chats)
+    else
+      echo "neodocker-dns: GP_CHAT_DIR=$GP_CHAT_DIR not found — ignoring" >&2
+    fi
+  fi
+
+  # Network mode. NEODOCKER_NETWORK=host serves two purposes on a
+  # localhost-only BIND host: 127.0.0.1 inside the container IS the host's
+  # named (a private netns loopback would not be), and podman spawns no
+  # network helper (pasta/netavark run in helper domains that confined RBAC
+  # roles are not authorized for — observed SELINUX_ERR invalid_context
+  # pasta_t under sysadm_r/namedadm_r).
+  if [ -n "${NEODOCKER_NETWORK:-}" ]; then
+    run_args+=(--network "$NEODOCKER_NETWORK")
+  fi
+
+  # Interactive tty only when we actually have one (headless probes have none).
+  local tty_args=()
+  if [ -t 0 ] && [ -t 1 ]; then
+    tty_args+=(-it)
+  fi
+
+  # --cmd 'set backupcopy=yes' forces nvim to write files IN PLACE (truncate +
+  # rewrite the same inode) instead of its default atomic rename (write new
+  # file, rename over the old). In-place is essential here: it preserves each
+  # file's inode, SELinux label, owner and mode — and critically keeps the
+  # named.conf bind-mount intact (atomic rename would replace the chroot inode
+  # and leave the real /etc/named.conf untouched). It also avoids the relabel
+  # that the rename path triggers. The image's sysinit.vim already does this
+  # for NAMED_DIR; --cmd makes it the global default for every target.
+  "$runtime" run --rm "${tty_args[@]}" \
+    --init \
+    --cap-drop ALL \
+    --security-opt no-new-privileges \
+    --read-only \
+    --tmpfs /tmp \
+    -e HOME=/tmp/home \
+    -e RNDC_BIND_IP \
+    -e RNDC_SERVER \
+    -e RNDC_CATALOG_DOMAIN \
+    -e RNDC_TSIG_KEY \
+    "${run_args[@]}" \
+    "${NEODOCKER_DNS_IMAGE:-registry.devries.tv/neodocker:dns-ubi9}" \
+    --cmd 'set backupcopy=yes' "$@"
+}
+
+neodocker-dns "$@"

@@ -42,6 +42,7 @@ link "$REPO_DIR/fzf_completion.bash"  "$HOME/.fzf_completion.bash"
 link "$REPO_DIR/tmux.conf"            "$HOME/.tmux.conf"
 link "$REPO_DIR/neodocker.rc"         "$HOME/.neodocker.rc"
 link "$REPO_DIR/neodocker-slim.rc"    "$HOME/.neodocker-slim.rc"
+link "$REPO_DIR/local/bin/neodocker-dns"    "$HOME/.local/bin/neodocker-dns"
 
 # Enable this repo's hooks globally, for every repo on this machine
 # (pre-push gitleaks scan; it chains to any repo-local pre-push hook).

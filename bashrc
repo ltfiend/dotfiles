@@ -320,7 +320,8 @@ complete -C '/usr/local/bin/aws_completer' aws
 export NVIMCONFDIR='/home/peter/neodocker-conf/'
 [ -f ~/.neodocker.rc ] && source ~/.neodocker.rc
 [ -f ~/.neodocker-slim.rc ] && source ~/.neodocker-slim.rc
-[ -f ~/.neodocker-dns.rc ] && source ~/.neodocker-dns.rc
+# switching to wrapper in .local/bin
+# [ -f ~/.neodocker-dns.rc ] && source ~/.neodocker-dns.rc
 . "$HOME/.cargo/env"
 
 

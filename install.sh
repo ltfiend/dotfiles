@@ -45,7 +45,7 @@ link "$REPO_DIR/neodocker-slim.rc"    "$HOME/.neodocker-slim.rc"
 link "$REPO_DIR/local/bin/neodocker-dns"    "$HOME/.local/bin/neodocker-dns"
 
 # Enable this repo's hooks globally, for every repo on this machine
-# (pre-push gitleaks scan; it chains to any repo-local pre-push hook).
+# (pre-push betterleaks/gitleaks scan; it chains to any repo-local pre-push hook).
 git config --global core.hooksPath "$REPO_DIR/githooks"
 echo "HOOKS   global core.hooksPath = $REPO_DIR/githooks"
 

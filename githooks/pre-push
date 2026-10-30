@@ -17,8 +17,13 @@ if [ -x "$local_hook" ] && [ "$(realpath "$local_hook")" != "$(realpath "${BASH_
     printf '%s\n' "$refs" | "$local_hook" "$@"
 fi
 
-if ! command -v gitleaks >/dev/null 2>&1; then
-    echo "pre-push: gitleaks not installed, skipping secret scan" >&2
+# Prefer betterleaks (gitleaks' successor, same CLI); fall back to gitleaks.
+if command -v betterleaks >/dev/null 2>&1; then
+    scanner=betterleaks
+elif command -v gitleaks >/dev/null 2>&1; then
+    scanner=gitleaks
+else
+    echo "pre-push: no secret scanner installed (betterleaks/gitleaks), skipping" >&2
     exit 0
 fi
 
@@ -37,9 +42,9 @@ while read -r local_ref local_sha remote_ref remote_sha; do
         range="$remote_sha..$local_sha"
     fi
 
-    if ! gitleaks git --no-banner --redact --log-opts="$range" .; then
+    if ! "$scanner" git --no-banner --redact --log-opts="$range" .; then
         echo "" >&2
-        echo "pre-push: gitleaks found secrets in $local_ref, push blocked." >&2
+        echo "pre-push: $scanner found secrets in $local_ref, push blocked." >&2
         echo "To bypass (use sparingly): git push --no-verify" >&2
         exit 1
     fi

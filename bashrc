@@ -121,6 +121,9 @@ alias rhel-ec2-ip='aws ec2 describe-instances --filters "Name=tag:Name,Values=rh
 
 export RHEL8STIGIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=rhel8-stig-test" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].PublicIpAddress' --output text)
 
+
+alias vi=neodocker-dns
+
 get_token() {
     read -rsp "Password: " pw
     echo

@@ -63,3 +63,7 @@ docker run -it docker.io/certbot/certbot certonly --manual --preferred-challenge
 docker run -it docker.io/certbot/certbot certonly --manual --preferred-challenges dns -d ha.devries.tv
 
 tcpdump -nr dumpmec-20260827154005 | grep 'in-addr\.arpa' | awk 'match($0, /([A-Za-z0-9]+)\?/, m) {count[m[1]]++; total++} END {for (k in count) printf "%-6s %5d (%6.2f%%)\n", k, count[k], (count[k]/total)*100}'
+
+aws ec2 describe-instances --query 'Reservations[].Instances[].{ID:InstanceId, Type:InstanceType, State:State.Name, IP:PrivateIpAddress}' --output table
+
+docker ps|grep mcp-grafana|awk '{print $1}'|xargs docker stop
